@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase';
+//import { Redirect } from 'react-router-dom'
+//import { connect } from 'react-redux';
+//import { compose } from 'redux';
+//import { firestoreConnect } from 'react-redux-firebase';
 
+import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
 import PropTypes from 'prop-types';
 
-import { getFirestore } from 'redux-firestore';
+
 
 export class StudentScreen extends Component {
     state = 
@@ -46,17 +47,4 @@ export class StudentScreen extends Component {
     }
 }
 
-
-const mapStateToProps = (state, ownProps) => {
-  
-    return {
-      auth: state.firebase.auth,
-    };
-  };
-  
-  export default compose(
-    connect(mapStateToProps),
-    firestoreConnect([
-      { collection: 'todoLists' },
-    ]),
-  )(StudentScreen);
+  export default StudentScreen
