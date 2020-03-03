@@ -1,0 +1,40 @@
+{
+    "colleges": [
+        {
+            "key": 0,
+            "name": "Stony Brook University",
+            "location": "Stony Brook",
+            "ranking": 100,
+            "admission_rate": 40,
+            "completion_rate": 70,
+            "cost": 60000,
+            "debt": 30000,
+            "type": "private for-profit",
+            "size": 5000,
+            "avg_SAT_Math": 650,
+            "avg_EBRW": 700,
+            "avg_ACT": 27,
+            "majors": [
+                {
+                    "name": "Computer Science"
+                },
+                {
+                    "name": "Applied Mathematics"
+                },
+                {
+                    "name": "English"
+                } 
+            ],
+            "students": [
+                {
+                    "key": 0,
+                    "userid": "Fib"
+                },
+                {
+                    "key": 1,
+                    "userid": "Onacci"
+                }
+            ]
+        }
+    ]
+}

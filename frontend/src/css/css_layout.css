@@ -114,3 +114,43 @@ form button, form h5 {
 #strictBox:hover {
   cursor: pointer;
 }
+
+.collegeTitleText {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.collegeBodyText {
+  font-size: large;
+  font-weight: 600;
+}
+
+#collegeListBanner {
+  display: grid;
+  grid-template-columns: 100px 320px 230px 150px 120px 300px;
+  background-color: lightskyblue;
+}
+
+#collegeBanner {
+  display: grid;
+  grid-template-columns: 400px 250px 130px 200px 100px;
+}
+
+#collegeBody {
+  display: grid;
+  grid-template-columns: 200px 240px 240px 190px 145px 95px;
+}
+
+.collegeMoney {
+  position: relative;
+  top: -6px;
+  display: grid;
+  grid-template-rows: 22px 20px;
+}
+
+.collegeScores {
+  position: relative;
+  top: -21px;
+  display: grid;
+  grid-template-rows: 22px 20px 20px;
+}

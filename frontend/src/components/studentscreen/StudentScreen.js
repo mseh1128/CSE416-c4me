@@ -8,7 +8,9 @@ import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
 import PropTypes from 'prop-types';
 
+import StudentCollegesList from './StudentCollegesList.js'
 
+import data from '../test/TestCollegeData.json'
 
 export class StudentScreen extends Component {
     state = 
@@ -26,11 +28,19 @@ export class StudentScreen extends Component {
 
 
     render() {
-
+        //const data = data.colleges;
         return (
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
-                    <span>list colleges</span>
+                    <div id="collegeListBanner">
+                        <div></div>
+                        <span class="collegeTitleText"> Name </span> 
+                        <span class="collegeTitleText"> Location </span> 
+                        <span class="collegeTitleText"> Rank </span>
+                        <span class="collegeTitleText"> Size </span>
+                        <span class="collegeTitleText"> Admission Rate </span>
+                    </div>
+                    <StudentCollegesList />        
                 </div>
                 <div className='filtersContainer'>
                     <div>
