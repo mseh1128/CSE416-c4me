@@ -75,44 +75,88 @@ form button, form h5 {
   height: 700px;
   top: 20px;
   left: 22px;
+  text-align: center;
   position: relative;
   grid-template-rows: 130px 80px 80px 80px 80px 80px 80px 80px 80px 80px;
-}
-
-#searchCollegeBtn {
-  height: 70px;
-  width: 300px;
-  left: 7%;
-  top: 5%;
-  position: relative;
 }
 
 #searchCollegeBtn:hover {
   cursor: pointer;
 }
 
-#filtersText {
+.filtersBanner {
+  background-color: lightskyblue;
+  height: 48px;
+}
+
+#filterHeaderText {
   font-size:xx-large;
-  left: 7%;
+  right: 30%;
   position: relative;
   font-weight: bold;
 }
 
 #strictText {
-  font-size:large;
-  left: 9%;
-  position: relative;
+  color: darkslategrey;
+  right: 30%;
 }
 
 #strictBox {
-  background-color: #ec407a;
   position: relative;
-  left: 10%;
-  display: inline-block;
 }
 
 #strictBox:hover {
   cursor: pointer;
+}
+
+#strictBoxLocation {
+  margin-top: -70px;
+  margin-left: 220px;
+}
+
+#filtersText {
+  text-align: center;  position: relative;
+  font-weight: bold;
+}
+
+.admissionRateFilter {
+  height: 50px;
+}
+
+.admissionRate {
+  width: 50px;
+}
+
+.costFilter {
+  height: 50px;
+}
+
+.cost {
+  width: 70px;
+}
+
+.rankFilter {
+  height: 50px;
+}
+
+.rank {
+  width: 50px;
+}
+
+.sizeFilter {
+  height: 50px;
+}
+
+.size {
+  width: 70px;
+}
+
+
+#searchCollegeBtn {
+  height: 70px;
+  width: 300px;
+  top: 5%;
+  position: relative;
 }
 
 .collegeTitleText {
@@ -134,6 +178,10 @@ form button, form h5 {
 #collegeBanner {
   display: grid;
   grid-template-columns: 400px 250px 130px 200px 100px;
+}
+
+#collegeBanner:hover {
+  background-color: lightcyan;
 }
 
 #collegeBody {

@@ -28,7 +28,7 @@ export class StudentScreen extends Component {
 
 
     render() {
-        //const data = data.colleges;
+
         return (
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
@@ -43,13 +43,51 @@ export class StudentScreen extends Component {
                     <StudentCollegesList />        
                 </div>
                 <div className='filtersContainer'>
-                    <div>
-                        <button id="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
+                    <div className="filtersBanner">
+                        <span id='filterHeaderText'>Filters:</span>
+                        <form action="#" id='strictBoxLocation'>
+                            <p>
+                                <label id='strictBox'>
+                                    <input type="checkbox" />
+                                    <span id="strictText">Strict</span>
+                                </label>
+                            </p>
+                        </form>
+                    </div>
+                    <div className="admissionRateFilter">
+                        <span id='filtersText'>Admission Rate</span>
+                        <div>
+                            <input type="textfield" className='admissionRate' placeholder="2020" />
+                            -
+                            <input type="textfield" className='admissionRate' placeholder="2030"/>
+                        </div>
+                    </div>
+                    <div className="costFilter">
+                        <span id='filtersText'>Cost of Attendance</span>
+                        <div>
+                            <input type="textfield" className='cost' placeholder="0" />
+                            -
+                            <input type="textfield" className='cost' placeholder="100000"/>
+                        </div>
+                    </div>
+                    <div className="rankFilter">
+                        <span id='filtersText'>Rank</span>
+                        <div>
+                            <input type="textfield" className='rank' placeholder="1" />
+                            -
+                            <input type="textfield" className='rank' placeholder="10000"/>
+                        </div>
+                    </div>
+                    <div className="sizeFilter">
+                        <span id='filtersText'>Size</span>
+                        <div>
+                            <input type="textfield" className='size' placeholder="1" />
+                            -
+                            <input type="textfield" className='size' placeholder="100000"/>
+                        </div>
                     </div>
                     <div>
-                        <span id='filtersText'>Filters:</span>
-                        <span id='strictText'>Strict filters?</span>
-                        <input type="checkbox" id="strictBox" checked={false} onChange={this.makeStrict}/>
+                        <button id="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
                     </div>
                 </div>
             </div>
