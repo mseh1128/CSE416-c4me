@@ -77,7 +77,8 @@ form button, form h5 {
   left: 22px;
   text-align: center;
   position: relative;
-  grid-template-rows: 130px 80px 80px 80px 80px 80px 80px 80px 80px 80px;
+  display: grid;
+  grid-template-rows: 50px 60px 55px 55px 55px 55px 60px 80px 80px 80px;
 }
 
 #searchCollegeBtn:hover {
@@ -119,6 +120,17 @@ form button, form h5 {
   font-weight: bold;
 }
 
+#nameFilter {
+  top: -8px;
+  width: 70%;
+  left: 14%
+}
+
+.name {
+  width: 300px;
+}
+
+
 .admissionRateFilter {
   height: 50px;
 }
@@ -151,6 +163,18 @@ form button, form h5 {
   width: 70px;
 }
 
+.scoreFilter {
+  height: 50px;
+}
+
+.score {
+  width: 70px;
+}
+
+#locationFilter {
+  width: 70%;
+  left: 14%
+}
 
 #searchCollegeBtn {
   height: 70px;

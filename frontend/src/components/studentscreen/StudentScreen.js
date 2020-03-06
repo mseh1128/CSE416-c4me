@@ -29,6 +29,15 @@ export class StudentScreen extends Component {
 
     render() {
 
+        var elem = document.querySelector('.tabs');
+        var options = {}
+        var instance = M.Tabs.init(elem, options);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, options);
+          });
+
         return (
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
@@ -53,6 +62,10 @@ export class StudentScreen extends Component {
                                 </label>
                             </p>
                         </form>
+                    </div>
+                    <div class="input-field" id='nameFilter'>
+                        <input id="name" type="text" ></input>
+                        <label for="name">College Name</label>
                     </div>
                     <div className="admissionRateFilter">
                         <span id='filtersText'>Admission Rate</span>
@@ -85,6 +98,24 @@ export class StudentScreen extends Component {
                             -
                             <input type="textfield" className='size' placeholder="100000"/>
                         </div>
+                    </div>
+                    <div className="scoreFilter">
+                        <span id='filtersText'>Average Score</span>
+                        <div>
+                            <input type="textfield" className='score' placeholder="1" />
+                            -
+                            <input type="textfield" className='score' placeholder="1600"/>
+                        </div>
+                    </div>
+                    <div class="input-field col s12" id='locationFilter'>
+                        <select>
+                            <option value="" disabled selected>Choose your option</option>
+                            <option value="1">North East</option>
+                            <option value="2">Midwest</option>
+                            <option value="3">South</option>
+                            <option value="3">West</option>
+                        </select>
+                        <label>Location</label>
                     </div>
                     <div>
                         <button id="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
