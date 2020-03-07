@@ -78,7 +78,7 @@ form button, form h5 {
   text-align: center;
   position: relative;
   display: grid;
-  grid-template-rows: 50px 60px 55px 55px 55px 55px 60px 80px 80px 80px;
+  grid-template-rows: 50px 60px 55px 55px 55px 55px 60px 65px 57px 90px;
 }
 
 #searchCollegeBtn:hover {
@@ -126,11 +126,6 @@ form button, form h5 {
   left: 14%
 }
 
-.name {
-  width: 300px;
-}
-
-
 .admissionRateFilter {
   height: 50px;
 }
@@ -174,6 +169,51 @@ form button, form h5 {
 #locationFilter {
   width: 70%;
   left: 14%
+}
+
+#majorFilterContainer {
+  display: grid;
+  grid-template-columns: 349px 1px;
+}
+
+#majorFilter {
+  top: -8px;
+  width: 55%;
+  left: 14%
+}
+
+#enterMajorBtn {
+  height: 40px;
+  width: 40px;
+  right: 95px;
+  top: 10px;
+  position: relative;
+}
+
+#chosenMajorContainer {
+  height: 80px;
+  width: 250px;
+  left: 13%;
+  position: relative;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  overflow-y: scroll;
+}
+
+.majorListBox {
+  display: grid;
+  text-align: left;
+
+}
+
+.majorItem{
+  display: grid;
+  grid-template-columns: 198px 33px;
+}
+
+.deleteMajorBtn{
+  height: 25px;
 }
 
 #searchCollegeBtn {

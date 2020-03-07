@@ -6,16 +6,20 @@ import React, { Component } from 'react';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
+import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 
 import StudentCollegesList from './StudentCollegesList.js'
+import MajorFiltersList from './MajorFiltersList'
 
 import data from '../test/TestCollegeData.json'
 
 export class StudentScreen extends Component {
     state = 
     {
-
+        major: "",
+        majorIndex: 0,
+        majorList: []
     }
 
     goCollegeSearch = () => {
@@ -26,6 +30,36 @@ export class StudentScreen extends Component {
         console.log('make strict')
     }
 
+    updateMajor = () => {
+        let newMajor = document.getElementById("major").value
+        this.setState({major: newMajor})
+        console.log(newMajor)
+    }
+
+    addMajor = () => {
+        if(this.state.major === "")
+        {
+            return
+        }
+
+        let newMajor = 
+        {
+            name: this.state.major,
+            key: this.state.majorIndex,
+            id: this.state.majorIndex
+        }
+        this.setState({majorIndex: this.state.majorIndex+1})
+        let newList = this.state.majorList
+        newList.push(newMajor)
+        this.setState({majorList: newList})
+        this.setState({major: ""})
+        document.getElementById("major").value = ""    
+    }
+
+    deleteMajor = (key) => {
+        let newList = this.state.majorList.filter(item => item.key !== key)
+        this.setState({majorList: newList})
+    }
 
     render() {
 
@@ -116,6 +150,16 @@ export class StudentScreen extends Component {
                             <option value="3">West</option>
                         </select>
                         <label>Location</label>
+                    </div>
+                    <div id='majorFilterContainer'>
+                        <div class="input-field" id='majorFilter'>
+                            <input id="major" type="text" onChange={this.updateMajor.bind(this)}></input>
+                            <label for="major">Desired Majors</label>
+                        </div>
+                        <a class="btn-floating btn-large waves-effect waves-light blue" id="enterMajorBtn" onClick={this.addMajor.bind(this.self)}><Add></Add></a>
+                    </div>
+                    <div id='chosenMajorContainer'>
+                        <MajorFiltersList majors={this.state.majorList} deleteMajor={this.deleteMajor}/>
                     </div>
                     <div>
                         <button id="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
