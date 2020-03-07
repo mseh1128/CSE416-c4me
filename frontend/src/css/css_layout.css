@@ -239,6 +239,146 @@ form button, form h5 {
   background-color: lightskyblue;
 }
 
+.collegeCard {
+  background-color: aquamarine;
+  margin-left: 20px;
+  height: 315px;
+  width: 460px;
+}
+
+.collegeTitle {
+  font-size: x-large;
+  font-weight: bold;
+  margin-left: 20px;
+  top: 10px;
+  position: relative;
+}
+
+.collegeLocation {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 10px;
+  position: relative;
+}
+
+.collegeType {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 50px;
+  position: relative;
+}
+
+.collegeBox1 {
+  display: grid;
+  grid-template-columns: 115px 1000px;
+}
+
+.collegeBox2 {
+  display: grid;
+  grid-template-columns: 115px 1000px;
+}
+
+.collegeBox3 {
+  display: grid;
+  grid-template-columns: 115px 1000px;
+}
+
+.collegeSize1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 60px;
+  position: relative;
+}
+
+.collegeMath1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 60px;
+  position: relative;
+}
+
+.collegeMath2 {
+  font-size: medium;
+  color: black;
+  position: relative;
+}
+
+.collegeSize2 {
+  font-size: medium;
+  margin-left: 20px;
+  top: 60px;
+  position: relative;
+}
+
+.collegeCost1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 65px;
+  position: relative;
+}
+
+.collegeEnglish1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 65px;
+  position: relative;
+}
+
+.collegeEnglish2 {
+  font-size: medium;
+  color: black;
+  position: relative;
+}
+
+.collegeCost2 {
+  font-size: medium;
+  margin-left: 20px;
+  top: 65px;
+  position: relative;
+}
+
+.collegeDebt1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 70px;
+  position: relative;
+}
+
+.collegeACT1 {
+  font-size: medium;
+  color: grey;
+  margin-left: 20px;
+  top: 70px;
+  position: relative;
+}
+
+.collegeACT2 {
+  font-size: medium;
+  color: black;
+  position: relative;
+}
+
+.collegeDebt2 {
+  font-size: medium;
+  margin-left: 20px;
+  top: 70px;
+  position: relative;
+}
+
+.collegeAdmission {
+  font-size: medium;
+  color: grey;
+  top: 50px;
+  position: relative;
+}
+
 #collegeBanner {
   display: grid;
   grid-template-columns: 400px 250px 130px 200px 100px;
