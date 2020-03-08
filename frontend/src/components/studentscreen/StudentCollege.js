@@ -9,8 +9,17 @@ import M from "materialize-css";
 
 class StudentCollege extends React.Component {
 
+    state  = 
+    {
+        status: this.props.college.status
+    }
+
     getStatus = () => {
-        return "pending"
+        return this.state.status
+    }
+
+    changeStatus  = (newStatus) => {
+        this.setState({status: newStatus})
     }
 
     render() {
@@ -33,8 +42,24 @@ class StudentCollege extends React.Component {
 
         return (
            <div className='collegeCard'>
-                <div class="collegeTitle"> {college.name} </div> 
-                <div class="collegeLocation"> {college.location} </div> 
+                <div class="collegeBox0">
+                    <div class="collegeTitle"> {college.name} </div> 
+                    <a class='dropdown-trigger btn' href='#' data-target='dropdown1'> {this.getStatus()} </a>
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "pending")}>pending</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "accepted")}>accepted</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "denied")}>denied</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "deferred")}>deferred</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "wait-listed")}>wait-listed</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "withdrawn")}>withdrawn</a></li>
+                    </ul>
+                </div>
+                <div class="collegeLocation"> {college.location + " | Rank: " + college.ranking} </div> 
                 <div class="collegeType"> {college.type + " | " + college.admission_rate + "% Acceptance Rate | "  +  college.completion_rate + "% Completion Rate"} </div> 
                 <div class="collegeBox1">
                     <div class="collegeSize1">{"Size:"}</div> 

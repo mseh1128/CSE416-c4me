@@ -10,7 +10,7 @@ class StudentCollegesList extends React.Component {
     render() {
 
         return (
-            <div className="college-lists section">
+            <div className="college-list section">
                 { data.colleges.map(function(college) {
                     college.id = college.key;
                     return (
