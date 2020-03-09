@@ -64,7 +64,7 @@ form button, form h5 {
 
 .schoolsContainer {
   background-color: white;
-  height: 840px;
+  height: 700px;
   top: 20px;
   position: relative;
   overflow-y: scroll;
@@ -243,16 +243,14 @@ form button, form h5 {
 .college-list {
   display: grid;
   grid-template-columns: 555px 670px;
-  grid-template-rows: repeat(100, 415px);
+  grid-template-rows: repeat(100, 343px);
 }
 
 .collegeCard {
   background-color: aquamarine;
-  margin-left: 60px;
-  margin-top: 30px;
-  height: 340px;
-  width: 460px;
-  transform: scale(1.18)
+  margin-left: 20px;
+  height: 330px;
+  width: 540px;
 }
 
 .collegeTitle {
@@ -278,26 +276,47 @@ form button, form h5 {
   position: relative;
 }
 
-.collegeBox0 {
+.collegeText {
+  font-weight: 100;
+  color: darkslategrey;
+}
+
+.collegeBoxTitleAndStatus {
   display: grid;
-  grid-template-columns: 323px 125px;
+  grid-template-columns: 403px 125px;
   top: 10px;
   position: relative;
 }
 
-.collegeBox1 {
+.collegeBoxSizeAndMath {
   display: grid;
   grid-template-columns: 115px 1000px;
 }
 
-.collegeBox2 {
+.collegeBoxSizeAndBar {
+  display: grid;
+  grid-template-columns: 115px 15px 250px;
+  margin-top: 60px;
+}
+
+.collegeBoxCostAndEnglish {
   display: grid;
   grid-template-columns: 115px 1000px;
 }
 
-.collegeBox3 {
+.collegeBoxCostAndBar {
+  display: grid;
+  grid-template-columns: 115px 15px 250px 20px;
+}
+
+.collegeBoxDebtAndACT {
   display: grid;
   grid-template-columns: 115px 1000px;
+}
+
+.collegeBoxDebtAndBar {
+  display: grid;
+  grid-template-columns: 115px 15px 250px;
 }
 
 .collegeSize1 {
@@ -325,7 +344,6 @@ form button, form h5 {
 .collegeSize2 {
   font-size: medium;
   margin-left: 20px;
-  top: 60px;
   position: relative;
 }
 
@@ -333,7 +351,6 @@ form button, form h5 {
   font-size: medium;
   color: grey;
   margin-left: 20px;
-  top: 65px;
   position: relative;
 }
 
@@ -341,7 +358,6 @@ form button, form h5 {
   font-size: medium;
   color: grey;
   margin-left: 20px;
-  top: 65px;
   position: relative;
 }
 
@@ -354,7 +370,6 @@ form button, form h5 {
 .collegeCost2 {
   font-size: medium;
   margin-left: 20px;
-  top: 65px;
   position: relative;
 }
 
@@ -362,7 +377,6 @@ form button, form h5 {
   font-size: medium;
   color: grey;
   margin-left: 20px;
-  top: 70px;
   position: relative;
 }
 
@@ -370,7 +384,6 @@ form button, form h5 {
   font-size: medium;
   color: grey;
   margin-left: 20px;
-  top: 70px;
   position: relative;
 }
 
@@ -383,7 +396,6 @@ form button, form h5 {
 .collegeDebt2 {
   font-size: medium;
   margin-left: 20px;
-  top: 70px;
   position: relative;
 }
 
@@ -420,4 +432,9 @@ form button, form h5 {
   top: -21px;
   display: grid;
   grid-template-rows: 22px 20px 20px;
+}
+
+.react-sweet-progress-circle-outer {
+  left: 400px;
+  bottom: 115px;
 }

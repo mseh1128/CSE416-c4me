@@ -11,7 +11,8 @@
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "react-sweet-progress": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

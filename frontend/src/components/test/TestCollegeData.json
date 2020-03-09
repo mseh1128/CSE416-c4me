@@ -16,6 +16,7 @@
             "avg_ACT": 27,
 
             "status": "accepted",
+            "reccomendScore": 97,
 
             "majors": [
                 {
@@ -55,6 +56,7 @@
             "avg_ACT": 24,
 
             "status": "wait-listed",
+            "reccomendScore": 40,
 
             "majors": [
                 {
@@ -82,7 +84,7 @@
 
 
         {
-            "key": 0,
+            "key": 2,
             "name": "Stony Brook University",
             "location": "Stony Brook, NY",
             "ranking": 100,
@@ -97,6 +99,7 @@
             "avg_ACT": 27,
 
             "status": "accepted",
+            "reccomendScore": 50,
 
             "majors": [
                 {
@@ -121,8 +124,8 @@
             ]
         },
         {
-            "key": 1,
-            "name": "Suffolk County Community College",
+            "key": 3,
+            "name": "This Name is really long and its even longer",
             "location": "Selden, NY",
             "ranking": 100,
             "admission_rate": 70,
@@ -136,6 +139,7 @@
             "avg_ACT": 24,
 
             "status": "wait-listed",
+            "reccomendScore": 20,
 
             "majors": [
                 {
@@ -161,7 +165,7 @@
         },
 
         {
-            "key": 0,
+            "key": 4,
             "name": "Stony Brook University",
             "location": "Stony Brook, NY",
             "ranking": 100,
@@ -176,6 +180,7 @@
             "avg_ACT": 27,
 
             "status": "accepted",
+            "reccomendScore": 90,
 
             "majors": [
                 {
@@ -200,7 +205,7 @@
             ]
         },
         {
-            "key": 1,
+            "key": 5,
             "name": "Suffolk County Community College",
             "location": "Selden, NY",
             "ranking": 100,
@@ -215,6 +220,7 @@
             "avg_ACT": 24,
 
             "status": "wait-listed",
+            "reccomendScore": 75,
 
             "majors": [
                 {
