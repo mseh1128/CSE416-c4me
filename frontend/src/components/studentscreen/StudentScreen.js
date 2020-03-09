@@ -76,7 +76,10 @@ export class StudentScreen extends Component {
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
                 
-
+                <div id="collegeListBanner">
+                <div></div>
+                <span class="collegeTitleText"> Your Applied Colleges </span> 
+                </div>
                 
                     <StudentCollegesList />        
                 </div>

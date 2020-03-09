@@ -243,13 +243,13 @@ form button, form h5 {
 .college-list {
   display: grid;
   grid-template-columns: 555px 670px;
-  grid-template-rows: repeat(100, 343px);
+  grid-template-rows: repeat(100, 320px);
 }
 
 .collegeCard {
   background-color: aquamarine;
   margin-left: 20px;
-  height: 330px;
+  height: 305px;
   width: 540px;
 }
 
