@@ -9,12 +9,12 @@ import M from "materialize-css";
 import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 
-import StudentCollegesList from './StudentCollegesList.js'
+import FilteredCollegesList from './FilteredCollegesList.js'
 import MajorFiltersList from './MajorFiltersList'
 
 import data from '../test/TestCollegeData.json'
 
-export class StudentScreen extends Component {
+export class CollegeSeachScreen extends Component {
     state = 
     {
         major: "",
@@ -78,10 +78,10 @@ export class StudentScreen extends Component {
                 
                 <div id="collegeListBanner">
                 <div></div>
-                <span class="collegeTitleText"> Your Applied Colleges </span> 
+                <span class="collegeTitleText"> Filtered Colleges </span> 
                 </div>
                 
-                    <StudentCollegesList />        
+                    <FilteredCollegesList />        
                 </div>
                 <div className='filtersContainer'>
                     <div className="filtersBanner">
@@ -168,7 +168,7 @@ export class StudentScreen extends Component {
     }
 }
 
-  export default StudentScreen
+  export default CollegeSeachScreen
 /*
 <div id="collegeListBanner">
   <div></div>

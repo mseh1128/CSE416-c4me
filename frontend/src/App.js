@@ -3,9 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 
 
-//import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
+import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 
 import 'materialize-css/dist/css/materialize.min.css';
 
@@ -28,10 +29,14 @@ function App() {
   );*/
 
   return (
-      <div>
+      <BrowserRouter>
         <Navbar></Navbar>
-        <StudentScreen></StudentScreen>
-      </div>
+        <Switch>
+            <Route exact path="/" component={StudentScreen} />
+            <Route path="/search" component={CollegeSearchScreen} />
+            <Route path="/:any" component={StudentScreen} />
+        </Switch>
+      </BrowserRouter>
   );
 }
 
