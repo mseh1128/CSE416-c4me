@@ -18,9 +18,9 @@ class FilteredCollege extends React.Component {
     }
 
     getName= () => {
-        if(this.props.college.name.length>32)
+        if(this.props.college.name.length>49)
         {
-            let tempName = this.props.college.name.substring(0,30) + "..."
+            let tempName = this.props.college.name.substring(0,48) + "..."
             return tempName
         }
         else
@@ -105,22 +105,8 @@ class FilteredCollege extends React.Component {
 
         return (
            <div className='collegeCard'>
-                <div class="collegeBoxTitleAndStatus">
+                <div class="collegeBoxTitle">
                     <div class="collegeTitle"> {this.getName()} </div> 
-                    <a class='dropdown-trigger btn' href='#' data-target={'dropdown' + college.key}> {this.getStatus()} </a>
-                    <ul id={'dropdown' + college.key} class='dropdown-content'>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "pending")}>pending</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "accepted")}>accepted</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "denied")}>denied</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "deferred")}>deferred</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "wait-listed")}>wait-listed</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "withdrawn")}>withdrawn</a></li>
-                    </ul>
                 </div>
                 <div class="collegeLocation"> {college.location} </div> 
                 <div class="collegeType"> {college.type + " | " + college.admission_rate + "% Acceptance Rate | "  +  college.completion_rate + "% Completion Rate | Rank: " + college.ranking} </div> 
@@ -151,7 +137,6 @@ class FilteredCollege extends React.Component {
                     <span class="collegeText">0</span>
                     <Progress class="ACTBar" percent={this.getPercent("act", college.avg_ACT)} status="ACT" theme={theme} />
                 </div>
-                <Progress type="circle" width={120} symbolClassName="reccomendBar" percent={this.getPercent("rec", college.reccomendScore)} status="rec" theme={theme} />
            </div>
         );
     }

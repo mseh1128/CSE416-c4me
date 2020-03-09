@@ -160,7 +160,8 @@ export class CollegeSeachScreen extends Component {
                         <MajorFiltersList majors={this.state.majorList} deleteMajor={this.deleteMajor}/>
                     </div>
                     <div>
-                        <button id="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
+                        <button class="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
+                        <button class="searchCollegeBtn" onClick={this.goCollegeReccomendation}> Reccomend Me Colleges </button>
                     </div>
                 </div>
             </div>
@@ -169,12 +170,3 @@ export class CollegeSeachScreen extends Component {
 }
 
   export default CollegeSeachScreen
-/*
-<div id="collegeListBanner">
-  <div></div>
-  <span class="collegeTitleText"> Name </span> 
-  <span class="collegeTitleText"> Location </span> 
-  <span class="collegeTitleText"> Rank </span>
-  <span class="collegeTitleText"> Size </span>
-  <span class="collegeTitleText"> Admission Rate </span>
-</div>*/

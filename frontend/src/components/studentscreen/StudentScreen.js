@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
+
 //import { connect } from 'react-redux';
 //import { compose } from 'redux';
 //import { firestoreConnect } from 'react-redux-firebase';
@@ -23,7 +24,7 @@ export class StudentScreen extends Component {
     }
 
     goCollegeSearch = () => {
-        console.log('college search')
+        this.props.history.push('/search')
     }
 
     makeStrict = () => {
