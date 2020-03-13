@@ -36,7 +36,6 @@ form button, form h5 {
 
 #navbar {
 
-
 }
 
 #logoContainer {
@@ -45,16 +44,43 @@ form button, form h5 {
   width: 55%;
   top: 16px;
   position: absolute;
-
 }
 
-.logo {
+#logoContainer:hover {
+  cursor: pointer;
+}
 
+#editContainer {
+  background-color: white;
+  height: 30px;
+  width: 97px;
+  top: 16px;
+  left: 73%;
+  position: absolute;
+}
+
+#logoContainer:hover, #editContainer:hover {
+  cursor: pointer;
+}
+
+#logo {
   color: black;
   position: relative;
   left: 47%;
   bottom: 17px;
-  
+  height: 50%;
+}
+
+#editLogo {
+  color: black;
+  position: relative;
+  left: 18%;
+  bottom: 17px;
+  height: 50%;
+}
+
+#logo:hover, #editLogo:hover {
+cursor: default;
 }
 
 .student_screen_container {
@@ -67,6 +93,10 @@ form button, form h5 {
   height: 700px;
   top: 20px;
   position: relative;
+}
+
+#collegeList {
+  height: 652px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -79,7 +109,7 @@ form button, form h5 {
   text-align: center;
   position: relative;
   display: grid;
-  grid-template-rows: 50px 60px 55px 55px 55px 55px 60px 65px 57px 90px;
+  grid-template-rows: 50px 55px 49px 49px 49px 49px 49px 49px 45px 65px 56px 50px;
 }
 
 .filtersBanner {
@@ -165,7 +195,7 @@ form button, form h5 {
 
 #locationFilter {
   width: 70%;
-  left: 14%
+  left: 14%;
 }
 
 #majorFilterContainer {
@@ -188,14 +218,13 @@ form button, form h5 {
 }
 
 #chosenMajorContainer {
-  height: 80px;
+  height: 52px;
   width: 250px;
   left: 13%;
   position: relative;
   border-style: solid;
   border-color: black;
   border-width: 1px;
-  overflow-y: scroll;
 }
 
 .majorListBox {
@@ -206,7 +235,7 @@ form button, form h5 {
 
 .majorItem{
   display: grid;
-  grid-template-columns: 198px 33px;
+  grid-template-columns: 215px 33px;
 }
 
 .deleteMajorBtn{

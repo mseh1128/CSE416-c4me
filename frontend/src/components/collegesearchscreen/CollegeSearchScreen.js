@@ -37,7 +37,7 @@ export class CollegeSeachScreen extends Component {
     }
 
     addMajor = () => {
-        if(this.state.major === "")
+        if(this.state.major === "" || this.state.majorList.length===2)
         {
             return
         }
@@ -76,12 +76,13 @@ export class CollegeSeachScreen extends Component {
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
                 
-                <div id="collegeListBanner">
-                <div></div>
-                <span class="collegeTitleText"> Filtered Colleges </span> 
-                </div>
-                
-                    <FilteredCollegesList />        
+                    <div id="collegeListBanner">
+                        <div></div>
+                        <span class="collegeTitleText"> Filtered Colleges </span> 
+                    </div>
+                    <div id="collegeList">
+                        <FilteredCollegesList />  
+                    </div>      
                 </div>
                 <div className='filtersContainer'>
                     <div className="filtersBanner">
@@ -102,9 +103,9 @@ export class CollegeSeachScreen extends Component {
                     <div className="admissionRateFilter">
                         <span id='filtersText'>Admission Rate</span>
                         <div>
-                            <input type="textfield" className='admissionRate' placeholder="2020" />
+                            <input type="textfield" className='admissionRate' placeholder="0%" />
                             -
-                            <input type="textfield" className='admissionRate' placeholder="2030"/>
+                            <input type="textfield" className='admissionRate' placeholder="100%"/>
                         </div>
                     </div>
                     <div className="costFilter">
@@ -132,27 +133,42 @@ export class CollegeSeachScreen extends Component {
                         </div>
                     </div>
                     <div className="scoreFilter">
-                        <span id='filtersText'>Average Score</span>
+                        <span id='filtersText'>Average Math Score</span>
                         <div>
                             <input type="textfield" className='score' placeholder="1" />
                             -
-                            <input type="textfield" className='score' placeholder="1600"/>
+                            <input type="textfield" className='score' placeholder="800"/>
+                        </div>
+                    </div>
+                    <div className="scoreFilter">
+                        <span id='filtersText'>Average EBRW Score</span>
+                        <div>
+                            <input type="textfield" className='score' placeholder="1" />
+                            -
+                            <input type="textfield" className='score' placeholder="800"/>
+                        </div>
+                    </div>
+                    <div className="scoreFilter">
+                        <span id='filtersText'>Average ACT Score</span>
+                        <div>
+                            <input type="textfield" className='score' placeholder="1" />
+                            -
+                            <input type="textfield" className='score' placeholder="36"/>
                         </div>
                     </div>
                     <div class="input-field col s12" id='locationFilter'>
-                        <select>
-                            <option value="" disabled selected>Choose your option</option>
+                        <select class="browser-default">
+                            <option value="" selected>Choose a Location</option>
                             <option value="1">North East</option>
                             <option value="2">Midwest</option>
                             <option value="3">South</option>
                             <option value="3">West</option>
                         </select>
-                        <label>Location</label>
                     </div>
                     <div id='majorFilterContainer'>
                         <div class="input-field" id='majorFilter'>
                             <input id="major" type="text" onChange={this.updateMajor.bind(this)}></input>
-                            <label for="major">Desired Majors</label>
+                            <label for="major">Two Desired Majors</label>
                         </div>
                         <a class="btn-floating btn-large waves-effect waves-light blue" id="enterMajorBtn" onClick={this.addMajor.bind(this.self)}><Add></Add></a>
                     </div>
