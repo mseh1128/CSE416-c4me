@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 //import { connect } from 'react-redux';
 //import { compose } from 'redux';
 //import { firestoreConnect } from 'react-redux-firebase';
@@ -104,7 +105,7 @@ class FilteredCollege extends React.Component {
         }
 
         return (
-           <div className='collegeCard'>
+           <Link to={"/applicationTracker/" + college.name} className='collegeCardSearched' >
                 <div class="collegeBoxTitle">
                     <div class="collegeTitle"> {this.getName()} </div> 
                 </div>
@@ -137,7 +138,7 @@ class FilteredCollege extends React.Component {
                     <span class="collegeText">0</span>
                     <Progress class="ACTBar" percent={this.getPercent("act", college.avg_ACT)} status="ACT" theme={theme} />
                 </div>
-           </div>
+           </Link>
         );
     }
 }

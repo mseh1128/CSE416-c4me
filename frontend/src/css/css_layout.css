@@ -51,7 +51,8 @@ form button, form h5 {
 }
 
 #editContainer {
-  background-color: white;
+  background-color: rgb(102, 176, 201);
+  border-radius: 10%;
   height: 30px;
   width: 97px;
   top: 16px;
@@ -293,11 +294,24 @@ cursor: default;
   width: 540px;
 }
 
+.collegeCardSearched {
+  background-color: aquamarine;
+  margin-left: 20px;
+  height: 305px;
+  width: 540px;
+}
+
+.collegeCardSearched:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
 .collegeTitle {
   font-size: x-large;
   font-weight: bold;
   margin-left: 20px;
   position: relative;
+  color: black;
 }
 
 .collegeLocation {
@@ -391,6 +405,7 @@ cursor: default;
   font-size: medium;
   margin-left: 20px;
   position: relative;
+  color: black;
 }
 
 .collegeCost1 {
@@ -416,6 +431,7 @@ cursor: default;
 .collegeCost2 {
   font-size: medium;
   margin-left: 20px;
+  color: black;
   position: relative;
 }
 
@@ -443,6 +459,7 @@ cursor: default;
   font-size: medium;
   margin-left: 20px;
   position: relative;
+  color: black;
 }
 
 .collegeAdmission {

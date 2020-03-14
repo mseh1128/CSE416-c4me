@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
+import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen'
 
 import 'materialize-css/dist/css/materialize.min.css';
 
@@ -33,6 +34,7 @@ function App() {
         <Navbar></Navbar>
         <Switch>
             <Route exact path="/" component={StudentScreen} />
+            <Route path="/applicationTracker/:name" component={ApplicationTrackerScreen} />
             <Route path="/search" component={CollegeSearchScreen} />
             <Route path="/:any" component={StudentScreen} />
         </Switch>
