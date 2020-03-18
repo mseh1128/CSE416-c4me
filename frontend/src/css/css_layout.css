@@ -501,3 +501,24 @@ cursor: default;
   left: 400px;
   bottom: 115px;
 }
+
+#generalInfoList {
+  background-color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  height: 300px;
+  width: 800px;
+  border-color: lightgray;
+  border-width: 4px;
+  border-style: outset;
+}
+
+.profileHeader {
+  position: relative;
+  font-size: x-large;
+  font-weight: bold;
+  background-color: lightblue;
+  top: -4px;
+  border-style: outset;
+  border-width: 2px;
+}

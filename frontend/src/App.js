@@ -8,6 +8,7 @@ import Navbar from './components/navbar/Navbar.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen'
+import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.js';
 
 import 'materialize-css/dist/css/materialize.min.css';
 
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/" component={StudentScreen} />
             <Route path="/applicationTracker/:name" component={ApplicationTrackerScreen} />
             <Route path="/search" component={CollegeSearchScreen} />
+            <Route path="/profile" component={ViewProfileScreen} />
             <Route path="/:any" component={StudentScreen} />
         </Switch>
       </BrowserRouter>

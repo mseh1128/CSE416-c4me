@@ -20,7 +20,7 @@ class Navbar extends React.Component {
               <div id='logo'>c4me</div>
           </Link>
         </div>
-        <Link to="/" id='editContainer'>
+        <Link to="/profile" id='editContainer'>
               <div id='editLogo'>edit profile</div>
         </Link>
       </nav>
