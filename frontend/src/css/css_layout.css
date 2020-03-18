@@ -502,15 +502,22 @@ cursor: default;
   bottom: 115px;
 }
 
+#profileList {
+  display: grid;
+  grid-template-columns: 756px 750px;
+}
+
 #generalInfoList {
   background-color: white;
   margin-left: 10px;
   margin-top: 10px;
-  height: 300px;
-  width: 800px;
+  height: 200px;
+  width: 745px;
   border-color: lightgray;
   border-width: 4px;
   border-style: outset;
+  display: grid;
+  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
 }
 
 .profileHeader {
@@ -519,6 +526,31 @@ cursor: default;
   font-weight: bold;
   background-color: lightblue;
   top: -4px;
+  width: 350px;
   border-style: outset;
   border-width: 2px;
+}
+
+.profileText {
+  position: relative;
+  font-size: large;
+  text-indent: 10px;
+  left: 10px;
+  font-weight: bold;
+
+}
+
+.profilePrompt {
+  position: relative;
+  font-size: large;
+  width: 203px;
+  text-indent: 10px;
+  margin-left: 20px;
+  font-weight: bold;
+  background-color: lightgoldenrodyellow;
+}
+
+#generalHSHeader {
+  display: grid;
+  grid-template-columns: 387px 500px 10px;
 }
