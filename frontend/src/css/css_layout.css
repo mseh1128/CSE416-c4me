@@ -343,9 +343,13 @@ cursor: default;
 
 .collegeBoxTitleAndStatus {
   display: grid;
-  grid-template-columns: 403px 125px;
+  grid-template-columns: 403px 128px;
   top: 10px;
   position: relative;
+}
+
+#dropdwn {
+  color: blue;
 }
 
 .collegeBoxSizeAndMath {
@@ -505,6 +509,7 @@ cursor: default;
 #profileList {
   display: grid;
   grid-template-columns: 756px 750px;
+  grid-template-rows: 210px 210px;
 }
 
 #generalInfoList {
@@ -512,6 +517,19 @@ cursor: default;
   margin-left: 10px;
   margin-top: 10px;
   height: 200px;
+  width: 745px;
+  border-color: lightgray;
+  border-width: 4px;
+  border-style: outset;
+  display: grid;
+  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
+}
+
+#educationInfoList {
+  background-color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  height: 290px;
   width: 745px;
   border-color: lightgray;
   border-width: 4px;

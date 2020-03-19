@@ -10,6 +10,9 @@ import M from "materialize-css";
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
 class StudentCollege extends React.Component {
 
     state  = 
@@ -103,24 +106,16 @@ class StudentCollege extends React.Component {
             }
         }
 
+        const dropdownOptions = [
+            'pending', 'accepted', 'denied', 'deferrd', 'wait-listed', 'withdrawn'
+          ];
+          const defaultOption = dropdownOptions[0];
+
         return (
            <div className='collegeCard'>
                 <div class="collegeBoxTitleAndStatus">
                     <div class="collegeTitle"> {this.getName()} </div> 
-                    <a class='dropdown-trigger btn' href='#' data-target={'dropdown' + college.key}> {this.getStatus()} </a>
-                    <ul id={'dropdown' + college.key} class='dropdown-content'>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "pending")}>pending</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "accepted")}>accepted</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "denied")}>denied</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "deferred")}>deferred</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "wait-listed")}>wait-listed</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "withdrawn")}>withdrawn</a></li>
-                    </ul>
+                    <Dropdown options={dropdownOptions} onChange={this._onSelect} value={this.getStatus()} placeholder="Select an option" />
                 </div>
                 <div class="collegeLocation"> {college.location} </div> 
                 <div class="collegeType"> {college.type + " | " + college.admission_rate + "% Acceptance Rate | "  +  college.completion_rate + "% Completion Rate | Rank: " + college.ranking} </div> 
@@ -159,6 +154,24 @@ class StudentCollege extends React.Component {
 
 export default StudentCollege
 /*
+
+ <a class='dropdown-trigger btn' href='#' data-target={'dropdown' + college.key}> {this.getStatus()} </a>
+                    <ul id={'dropdown' + college.key} class='dropdown-content'>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "pending")}>pending</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "accepted")}>accepted</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "denied")}>denied</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "deferred")}>deferred</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "wait-listed")}>wait-listed</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!" onClick={this.changeStatus.bind(this.self, "withdrawn")}>withdrawn</a></li>
+                    </ul>
+
+
+
 <ul class="collapsible">
 <li>
     <div class="collapsible-header" id="collegeBanner"> 
