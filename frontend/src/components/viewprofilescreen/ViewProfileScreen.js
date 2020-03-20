@@ -10,6 +10,8 @@ import M from "materialize-css";
 import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 
+import StudentCollegesList from './StudentCollegesList.js'
+
 import data from '../test/TestStudentData.json'
 
 export class ViewProfileScreen extends Component {
@@ -85,7 +87,12 @@ export class ViewProfileScreen extends Component {
                             </div>
                         </div>
                         <div>
-
+                            <div id="collegeInfoList">
+                                <div id="generalHSHeader">
+                                    <span class="profileHeader">Your Applications</span>
+                                </div>
+                                <StudentCollegesList/>
+                            </div>
                         </div>
                         <div id="educationInfoList">
                             <div id="generalHSHeader">

@@ -538,6 +538,56 @@ cursor: default;
   grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
 }
 
+
+#collegeInfoList {
+  background-color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  height: 500px;
+  width: 745px;
+  border-color: lightgray;
+  border-width: 4px;
+  border-style: outset;
+  display: grid;
+  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.collegeCardProfile0, .collegeCardProfile1 {
+  width: 737px;
+}
+
+.collegeCardProfile0{
+  background-color: white;
+}
+
+.collegeCardProfile1 {
+  background-color: lightgrey;
+  height: 50px;
+}
+
+.college-listProfile {
+  display: grid;
+  grid-template-rows: repeat(100, 50px);
+}
+
+.collegeBoxTitleAndStatusProfile {
+  display: grid;
+  grid-template-columns: 585px 128px;
+  margin-top: 5px;
+  position: relative;
+}
+
+.collegeTitleProfile {
+  font-size: x-large;
+  font-weight: bold;
+  margin-left: 20px;
+
+  position: relative;
+  color: black;
+}
+
 .profileHeader {
   position: relative;
   font-size: x-large;
@@ -572,3 +622,4 @@ cursor: default;
   display: grid;
   grid-template-columns: 387px 500px 10px;
 }
+
