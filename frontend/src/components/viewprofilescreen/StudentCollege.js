@@ -72,7 +72,7 @@ class StudentCollege extends React.Component {
            <div className={'collegeCardProfile' + college.key%2}  id={'collegecard' + college.key}>
                 <div class="collegeBoxTitleAndStatusProfile">
                     <div class="collegeTitleProfile"> {this.getName()} </div> 
-                    <Dropdown disabled={true} options={dropdownOptions} onChange={this._onSelect} value={this.getStatus()} placeholder="Select an option" />
+                    <Dropdown disabled={this.props.disabled} options={dropdownOptions} onChange={this._onSelect} value={this.getStatus()} placeholder="Select an option" />
                 </div>  
            </div>
         );

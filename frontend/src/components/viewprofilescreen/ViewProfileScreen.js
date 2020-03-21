@@ -7,7 +7,9 @@ import { Redirect } from 'react-router-dom'
 
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
-import Add from '@material-ui/icons/Add';
+import Home from '@material-ui/icons/Home';
+import Edit from '@material-ui/icons/Edit';
+import Save from '@material-ui/icons/Save';
 import PropTypes from 'prop-types';
 
 import StudentCollegesList from './StudentCollegesList.js'
@@ -18,6 +20,14 @@ export class ViewProfileScreen extends Component {
     state = 
     {
         disabled: true
+    }
+
+    goHome = () => {
+        this.props.history.push('/')
+    }
+
+    startEdit = () => {
+        this.setState({disabled: false})
     }
 
     getScore(score)
@@ -44,10 +54,15 @@ export class ViewProfileScreen extends Component {
 
         return (
             <div className="profile_screen_container">
-                <div className='schoolsContainer'>
-                    <div id="collegeListBanner">
-                        <div></div>
-                        <span class="collegeTitleText"> Your Profile </span> 
+                <div className='profileContainer'>
+                    <div id="profileBanner">
+                        <div/>
+                        <span class="collegeTitleText"> Your Profile </span>
+                        <button class='profileButton' onClick={this.goHome}> <Home id='profileButtonSymbols' /> </button> 
+                        <div/>
+                        <button class='profileButton' onClick={this.startEdit.bind(this)}> <Edit id='profileButtonSymbols' /> </button>
+                        <div/>
+                        <button class='profileButton'> <Save id='profileButtonSymbols' /> </button>
                     </div>
                     <div id="profileList">
                         <div id="generalInfoList">
@@ -57,7 +72,7 @@ export class ViewProfileScreen extends Component {
                             </div>
                             <div >
                                 <span class="profileText">User ID:</span>
-                                <input type="textfield" class="profilePrompt" style={{left: "60px"}} disabled={this.state.disabled} value={student.userID}></input>
+                                <input type="textfield" id="test" class="profilePrompt" style={{left: "60px"}} disabled={this.state.disabled} value={student.userID}></input>
                                 <span class="profileText" style={{left: "110px"}}>HS Name:</span>
                                 <input type="textfield" class="profilePrompt" style={{left: "134px"}} disabled={this.state.disabled} value={student.high_school_name}></input>
                             </div>
@@ -91,7 +106,7 @@ export class ViewProfileScreen extends Component {
                                 <div id="generalHSHeader">
                                     <span class="profileHeader">Your Applications</span>
                                 </div>
-                                <StudentCollegesList/>
+                                <StudentCollegesList disabled={this.state.disabled}/>
                             </div>
                         </div>
                         <div id="educationInfoList">

@@ -506,6 +506,13 @@ cursor: default;
   bottom: 115px;
 }
 
+.profileContainer {
+  background-color: white;
+  height: 570px;
+  top: 20px;
+  position: relative;
+}
+
 #profileList {
   display: grid;
   grid-template-columns: 756px 750px;
@@ -623,3 +630,25 @@ cursor: default;
   grid-template-columns: 387px 500px 10px;
 }
 
+#profileBanner {
+  display: grid;
+  grid-template-columns: 100px 1092px 100px 10px 100px 10px 100px;
+  background-color: lightskyblue;
+}
+
+.profileButton {
+  position: relative;
+  top: 4px;
+  height: 40px;
+  background-color: rgb(102, 176, 201);
+  border-color: lightblue;
+  font-size: large;
+}
+
+.profileButton:hover {
+  cursor: pointer;
+}
+
+#profileButtonSymbols {
+  font-size: 37px;
+}
