@@ -22,7 +22,7 @@ body {
 
 div.banner {
   padding: 20px;
-  margin-top: 60px;
+  margin-top: 35px;
 }
 
 form {
@@ -58,6 +58,18 @@ form button, form h5 {
   top: 16px;
   left: 73%;
   position: absolute;
+  text-align: center;
+}
+
+#logOutContainer {
+  background-color: rgb(102, 176, 201);
+  border-radius: 10%;
+  height: 30px;
+  width: 97px;
+  top: 16px;
+  left: 82%;
+  position: absolute;
+  text-align: center;
 }
 
 #logoContainer:hover, #editContainer:hover {
@@ -70,18 +82,18 @@ form button, form h5 {
   left: 47%;
   bottom: 17px;
   height: 50%;
+  
 }
 
-#editLogo {
+#editLogo, #logOutLogo {
   color: black;
   position: relative;
-  left: 18%;
   bottom: 17px;
   height: 50%;
 }
 
-#logo:hover, #editLogo:hover {
-cursor: default;
+#logo:hover, #editLogo:hover, #logOutLogo:hover  {
+cursor: hover;
 }
 
 .student_screen_container {
@@ -651,4 +663,46 @@ cursor: default;
 
 #profileButtonSymbols {
   font-size: 37px;
+}
+
+.login_screen_container {
+  display: grid;
+  grid-template-columns: 500px 1000px;
+}
+
+.loginContainer {
+  background-color: white;
+  height: 300px;
+  width: 400px;
+  margin-top: 30px;
+  margin-left: 30px;
+  border-radius: 10%;
+  text-align: center;
+  display: grid;
+  grid-template-rows: 20px 70px 75px 81px;
+}
+
+.loginText {
+  font-size: xx-large;
+}
+
+#userID, #password {
+  left: 5%;
+  width: 90%;
+}
+
+.loginButtons {
+  display: grid;
+  grid-template-columns: 160px 25px;
+}
+
+#login, #register {
+  position: relative;
+  left: 45px;
+  width: 150px;
+  height: 35px;
+}
+
+#login:hover, #register:hover {
+  cursor: pointer;
 }

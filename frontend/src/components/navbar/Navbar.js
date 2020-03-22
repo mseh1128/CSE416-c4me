@@ -16,12 +16,15 @@ class Navbar extends React.Component {
     return (
       <nav className="nav-wrapper blue darken-3" id="navbar">
         <div className="container">
-          <Link to="/" id='logoContainer'>
+          <Link to="/home" id='logoContainer'>
               <div id='logo'>c4me</div>
           </Link>
         </div>
         <Link to="/profile" id='editContainer'>
-              <div id='editLogo'>edit profile</div>
+            <div id='editLogo'>edit profile</div>
+        </Link>
+        <Link to="/" id='logOutContainer'>
+            <div id='logOutLogo'>log out</div>
         </Link>
       </nav>
     );

@@ -20,14 +20,14 @@ body {
 
 div.banner {
   background-image: linear-gradient(to bottom,         
-  #b8b808, #636723);
+  #8adaff, #9f8aff);
   color: white;
-  font-size: 48pt;
+  font-size: 72pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
   border-radius: 10px;
   padding-left: 10%;
-  padding-top: 5%;
+  padding-top: 6%;
   padding-bottom: 5%;
 }

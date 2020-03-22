@@ -23,7 +23,7 @@ export class ViewProfileScreen extends Component {
     }
 
     goHome = () => {
-        this.props.history.push('/')
+        this.props.history.push('/home')
     }
 
     startEdit = () => {
