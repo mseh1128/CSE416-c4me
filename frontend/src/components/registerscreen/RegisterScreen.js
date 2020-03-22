@@ -12,10 +12,12 @@ import PropTypes from 'prop-types';
 
 import data from '../test/TestStudentData.json'
 
-export class LoginScreen extends Component {
+export class RegisterScreen extends Component {
     state = {
         userID: '',
+        userIDCheck: '',
         password: '',
+        passwordCheck: '',
         hidden: true
       }
 
@@ -26,8 +28,8 @@ export class LoginScreen extends Component {
             this.goHome()
     }
 
-    goRegister = () => {
-        this.props.history.push('/register')
+    goLogin = () => {
+        this.props.history.push('/')
     }
 
     goHome = () => {
@@ -46,23 +48,31 @@ export class LoginScreen extends Component {
     render() {
 
         return (
-            <div className="login_screen_container">
-                <div className='loginContainer'>
+            <div className="register_screen_container">
+                <div className='registerContainer'>
                     <div></div>
-                    <span class='loginText'> Login </span>
+                    <span class='loginText'> Register </span>
                     <div id="userID" className="input-field">
                         <label htmlFor="userID" style={{left: "20px"}}>UserID</label>
                         <input className="active" type="email" name="userID" id="userID" onChange={this.handleChange} />
+                    </div>
+                    <div id="userIDCheck" className="input-field">
+                        <label htmlFor="userIDCheck" style={{left: "20px"}}>Enter UserID again</label>
+                        <input className="active" type="email" name="userIDCheck" id="userIDCheck" onChange={this.handleChange} />
                     </div>
                     <div id="password" className="input-field">
                         <label htmlFor="password" style={{left: "20px"}}>Password</label>
                         <input className="active" type="password" name="password" id="password" onChange={this.handleChange} />
                     </div>
+                    <div id="passwordCheck" className="input-field">
+                        <label htmlFor="password" style={{left: "20px"}}>Enter Password again</label>
+                        <input className="active" type="password" name="passwordCheck" id="passwordCheck" onChange={this.handleChange} />
+                    </div>
                     <div class="loginButtons">
                         <button id="login" onClick={this.checkCredentials}> submit </button>
-                        <button id="register" onClick={this.goRegister}> register </button>
+                        <button id="register" onClick={this.goLogin}> cancel </button>
                     </div>
-                    <span class='errorText' hidden={this.state.hidden}> Wrong email or password </span>  
+                    <span class='errorText' hidden={this.state.hidden}> email or password does not match </span>  
                 </div>
                     <div className="banner">
                         C4Me<br />
@@ -73,4 +83,4 @@ export class LoginScreen extends Component {
     }
 }
 
-  export default LoginScreen
+  export default RegisterScreen

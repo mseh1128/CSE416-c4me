@@ -665,7 +665,7 @@ cursor: hover;
   font-size: 37px;
 }
 
-.login_screen_container {
+.login_screen_container, .register_screen_container {
   display: grid;
   grid-template-columns: 500px 1000px;
 }
@@ -679,14 +679,14 @@ cursor: hover;
   border-radius: 10%;
   text-align: center;
   display: grid;
-  grid-template-rows: 20px 70px 75px 81px;
+  grid-template-rows: 20px 70px 75px 80px 32px;
 }
 
 .loginText {
   font-size: xx-large;
 }
 
-#userID, #password {
+#userID, #password, #userIDCheck, #passwordCheck {
   left: 5%;
   width: 90%;
 }
@@ -705,4 +705,20 @@ cursor: hover;
 
 #login:hover, #register:hover {
   cursor: pointer;
+}
+
+.errorText {
+  color: red;
+}
+
+.registerContainer {
+  background-color: white;
+  height: 447px;
+  width: 400px;
+  margin-top: 30px;
+  margin-left: 30px;
+  border-radius: 10%;
+  text-align: center;
+  display: grid;
+  grid-template-rows: 20px 70px 75px 75px 75px 75px 32px;
 }
