@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import data from '../test/TestCollegeData.json'
 
 export class ApplicationTrackerScreen extends Component {
-    state = 
+    state =
     {
         major: "",
         majorIndex: 0,
@@ -39,7 +39,7 @@ export class ApplicationTrackerScreen extends Component {
             return
         }
 
-        let newMajor = 
+        let newMajor =
         {
             name: this.state.major,
             key: this.state.majorIndex,
@@ -50,7 +50,7 @@ export class ApplicationTrackerScreen extends Component {
         newList.push(newMajor)
         this.setState({majorList: newList})
         this.setState({major: ""})
-        document.getElementById("major").value = ""    
+        document.getElementById("major").value = ""
     }
 
     deleteMajor = (key) => {
@@ -74,14 +74,14 @@ export class ApplicationTrackerScreen extends Component {
         return (
             <div className="student_screen_container">
                 <div className='schoolsContainer'>
-                
+
                     <div id="collegeListBanner">
                         <div></div>
-                        <span class="collegeTitleText"> {"Application Tracker: " + college}  </span> 
+                        <span class="collegeTitleText"> {"Application Tracker: " + college}  </span>
                     </div>
                     <div id="collegeList">
-                        
-                    </div>      
+
+                    </div>
                 </div>
                 <div className='filtersContainer'>
                     <div className="filtersBanner">
@@ -172,7 +172,7 @@ export class ApplicationTrackerScreen extends Component {
                         <a class="btn-floating btn-large waves-effect waves-light blue" id="enterMajorBtn" onClick={this.addMajor.bind(this.self)}><Add></Add></a>
                     </div>
                     <div id='chosenMajorContainer'>
-                        
+
                     </div>
                     <div>
                         <button class="searchCollegeBtn" onClick={this.goCollegeSearch}> Start college search </button>
@@ -189,7 +189,7 @@ const mapStateToProps = (state, ownProps) => {
     const { colleges } = data.colleges;
     const college = colleges ? colleges[name] : null;
     college.name = name;
-  
+
     return {
       college
     };
