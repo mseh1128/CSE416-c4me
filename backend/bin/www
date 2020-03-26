@@ -12,11 +12,7 @@ const http = require('http');
  * Get port from environment and store in Express.
  */
 
-<<<<<<< HEAD:backend/backend/bin/www
 var port = normalizePort(process.env.PORT || '5201');
-=======
-const port = normalizePort(process.env.PORT || '3000');
->>>>>>> 8cddfe9ef360e0c7ff9f641bf598137f69f21729:backend/bin/www
 app.set('port', port);
 
 /**
