@@ -7,7 +7,7 @@ var queryGetDecision = "SELECT * FROM college_declaration WHERE collegename=? AN
 var queryDeleteEveryAcceptance = "TRUNCATE college_declaration";
 
 module.exports = function(app, connection){
-  app.post("/recordStudentAcceptanceDecision", function(req, res) => {
+  app.post("/recordStudentAcceptanceDecision", (req, res) => {
     let body = JSON.parse(req.body);
     let name = body.name;
     let college = body.college;
@@ -23,7 +23,7 @@ module.exports = function(app, connection){
     });
   });
 
-  app.post("/changeQuestionableStatus", function(req, res) => {
+  app.post("/changeQuestionableStatus", (req, res) => {
     let body=JSON.parse(req.body);
     let questiStatus = body.questiStatus;
     let id = body.id;
@@ -39,7 +39,7 @@ module.exports = function(app, connection){
   });
 
 
-  app.get("/retrieveDecision", function(req, res) {
+  app.get("/retrieveDecision", (req, res) => {
     let collegeName = req.query.collegeName;
     connection.query(queryGetDecision, [collegeName], (err, rows, params) => {
       if (err){
@@ -51,7 +51,7 @@ module.exports = function(app, connection){
     });
   });
 
-  app.post("/deleteEveryCollegeDeclaration", function(req, res) => {
+  app.post("/deleteEveryCollegeDeclaration", (req, res) => {
     connection.query(queryChangeQuestionability, (err, rows, params) => {
       if (err){
         console.log(err);

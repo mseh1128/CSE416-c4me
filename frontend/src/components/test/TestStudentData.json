@@ -1,7 +1,7 @@
 {
     "student": {
             "key": 0,
-            "userID": "testID",
+            "userID": "userID",
             "password": "password",
             "name": "Joe Student",
             "residence_state":"NY",

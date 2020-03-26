@@ -11,7 +11,7 @@ var queryInsertCollege = "INSERT INTO college VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,
 var queryFetchCollege = "SELECT * FROM college WHERE college=?";
 
 module.exports = function(app, connection){
-  app.post("/insertCollege", function(req, res){
+  app.post("/insertCollege", (req, res) => {
     console.log(req.body);
     let body = JSON.parse(req.body);
     let state = body.state;
@@ -35,7 +35,7 @@ module.exports = function(app, connection){
   });
 
 
-  app.get("/retrieveCollege", function(req, res) => {
+  app.get("/retrieveCollege", (req, res) => {
     let college = req.query.college;
     connection.query(queryAdd, [college], (err, rows, params) => {
       if (err){

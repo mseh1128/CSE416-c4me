@@ -11,7 +11,7 @@ var app = express();
 
 //mysql is because it is what I am connecting to.
 //bodyParser will allow me to accept body texts????
-/
+
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -20,7 +20,7 @@ var cors = require('cors');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,7 +36,9 @@ var connection = mysql.createConnection({
   database: "college_recommender"
 });
 
-connection.connect(function(err) {(err) ? console.log("You failed to connect because " + err) : console.log("A connection has been established.")});
+connection.connect(function(err) {
+  (err) ? console.log("You failed to connect because " + err) : console.log("A connection has been established.")
+});
 
 require('./routes/student-functions.js')(app, connection);
 require('./routes/student-acceptance-claims.js')(app, connection);

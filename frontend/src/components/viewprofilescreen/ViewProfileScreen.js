@@ -17,7 +17,7 @@ import StudentCollegesList from './StudentCollegesList.js'
 import data from '../test/TestStudentData.json'
 
 export class ViewProfileScreen extends Component {
-    state = 
+    state =
     {
         disabled: true
     }
@@ -29,6 +29,41 @@ export class ViewProfileScreen extends Component {
     startEdit = () => {
         this.setState({disabled: false})
     }
+
+    //these parts are certainly not going to be like this
+    //but they are quick and dirty ways to change the thing.
+
+    changeNonAcademicInfo = async(attribute) => {
+        let info = document.getElementById(attribute).value
+        let response = await fetch("http://localhost:5201/updateStudentInfo",
+        {
+            method: 'POST',
+            headers: {'Content-Type': "text/plain"},
+            body: JSON.stringify({
+                category: attribute,
+                value: info,
+                userID: data.student.userID
+            })
+        });
+    }
+
+    changeAcademicInfo = async(attribute) => {
+        let info = document.getAttributeById(attribute).value
+        let infoAsNumber = Number(info)
+
+        let response = await fetch("http://localhost:5201/updateProfileInfo",
+        {
+            method: 'POST',
+            headers: {'Content-Type': "text/plain"},
+            body: JSON.stringify({
+                category: attribute,
+                value: info,
+                userID: data.student.userID
+            })
+        });
+    }
+
+
 
     getScore(score)
     {
@@ -58,7 +93,7 @@ export class ViewProfileScreen extends Component {
                     <div id="profileBanner">
                         <div/>
                         <span class="collegeTitleText"> Your Profile </span>
-                        <button class='profileButton' onClick={this.goHome}> <Home id='profileButtonSymbols' /> </button> 
+                        <button class='profileButton' onClick={this.goHome}> <Home id='profileButtonSymbols' /> </button>
                         <div/>
                         <button class='profileButton' onClick={this.startEdit.bind(this)}> <Edit id='profileButtonSymbols' /> </button>
                         <div/>
@@ -72,7 +107,7 @@ export class ViewProfileScreen extends Component {
                             </div>
                             <div >
                                 <span class="profileText">User ID:</span>
-                                <input type="textfield" id="test" class="profilePrompt" style={{left: "60px"}} disabled={this.state.disabled} value={student.userID}></input>
+                                <input type="textfield" id="test" class="profilePrompt" style={{left: "60px"}} disabled={this.state.disabled} value={student.userID} on_input></input>
                                 <span class="profileText" style={{left: "110px"}}>HS Name:</span>
                                 <input type="textfield" class="profilePrompt" style={{left: "134px"}} disabled={this.state.disabled} value={student.high_school_name}></input>
                             </div>
@@ -90,13 +125,13 @@ export class ViewProfileScreen extends Component {
                             </div>
                             <div>
                                 <span class="profileText">Desired major:</span>
-                                <input type="textfield" class="profilePrompt" style={{left: "11px"}} disabled={this.state.disabled} value={student.major_1}></input>
+                                <input type="textfield" class="profilePrompt" style={{left: "11px"}} disabled={this.state.disabled} value={student.major_1} id="major1"></input>
                                 <span class="profileText" style={{left: "58px"}}>GPA:</span>
                                 <input type="textfield" class="profilePrompt" style={{left: "121px"}} disabled={this.state.disabled} value={student.GPA}></input>
                             </div>
                             <div>
                                 <span class="profileText">Second major:</span>
-                                <input type="textfield" class="profilePrompt" style={{left: "14px"}} disabled={this.state.disabled} value={student.major_2}></input>
+                                <input type="textfield" class="profilePrompt" style={{left: "14px"}} disabled={this.state.disabled} value={student.major_2} id="major2"></input>
                                 <span class="profileText" style={{left: "61px"}}>Class:</span>
                                 <input type="textfield" class="profilePrompt" style={{left: "120px"}} disabled={this.state.disabled} value={student.college_class}></input>
                             </div>

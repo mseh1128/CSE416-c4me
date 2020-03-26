@@ -27,7 +27,7 @@ export class ApplicationTrackerScreen extends Component {
         console.log('make strict')
     }
 
-    updateMajor = () => {
+    updateMajor = (category) => {
         let newMajor = document.getElementById("major").value
         this.setState({major: newMajor})
         console.log(newMajor)
