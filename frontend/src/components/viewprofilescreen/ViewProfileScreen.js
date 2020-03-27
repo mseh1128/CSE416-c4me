@@ -18,7 +18,33 @@ import data from '../test/TestStudentData.json';
 
 export class ViewProfileScreen extends Component {
   state = {
-    disabled: true
+    disabled: true,
+    userIDInput: data.student.userID,
+    name: data.student.name,
+    residence_state: data.student.residence_state,
+    high_school_name: data.student.high_school_name,
+    high_school_city: data.student.high_school_city,
+    high_school_state: data.student.high_school_state,
+    GPA: data.student.GPA,
+    college_class: data.student.college_class,
+    major1: data.student.major_1,
+    major2: data.student.major_2,
+    SAT_Math: data.student.SAT_Math,
+    SAT_EBRW: data.student.SAT_EBRW,
+    ACT_English: data.student.ACT_English,
+    ACT_Math: data.student.ACT_Math,
+    ACT_Reading: data.student.ACT_Reading,
+    ACT_Science: data.student.ACT_Science,
+    ACT_Composite: data.student.ACT_Composite,
+    ACT_Literature: data.student.ACT_Literature,
+    AP_US_hist: data.student.AP_US_hist,
+    AP_World_hist: data.student.AP_World_hist,
+    AP_Math_1: data.student.AP_Math_1,
+    AP_Math_2: data.student.AP_Math_2,
+    AP_Eco_Bio: data.student.AP_Eco_Bio,
+    AP_Mol_Bio: data.student.AP_Mol_Bio,
+    AP_Chemistry: data.student.AP_Chemistry,
+    AP_Physics: data.student.AP_Physics
   };
 
   goHome = () => {
@@ -66,6 +92,15 @@ export class ViewProfileScreen extends Component {
     } else return score;
   }
 
+  handleChange = e => {
+    const { target } = e;
+
+    this.setState(state => ({
+      ...state,
+      [target.id]: target.value
+    }));
+  };
+
   render() {
     var elem = document.querySelector('.tabs');
     var options = {};
@@ -112,11 +147,12 @@ export class ViewProfileScreen extends Component {
                 <span className="profileText">User ID:</span>
                 <input
                   type="textfield"
-                  id="test"
+                  id="userIDInput"
                   className="profilePrompt"
                   style={{ left: '60px' }}
                   disabled={this.state.disabled}
-                  value={student.userID}
+                  onChange={this.handleChange}
+                  value={this.state.userIDInput}
                   on_input
                 ></input>
                 <span className="profileText" style={{ left: '110px' }}>
@@ -125,9 +161,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="high_school_name"
                   style={{ left: '134px' }}
                   disabled={this.state.disabled}
-                  value={student.high_school_name}
+                  onChange={this.handleChange}
+                  value={this.state.high_school_name}
                 ></input>
               </div>
               <div>
@@ -135,9 +173,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="name"
                   style={{ left: '76px' }}
                   disabled={this.state.disabled}
-                  value={student.name}
+                  onChange={this.handleChange}
+                  value={this.state.name}
                 ></input>
                 <span className="profileText" style={{ left: '125px' }}>
                   HS City:
@@ -145,9 +185,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="high_school_city"
                   style={{ left: '161px' }}
                   disabled={this.state.disabled}
-                  value={student.high_school_city}
+                  onChange={this.handleChange}
+                  value={this.state.high_school_city}
                 ></input>
               </div>
               <div>
@@ -155,8 +197,10 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="residence_state"
                   disabled={this.state.disabled}
-                  value={student.residence_state}
+                  onChange={this.handleChange}
+                  value={this.state.residence_state}
                 ></input>
                 <span className="profileText" style={{ left: '49px' }}>
                   HS State:
@@ -164,9 +208,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="high_school_state"
                   style={{ left: '80px' }}
                   disabled={this.state.disabled}
-                  value={student.high_school_state}
+                  onChange={this.handleChange}
+                  value={this.state.high_school_state}
                 ></input>
               </div>
               <div>
@@ -174,10 +220,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="major1"
                   style={{ left: '11px' }}
                   disabled={this.state.disabled}
-                  value={student.major_1}
-                  id="major1"
+                  onChange={this.handleChange}
+                  value={this.state.major1}
                 ></input>
                 <span className="profileText" style={{ left: '58px' }}>
                   GPA:
@@ -185,9 +232,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="GPA"
                   style={{ left: '121px' }}
                   disabled={this.state.disabled}
-                  value={student.GPA}
+                  onChange={this.handleChange}
+                  value={this.state.GPA}
                 ></input>
               </div>
               <div>
@@ -195,10 +244,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="major2"
                   style={{ left: '14px' }}
                   disabled={this.state.disabled}
-                  value={student.major_2}
-                  id="major2"
+                  onChange={this.handleChange}
+                  value={this.state.major2}
                 ></input>
                 <span className="profileText" style={{ left: '61px' }}>
                   Class:
@@ -206,9 +256,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="college_class"
                   style={{ left: '120px' }}
                   disabled={this.state.disabled}
-                  value={student.college_class}
+                  onChange={this.handleChange}
+                  value={this.state.college_class}
                 ></input>
               </div>
             </div>
@@ -230,9 +282,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="SAT_Math"
                   style={{ left: '41px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.SAT_Math)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.SAT_Math)}
                 ></input>
                 <span className="profileText" style={{ left: '91px' }}>
                   US:
@@ -240,9 +294,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_US_hist"
                   style={{ left: '164px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_US_hist)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_US_hist)}
                 ></input>
               </div>
               <div>
@@ -250,9 +306,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="SAT_EBRW"
                   style={{ left: '29px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.SAT_EBRW)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.SAT_EBRW)}
                 ></input>
                 <span className="profileText" style={{ left: '80px' }}>
                   World:
@@ -260,9 +318,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_World_hist"
                   style={{ left: '127px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_World_hist)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_World_hist)}
                 ></input>
               </div>
               <div>
@@ -270,9 +330,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_Math"
                   style={{ left: '36px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_Math)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_Math)}
                 ></input>
                 <span className="profileText" style={{ left: '87px' }}>
                   Math I:
@@ -280,9 +342,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Math_1"
                   style={{ left: '131px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Math_1)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Math_1)}
                 ></input>
               </div>
               <div>
@@ -290,9 +354,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_English"
                   style={{ left: '20px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_English)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_English)}
                 ></input>
                 <span className="profileText" style={{ left: '71px' }}>
                   Math II:
@@ -300,9 +366,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Math_2"
                   style={{ left: '108px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Math_2)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Math_2)}
                 ></input>
               </div>
               <div>
@@ -310,9 +378,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_Reading"
                   style={{ left: '14px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_Reading)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_Reading)}
                 ></input>
                 <span className="profileText" style={{ left: '65px' }}>
                   Eco Bio:
@@ -320,9 +390,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Eco_Bio"
                   style={{ left: '103px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Eco_Bio)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Eco_Bio)}
                 ></input>
               </div>
               <div>
@@ -330,9 +402,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_Literature"
                   style={{ left: '-1px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_Literature)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_Literature)}
                 ></input>
                 <span className="profileText" style={{ left: '49px' }}>
                   Molecular Bio:
@@ -340,9 +414,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Mol_Bio"
                   style={{ left: '37px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Mol_Bio)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Mol_Bio)}
                 ></input>
               </div>
               <div>
@@ -350,9 +426,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_Science"
                   style={{ left: '21px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_Science)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_Science)}
                 ></input>
                 <span className="profileText" style={{ left: '72px' }}>
                   Chemistry:
@@ -360,9 +438,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Chemistry"
                   style={{ left: '88px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Chemistry)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Chemistry)}
                 ></input>
               </div>
               <div>
@@ -370,9 +450,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="ACT_Composite"
                   style={{ left: '-4px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.ACT_Composite)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.ACT_Composite)}
                 ></input>
                 <span className="profileText" style={{ left: '48px' }}>
                   Physics:
@@ -380,9 +462,11 @@ export class ViewProfileScreen extends Component {
                 <input
                   type="textfield"
                   className="profilePrompt"
+                  id="AP_Physics"
                   style={{ left: '87px' }}
                   disabled={this.state.disabled}
-                  value={this.getScore(student.AP_Physics)}
+                  onChange={this.handleChange}
+                  value={this.getScore(this.state.AP_Physics)}
                 ></input>
               </div>
             </div>
