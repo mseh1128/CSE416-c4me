@@ -1,248 +1,246 @@
 {
-    "colleges": [
+  "colleges": [
+    {
+      "key": 0,
+      "name": "Stony Brook University",
+      "location": "Stony Brook, NY",
+      "ranking": 100,
+      "admission_rate": 40,
+      "completion_rate": 70,
+      "cost": 60000,
+      "debt": 30000,
+      "type": "private for-profit",
+      "size": 5000,
+      "avg_SAT_Math": 650,
+      "avg_EBRW": 700,
+      "avg_ACT": 27,
+
+      "status": "accepted",
+      "reccomendScore": 97,
+
+      "majors": [
         {
-            "key": 0,
-            "name": "Stony Brook University",
-            "location": "Stony Brook, NY",
-            "ranking": 100,
-            "admission_rate": 40,
-            "completion_rate": 70,
-            "cost": 60000,
-            "debt": 30000,
-            "type": "private for-profit",
-            "size": 5000,
-            "avg_SAT_Math": 650,
-            "avg_EBRW": 700,
-            "avg_ACT": 27,
-
-            "status": "accepted",
-            "reccomendScore": 97,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
+          "name": "Computer Science"
         },
         {
-            "key": 1,
-            "name": "Suffolk County Community College",
-            "location": "Selden, NY",
-            "ranking": 100,
-            "admission_rate": 70,
-            "completion_rate": 60,
-            "cost": 20000,
-            "debt": 10000,
-            "type": "public",
-            "size": 3500,
-            "avg_SAT_Math": 550,
-            "avg_EBRW": 600,
-            "avg_ACT": 24,
-
-            "status": "wait-listed",
-            "reccomendScore": 40,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
-        },
-
-
-
-        {
-            "key": 2,
-            "name": "Stony Brook University",
-            "location": "Stony Brook, NY",
-            "ranking": 100,
-            "admission_rate": 40,
-            "completion_rate": 70,
-            "cost": 60000,
-            "debt": 30000,
-            "type": "private for-profit",
-            "size": 5000,
-            "avg_SAT_Math": 650,
-            "avg_EBRW": 700,
-            "avg_ACT": 27,
-
-            "status": "accepted",
-            "reccomendScore": 50,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
+          "name": "Applied Mathematics"
         },
         {
-            "key": 3,
-            "name": "This Name is really long and its even longer and longer and longer",
-            "location": "Selden, NY",
-            "ranking": 100,
-            "admission_rate": 70,
-            "completion_rate": 60,
-            "cost": 20000,
-            "debt": 10000,
-            "type": "public",
-            "size": 3500,
-            "avg_SAT_Math": 550,
-            "avg_EBRW": 600,
-            "avg_ACT": 24,
-
-            "status": "wait-listed",
-            "reccomendScore": 20,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
-        },
-
-        {
-            "key": 4,
-            "name": "Stony Brook University",
-            "location": "Stony Brook, NY",
-            "ranking": 100,
-            "admission_rate": 40,
-            "completion_rate": 70,
-            "cost": 60000,
-            "debt": 30000,
-            "type": "private for-profit",
-            "size": 5000,
-            "avg_SAT_Math": 650,
-            "avg_EBRW": 700,
-            "avg_ACT": 27,
-
-            "status": "accepted",
-            "reccomendScore": 90,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
-        },
-        {
-            "key": 5,
-            "name": "Suffolk County Community College",
-            "location": "Selden, NY",
-            "ranking": 100,
-            "admission_rate": 70,
-            "completion_rate": 60,
-            "cost": 20000,
-            "debt": 10000,
-            "type": "public",
-            "size": 3500,
-            "avg_SAT_Math": 550,
-            "avg_EBRW": 600,
-            "avg_ACT": 24,
-
-            "status": "wait-listed",
-            "reccomendScore": 75,
-
-            "majors": [
-                {
-                    "name": "Computer Science"
-                },
-                {
-                    "name": "Applied Mathematics"
-                },
-                {
-                    "name": "English"
-                } 
-            ],
-            "students": [
-                {
-                    "key": 0,
-                    "userid": "Fib"
-                },
-                {
-                    "key": 1,
-                    "userid": "Onacci"
-                }
-            ]
+          "name": "English"
         }
-    ]
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    },
+    {
+      "key": 1,
+      "name": "Suffolk County Community College",
+      "location": "Selden, NY",
+      "ranking": 100,
+      "admission_rate": 70,
+      "completion_rate": 60,
+      "cost": 20000,
+      "debt": 10000,
+      "type": "public",
+      "size": 3500,
+      "avg_SAT_Math": 550,
+      "avg_EBRW": 600,
+      "avg_ACT": 24,
+
+      "status": "wait-listed",
+      "reccomendScore": 40,
+
+      "majors": [
+        {
+          "name": "Computer Science"
+        },
+        {
+          "name": "Applied Mathematics"
+        },
+        {
+          "name": "English"
+        }
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    },
+
+    {
+      "key": 2,
+      "name": "Stony Brook University",
+      "location": "Stony Brook, NY",
+      "ranking": 100,
+      "admission_rate": 40,
+      "completion_rate": 70,
+      "cost": 60000,
+      "debt": 30000,
+      "type": "private for-profit",
+      "size": 5000,
+      "avg_SAT_Math": 650,
+      "avg_EBRW": 700,
+      "avg_ACT": 27,
+
+      "status": "accepted",
+      "reccomendScore": 50,
+
+      "majors": [
+        {
+          "name": "Computer Science"
+        },
+        {
+          "name": "Applied Mathematics"
+        },
+        {
+          "name": "English"
+        }
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "This Name is really long and its even longer and longer and longer",
+      "location": "Selden, NY",
+      "ranking": 100,
+      "admission_rate": 70,
+      "completion_rate": 60,
+      "cost": 20000,
+      "debt": 10000,
+      "type": "public",
+      "size": 3500,
+      "avg_SAT_Math": 550,
+      "avg_EBRW": 600,
+      "avg_ACT": 24,
+
+      "status": "wait-listed",
+      "reccomendScore": 20,
+
+      "majors": [
+        {
+          "name": "Computer Science"
+        },
+        {
+          "name": "Applied Mathematics"
+        },
+        {
+          "name": "English"
+        }
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    },
+
+    {
+      "key": 4,
+      "name": "Stony Brook University",
+      "location": "Stony Brook, NY",
+      "ranking": 100,
+      "admission_rate": 40,
+      "completion_rate": 70,
+      "cost": 60000,
+      "debt": 30000,
+      "type": "private for-profit",
+      "size": 5000,
+      "avg_SAT_Math": 650,
+      "avg_EBRW": 700,
+      "avg_ACT": 27,
+
+      "status": "accepted",
+      "reccomendScore": 90,
+
+      "majors": [
+        {
+          "name": "Computer Science"
+        },
+        {
+          "name": "Applied Mathematics"
+        },
+        {
+          "name": "English"
+        }
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "Suffolk County Community College",
+      "location": "Selden, NY",
+      "ranking": 100,
+      "admission_rate": 70,
+      "completion_rate": 60,
+      "cost": 20000,
+      "debt": 10000,
+      "type": "public",
+      "size": 3500,
+      "avg_SAT_Math": 550,
+      "avg_EBRW": 600,
+      "avg_ACT": 24,
+
+      "status": "wait-listed",
+      "reccomendScore": 75,
+
+      "majors": [
+        {
+          "name": "Computer Science"
+        },
+        {
+          "name": "Applied Mathematics"
+        },
+        {
+          "name": "English"
+        }
+      ],
+      "students": [
+        {
+          "key": 0,
+          "userid": "Fib"
+        },
+        {
+          "key": 1,
+          "userid": "Onacci"
+        }
+      ]
+    }
+  ]
 }
