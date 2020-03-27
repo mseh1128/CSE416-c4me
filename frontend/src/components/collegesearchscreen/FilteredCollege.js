@@ -105,7 +105,7 @@ class FilteredCollege extends React.Component {
         }
 
         return (
-           <Link to={"/applicationTracker/" + college.name} className='collegeCardSearched' >
+           <Link to={"/applicationTracker/" + college.id} className='collegeCardSearched' >
                 <div class="collegeBoxTitle">
                     <div class="collegeTitle"> {this.getName()} </div> 
                 </div>

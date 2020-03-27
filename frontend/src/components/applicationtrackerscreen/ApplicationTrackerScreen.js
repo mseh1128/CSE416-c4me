@@ -185,10 +185,10 @@ export class ApplicationTrackerScreen extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { name } = ownProps.match.params;
+    const { id } = ownProps.match.params;
     const { colleges } = data.colleges;
-    const college = colleges ? colleges[name] : null;
-    college.name = name;
+    const college = colleges ? colleges[id] : null;
+    college.id = id;
 
     return {
       college

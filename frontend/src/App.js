@@ -38,7 +38,7 @@ function App() {
         <Switch>
             <Route exact path="/" component={LoginScreen} />
             <Route path="/register" component={RegisterScreen} />
-            <Route path="/applicationTracker/:name" component={ApplicationTrackerScreen} />
+            <Route path="/applicationTracker/:id" component={ApplicationTrackerScreen} />
             <Route path="/home" component={StudentScreen} />
             <Route path="/search" component={CollegeSearchScreen} />
             <Route path="/profile" component={ViewProfileScreen} />
