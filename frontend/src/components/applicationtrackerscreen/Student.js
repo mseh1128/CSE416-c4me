@@ -18,6 +18,19 @@ class Student extends React.Component {
     } else return this.props.student.name;
   };
 
+  getMajors = () => {
+    const m1 = this.props.student.major_1
+    const m2 = this.props.student.major_2
+    if(m1 != '' && m2 != '')
+      return m1 + " | " + m2
+    else if(m1 != '' && m2 === '')
+      return m1
+    else if(m2 != '' && m1 === '')
+      return m2
+    else
+      return "Undecided"
+  }
+
   getPercent = (type, amount) => {
     if (type == 'math') {
       return (amount / 800) * 100;
@@ -70,6 +83,10 @@ class Student extends React.Component {
         <div className="studentBoxTitleAndStatus">
             <div className="collegeTitle"> {this.getName()} </div>
             <div className="studentStatus"> {student.status} </div>
+        </div>
+        <div className="collegeLocation"> {student.high_school_name} </div>
+        <div className="collegeType">
+          { this.getMajors() }
         </div>
       </div>
     );
