@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+
 
 //import { connect } from 'react-redux';
 //import { compose } from 'redux';
@@ -15,6 +16,8 @@ import PropTypes from 'prop-types';
 import StudentCollegesList from './StudentCollegesList.js'
 
 import data from '../test/TestStudentData.json'
+
+const axios = require('axios').default;
 
 export class ViewProfileScreen extends Component {
   state = {
@@ -63,48 +66,47 @@ export class ViewProfileScreen extends Component {
     let major1 = document.getElementById("major1").value;
     let major2 = document.getElementById("major2").value;
     let highSchool = document.getElementById("high_school_name").value;
-    let studentResponse = await fetch("http://localhost:5201/updateStudentInfo",
-    {
-      method: 'POST',
-      headers: {'Content-Type': "text/plain"},
-      body: JSON.stringify({
+    const studentResponse = await axios.post("http://localhost:5201/updateStudentInfo",
+      {
         state: resState,
         highSchoolCity: highSchoolCity,
         major1: major1,
         major2: major2,
         highSchool: highSchool,
         id: id
-      })
+      }
+    ).catch(function (error) {
+      console.log(error)
     });
 
-    let gpa = document.getElementById("GPA").value;
-    let satMath = document.getElementById("SAT_Math").value;
-    let satEBRW = document.getElementById("SAT_EBRW").value;
-    let actMath = document.getElementById("ACT_Math").value;
-    let actReading = document.getElementById("ACT_Reading").value;
-    let actSci = document.getElementById("ACT_Science").value;
-    let actComp = document.getElementById("ACT_Composite").value;
-    let actLit = document.getElementById("ACT_Literature").value;
-    let apUSHist = document.getElementById("AP_US_hist").value;
-    let apWorldHist = document.getElementById("AP_World_hist").value;
-    let apMath1 = document.getElementById("AP_Math_1").value;
-    let apMath2 = document.getElementById("AP_Math_2").value;
-    let apEcoBio = document.getElementById("AP_Eco_Bio").value;
-    let apMolBio = document.getElementById("AP_Mol_Bio").value;
-    let apChem = document.getElementById("AP_Chemistry").value;
-    let apPhysics = document.getElementById("AP_Physics").value;
+
+    let gpa = document.getElementById("GPA").value
+    let satMath = ((document.getElementById("SAT_Math").value) !== "Not taken") ? document.getElementById("SAT_Math").value : -1;
+    let satEBRW = ((document.getElementById("SAT_EBRW").value) !== "Not taken") ? document.getElementById("SAT_EBRW").value : -1;
+    let actEng = ((document.getElementById("ACT_English").value) !== "Not taken") ? document.getElementById("ACT_English").value : -1;
+    let actMath = ((document.getElementById("ACT_Math").value) !== "Not taken") ? document.getElementById("ACT_Math").value : -1;
+    let actReading = ((document.getElementById("ACT_Reading").value) !== "Not taken") ? document.getElementById("ACT_Reading").value : -1;
+    let actSci = ((document.getElementById("ACT_Science").value) !== "Not taken") ? document.getElementById("ACT_Science").value : -1;
+    let actComp = ((document.getElementById("ACT_Composite").value) !== "Not taken") ? document.getElementById("ACT_Composite").value : -1;
+    let actLit = ((document.getElementById("ACT_Literature").value) !== "Not taken") ? document.getElementById("ACT_Literature").value : -1;
+    let apUSHist = ((document.getElementById("AP_US_hist").value) !== "Not taken") ? document.getElementById("AP_US_hist").value : -1;
+    let apWorldHist = ((document.getElementById("AP_World_hist").value) !== "Not taken") ? document.getElementById("AP_World_hist").value : -1;
+    let apMath1 = ((document.getElementById("AP_Math_1").value) !== "Not taken") ? document.getElementById("AP_Math_1").value : -1;
+    let apMath2 = ((document.getElementById("AP_Math_2").value) !== "Not taken") ? document.getElementById("AP_Math_2").value : -1;
+    let apEcoBio = ((document.getElementById("AP_Eco_Bio").value) !== "Not taken") ? document.getElementById("AP_Eco_Bio").value : -1;
+    let apMolBio = ((document.getElementById("AP_Mol_Bio").value) !== "Not taken") ? document.getElementById("AP_Mol_Bio").value : -1;
+    let apChem = ((document.getElementById("AP_Chemistry").value) !== "Not taken") ? document.getElementById("AP_Chemistry").value : -1;
+    let apPhysics = ((document.getElementById("AP_Physics").value) !== "Not taken") ? document.getElementById("AP_Physics").value : -1;
     //assumption: most colleges will allow scores of 3, except for elite schools.
     //possibly find a way to make this relevant
     let apPassed = ((apUSHist >= 3) ? 1 : 0) + ((apWorldHist >= 3) ? 1 : 0) + ((apMath1 >= 3) ? 1 : 0) + ((apMath2 >= 3) ? 1 : 0) + ((apChem >= 3) ? 1 : 0) + ((apPhysics >= 3) ? 1 : 0)
 
-    let response = await fetch("http://localhost:5201/updateProfileInfo",
-    {
-      method: 'POST',
-      headers: {'Content-Type': "text/plain"},
-      body: JSON.stringify({
+    let response = await axios.post("http://localhost:5201/updateProfileInfo",
+      {
         gpa: gpa,
         satMath: satMath,
         satEBRW: satEBRW,
+        actEng: actEng,
         actMath: actMath,
         actReading: actReading,
         actSci: actSci,
@@ -120,8 +122,11 @@ export class ViewProfileScreen extends Component {
         apPhysics: apPhysics,
         apPassed: apPassed,
         id: id
-      })
+      }
+    ).catch(function (error) {
+      console.log(error);
     });
+
     this.setState({disabled: true})
   }
 

@@ -31,16 +31,16 @@ module.exports = function(app, connection){
   })
 
   app.post("/updateStudentInfo", (req, res) => {
-    let body = JSON.parse(req.body);
-    let state = body.state;
-    let highSchoolCity = body.highSchoolCity;
-    let major1 = body.major1;
-    let major2= body.major2;
-    let highSchool = body.highSchool;
-    let id = body.id;
+    console.log(req.body)
+    let state = req.body.state;
+    let highSchoolCity = req.body.highSchoolCity;
+    let major1 = req.body.major1;
+    let major2= req.body.major2;
+    let highSchool = req.body.highSchool;
+    let id = req.body.id;
 
-    connection.query(queryUpdateStudentInfo, [state, highSchoolCity, majo1, major2, highSchool, id], (err, rows, params) => {
-      console.log("state: " + state + "; highSchoolCity: " + highSchoolCity + "; first major: " + major1 + "; second major: " + major2 + "; id: " + id)
+    connection.query(queryUpdateStudentInfo, [state, highSchoolCity, major1, major2, highSchool, id], (err, rows, params) => {
+      //console.log("state: " + state + "; highSchoolCity: " + highSchoolCity + "; first major: " + major1 + "; second major: " + major2 + "; id: " + id)
       if (err){
         console.log(err);
         res.sendStatus(500);
@@ -51,26 +51,25 @@ module.exports = function(app, connection){
   });
 
   app.post("/updateProfileInfo", (req, res) => {
-    let body = JSON.parse(req.body);
-    let gpa = body.gpa;
-    let satMath = body.satMath;
-    let satEBRW = body.satEBRW;
-    let actEng = body.actEng;
-    let actMath = body.actMath;
-    let actReading = body.actReading;
-    let actSci = body.actSci;
-    let actComp = body.actComp;
-    let actLit = body.actLit;
-    let apUSHist = body.apUSHist;
-    let apWorldHist = body.apWorldHist;
-    let apMath1 = body.apMath1;
-    let apMath2 = body.apMath2;
-    let apEcoBio = body.apEcoBio;
-    let apMolBio = body.apMolBio;
-    let apChem = body.apChem;
-    let apPhysics = body.apPhysics;
-    let apPassed = body.apPassed;
-    let id = body.id;
+    let gpa = req.body.gpa;
+    let satMath = req.body.satMath;
+    let satEBRW = req.body.satEBRW;
+    let actEng = req.body.actEng;
+    let actMath = req.body.actMath;
+    let actReading = req.body.actReading;
+    let actSci = req.body.actSci;
+    let actComp = req.body.actComp;
+    let actLit = req.body.actLit;
+    let apUSHist = req.body.apUSHist;
+    let apWorldHist = req.body.apWorldHist;
+    let apMath1 = req.body.apMath1;
+    let apMath2 = req.body.apMath2;
+    let apEcoBio = req.body.apEcoBio;
+    let apMolBio = req.body.apMolBio;
+    let apChem = req.body.apChem;
+    let apPhysics = req.body.apPhysics;
+    let apPassed = req.body.apPassed;
+    let id = req.body.id;
 
     connection.query(queryUpdateProfileInfo, [gpa, satMath, satEBRW, actEng, actMath, actReading, actSci, actComp, actLit, apUSHist, apWorldHist, apMath1, apMath2, apEcoBio, apMolBio, apChem, apPhysics, apPassed, id], (err, rows, params) => {
       if (err){
