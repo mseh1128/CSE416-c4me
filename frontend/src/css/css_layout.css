@@ -722,3 +722,15 @@ cursor: hover;
   display: grid;
   grid-template-rows: 20px 70px 75px 75px 75px 75px 32px;
 }
+
+#studentListBanner {
+  display: grid;
+  grid-template-columns: 100px 330px 930px ;
+  background-color: lightskyblue;
+}
+
+#studentList {
+  height: 652px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

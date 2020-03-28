@@ -11,7 +11,8 @@ export class ApplicationTrackerScreen extends Component {
   state = {
     major: '',
     majorIndex: 0,
-    majorList: []
+    majorList: [],
+    college: ''
   };
 
   componentDidMount() {
@@ -19,6 +20,9 @@ export class ApplicationTrackerScreen extends Component {
     console.log('id (key) is: ');
     console.log(id);
 
+    const { colleges } = data;
+    const college = colleges ? colleges[id] : null;
+    this.setState({college: college})
     // do any fetch api requests here & setState
   }
 
@@ -71,19 +75,22 @@ export class ApplicationTrackerScreen extends Component {
       var instances = M.FormSelect.init(elems, options);
     });
 
-    const college = this.props.college;
+    const college = this.state.college;
 
     return (
       <div className="student_screen_container">
         <div className="schoolsContainer">
-          <div id="collegeListBanner">
+          <div id="studentListBanner">
             <div></div>
             <span className="collegeTitleText">
               {' '}
-              {'Application Tracker: ' + college}{' '}
+              Application Tracker:
+            </span>
+            <span className="collegeTitleText">
+              {college.name}
             </span>
           </div>
-          <div id="collegeList"></div>
+          <div id="studentList"></div>
         </div>
         <div className="filtersContainer">
           <div className="filtersBanner">
