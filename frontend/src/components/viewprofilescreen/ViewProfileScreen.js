@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 //import { firestoreConnect } from 'react-redux-firebase';
 
 import 'materialize-css/dist/css/materialize.min.css';
-import M from 'materialize-css';
+import M, { TapTarget } from 'materialize-css';
 import Home from '@material-ui/icons/Home';
 import Edit from '@material-ui/icons/Edit';
 import Save from '@material-ui/icons/Save';
@@ -108,6 +108,71 @@ export class ViewProfileScreen extends Component {
       this.setState(state => ({
         ...state,
         [target.id]: target.value
+      }));
+    }
+  };
+
+  handleChangeSAT = e => {
+    const { target } = e;
+    if (/^\d+$/.test(target.value) || target.value === '')
+    {
+      if(target.value>800)
+      {
+        this.setState(state => ({
+          ...state,
+          [target.id]: 800
+        }));
+        return
+      }
+      else if(target.value>100)
+      {
+        this.setState(state => ({
+          ...state,
+          [target.id]: (target.value - target.value%10)
+        }));
+        return
+      }
+      this.setState(state => ({
+        ...state,
+        [target.id]: (target.value)
+      }));
+    }
+  };
+
+  handleChangeAP = e => {
+    const { target } = e;
+    if (/^\d+$/.test(target.value) || target.value === '')
+    {
+      if(target.value>5)
+      {
+        this.setState(state => ({
+          ...state,
+          [target.id]: 5
+        }));
+        return
+      }
+      this.setState(state => ({
+        ...state,
+        [target.id]: (target.value)
+      }));
+    }
+  };
+
+  handleChangeACT = e => {
+    const { target } = e;
+    if (/^\d+$/.test(target.value) || target.value === '')
+    {
+      if(target.value>36)
+      {
+        this.setState(state => ({
+          ...state,
+          [target.id]: 36
+        }));
+        return
+      }
+      this.setState(state => ({
+        ...state,
+        [target.id]: (target.value)
       }));
     }
   };
@@ -296,7 +361,7 @@ export class ViewProfileScreen extends Component {
                   id="SAT_Math"
                   style={{ left: '41px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeSAT}
                   value={this.getScore(this.state.SAT_Math)}
                 ></input>
                 <span className="profileText" style={{ left: '91px' }}>
@@ -308,7 +373,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_US_hist"
                   style={{ left: '164px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_US_hist)}
                 ></input>
               </div>
@@ -320,7 +385,7 @@ export class ViewProfileScreen extends Component {
                   id="SAT_EBRW"
                   style={{ left: '29px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeSAT}
                   value={this.getScore(this.state.SAT_EBRW)}
                 ></input>
                 <span className="profileText" style={{ left: '80px' }}>
@@ -332,7 +397,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_World_hist"
                   style={{ left: '127px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_World_hist)}
                 ></input>
               </div>
@@ -344,7 +409,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_Math"
                   style={{ left: '36px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_Math)}
                 ></input>
                 <span className="profileText" style={{ left: '87px' }}>
@@ -356,7 +421,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Math_1"
                   style={{ left: '131px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Math_1)}
                 ></input>
               </div>
@@ -368,7 +433,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_English"
                   style={{ left: '20px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_English)}
                 ></input>
                 <span className="profileText" style={{ left: '71px' }}>
@@ -380,7 +445,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Math_2"
                   style={{ left: '108px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Math_2)}
                 ></input>
               </div>
@@ -392,7 +457,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_Reading"
                   style={{ left: '14px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_Reading)}
                 ></input>
                 <span className="profileText" style={{ left: '65px' }}>
@@ -404,7 +469,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Eco_Bio"
                   style={{ left: '103px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Eco_Bio)}
                 ></input>
               </div>
@@ -416,7 +481,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_Literature"
                   style={{ left: '-1px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_Literature)}
                 ></input>
                 <span className="profileText" style={{ left: '49px' }}>
@@ -428,7 +493,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Mol_Bio"
                   style={{ left: '37px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Mol_Bio)}
                 ></input>
               </div>
@@ -440,7 +505,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_Science"
                   style={{ left: '21px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_Science)}
                 ></input>
                 <span className="profileText" style={{ left: '72px' }}>
@@ -452,7 +517,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Chemistry"
                   style={{ left: '88px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Chemistry)}
                 ></input>
               </div>
@@ -464,7 +529,7 @@ export class ViewProfileScreen extends Component {
                   id="ACT_Composite"
                   style={{ left: '-4px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeACT}
                   value={this.getScore(this.state.ACT_Composite)}
                 ></input>
                 <span className="profileText" style={{ left: '48px' }}>
@@ -476,7 +541,7 @@ export class ViewProfileScreen extends Component {
                   id="AP_Physics"
                   style={{ left: '87px' }}
                   disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
+                  onChange={this.handleChangeAP}
                   value={this.getScore(this.state.AP_Physics)}
                 ></input>
               </div>
