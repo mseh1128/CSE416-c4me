@@ -6,6 +6,7 @@ import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 
 import data from '../test/TestCollegeData.json';
+import StudentList from './StudentList';
 
 export class ApplicationTrackerScreen extends Component {
   state = {
@@ -27,9 +28,9 @@ export class ApplicationTrackerScreen extends Component {
   }
 
   goCollegeSearch = () => {
-    console.log('college search');
+    this.props.history.push('/search');
   };
-
+  
   updateMajor = () => {
     let newMajor = document.getElementById('major').value;
     this.setState({ major: newMajor });
@@ -90,7 +91,9 @@ export class ApplicationTrackerScreen extends Component {
               {college.name}
             </span>
           </div>
-          <div id="studentList"></div>
+          <div id="studentList">
+            <StudentList></StudentList>
+          </div>
         </div>
         <div className="filtersContainer">
           <div className="filtersBanner">

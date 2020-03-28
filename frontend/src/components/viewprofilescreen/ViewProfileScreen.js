@@ -19,32 +19,32 @@ import data from '../test/TestStudentData.json';
 export class ViewProfileScreen extends Component {
   state = {
     disabled: true,
-    userIDInput: data.student.userID,
-    name: data.student.name,
-    residence_state: data.student.residence_state,
-    high_school_name: data.student.high_school_name,
-    high_school_city: data.student.high_school_city,
-    high_school_state: data.student.high_school_state,
-    GPA: data.student.GPA,
-    college_class: data.student.college_class,
-    major1: data.student.major_1,
-    major2: data.student.major_2,
-    SAT_Math: data.student.SAT_Math,
-    SAT_EBRW: data.student.SAT_EBRW,
-    ACT_English: data.student.ACT_English,
-    ACT_Math: data.student.ACT_Math,
-    ACT_Reading: data.student.ACT_Reading,
-    ACT_Science: data.student.ACT_Science,
-    ACT_Composite: data.student.ACT_Composite,
-    ACT_Literature: data.student.ACT_Literature,
-    AP_US_hist: data.student.AP_US_hist,
-    AP_World_hist: data.student.AP_World_hist,
-    AP_Math_1: data.student.AP_Math_1,
-    AP_Math_2: data.student.AP_Math_2,
-    AP_Eco_Bio: data.student.AP_Eco_Bio,
-    AP_Mol_Bio: data.student.AP_Mol_Bio,
-    AP_Chemistry: data.student.AP_Chemistry,
-    AP_Physics: data.student.AP_Physics
+    userIDInput: data.students[0].userID,
+    name: data.students[0].name,
+    residence_state: data.students[0].residence_state,
+    high_school_name: data.students[0].high_school_name,
+    high_school_city: data.students[0].high_school_city,
+    high_school_state: data.students[0].high_school_state,
+    GPA: data.students[0].GPA,
+    college_class: data.students[0].college_class,
+    major1: data.students[0].major_1,
+    major2: data.students[0].major_2,
+    SAT_Math: data.students[0].SAT_Math,
+    SAT_EBRW: data.students[0].SAT_EBRW,
+    ACT_English: data.students[0].ACT_English,
+    ACT_Math: data.students[0].ACT_Math,
+    ACT_Reading: data.students[0].ACT_Reading,
+    ACT_Science: data.students[0].ACT_Science,
+    ACT_Composite: data.students[0].ACT_Composite,
+    ACT_Literature: data.students[0].ACT_Literature,
+    AP_US_hist: data.students[0].AP_US_hist,
+    AP_World_hist: data.students[0].AP_World_hist,
+    AP_Math_1: data.students[0].AP_Math_1,
+    AP_Math_2: data.students[0].AP_Math_2,
+    AP_Eco_Bio: data.students[0].AP_Eco_Bio,
+    AP_Mol_Bio: data.students[0].AP_Mol_Bio,
+    AP_Chemistry: data.students[0].AP_Chemistry,
+    AP_Physics: data.students[0].AP_Physics
   };
 
   goHome = () => {
@@ -66,7 +66,7 @@ export class ViewProfileScreen extends Component {
       body: JSON.stringify({
         category: attribute,
         value: info,
-        userID: data.student.userID
+        userID: data.students[0].userID
       })
     });
   };
@@ -81,7 +81,7 @@ export class ViewProfileScreen extends Component {
       body: JSON.stringify({
         category: attribute,
         value: info,
-        userID: data.student.userID
+        userID: data.students[0].userID
       })
     });
   };

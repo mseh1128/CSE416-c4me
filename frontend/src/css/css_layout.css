@@ -734,3 +734,33 @@ cursor: hover;
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.student-list {
+  display: grid;
+  grid-template-columns: 371px 371px 670px;
+  grid-template-rows: repeat(100, 320px);
+}
+
+.studentCard {
+  background-color: aquamarine;
+  margin-left: 20px;
+  height: 305px;
+  width: 350px;
+}
+
+.studentBoxTitleAndStatus {
+  display: grid;
+  grid-template-columns: 255px 128px;
+  top: 10px;
+  position: relative;
+}
+
+.studentStatus { 
+  background-color: lightcyan;
+  height: 36px;
+  border-radius: 50%;
+  text-align: center;
+  width: 90px;
+  padding-top: 5px;
+  font-size: large;
+}
