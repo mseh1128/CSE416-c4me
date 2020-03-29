@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-//import { connect } from 'react-redux';
-//import { compose } from 'redux';
-//import { firestoreConnect } from 'react-redux-firebase';
-
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css';
 import Add from '@material-ui/icons/Add';
@@ -91,6 +87,7 @@ export class StudentScreen extends Component {
     this.setState({ majorList: newList });
   };
 
+  //updates the filter state whenever a filter updates
   handleChange = e => {
     const { target } = e;
     let newFilters = this.state.filters

@@ -17,6 +17,7 @@ import StudentCollegesList from './StudentCollegesList.js';
 import data from '../test/TestStudentData.json';
 
 export class ViewProfileScreen extends Component {
+  //current way state obtains data is temporary to assist frontend development
   state = {
     disabled: true,
     userIDInput: data.students[0].userID,
@@ -100,7 +101,7 @@ export class ViewProfileScreen extends Component {
     }));
   };
 
-
+  //ensures that only numbers can be entered for certain inputs
   handleChangeNumber = e => {
     const { target } = e;
     if (/^\d+$/.test(target.value) || target.value === '')
@@ -112,6 +113,7 @@ export class ViewProfileScreen extends Component {
     }
   };
 
+  //ensures that only the correct range of numbers and entered
   handleChangeSAT = e => {
     const { target } = e;
     if (/^\d+$/.test(target.value) || target.value === '')
@@ -139,6 +141,7 @@ export class ViewProfileScreen extends Component {
     }
   };
 
+  //ensures that only the correct range of numbers and entered
   handleChangeAP = e => {
     const { target } = e;
     if (/^\d+$/.test(target.value) || target.value === '')
@@ -158,6 +161,7 @@ export class ViewProfileScreen extends Component {
     }
   };
 
+  //ensures that only the correct range of numbers and entered
   handleChangeACT = e => {
     const { target } = e;
     if (/^\d+$/.test(target.value) || target.value === '')

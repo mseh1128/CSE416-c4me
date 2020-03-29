@@ -18,6 +18,7 @@ class StudentCollege extends React.Component {
     status: this.props.college.status
   };
 
+  //cuts a name short if the name of the college is too long for the card
   getName = () => {
     if (this.props.college.name.length > 51) {
       let tempName = this.props.college.name.substring(0, 50) + '...';
