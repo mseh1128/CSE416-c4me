@@ -196,7 +196,7 @@ export class CollegeSeachScreen extends Component {
           <div>
             <button className="searchCollegeBtn" onClick={this.goCollegeSearch}>
               {' '}
-              Start college search{' '}
+              Search Again{' '}
             </button>
             <button
               className="searchCollegeBtn"
