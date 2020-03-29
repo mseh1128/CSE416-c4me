@@ -14,76 +14,76 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 class StudentCollege extends React.Component {
-  state = {
-    status: this.props.college.status
-  };
+	state = {
+		status: this.props.college.status
+	};
 
-  //cuts a name short if the name of the college is too long for the card
-  getName = () => {
-    if (this.props.college.name.length > 51) {
-      let tempName = this.props.college.name.substring(0, 50) + '...';
-      return tempName;
-    } else return this.props.college.name;
-  };
+	//cuts a name short if the name of the college is too long for the card
+	getName = () => {
+		if (this.props.college.name.length > 51) {
+			let tempName = this.props.college.name.substring(0, 50) + '...';
+			return tempName;
+		} else return this.props.college.name;
+	};
 
-  getStyle = key => {
-    if (key % 2 === 0) return { backgroundcolor: 'lightgrey' };
-    else return { color: 'white' };
-  };
+	getStyle = key => {
+		if (key % 2 === 0) return { backgroundcolor: 'lightgrey' };
+		else return { color: 'white' };
+	};
 
-  getStatus = () => {
-    return this.state.status;
-  };
+	getStatus = () => {
+		return this.state.status;
+	};
 
-  changeStatus = newStatus => {
-    this.setState({ status: newStatus });
-  };
+	changeStatus = newStatus => {
+		this.setState({ status: newStatus });
+	};
 
-  render() {
-    var elem = document.querySelector('.tabs');
-    var options = {};
-    var instance = M.Tabs.init(elem, options);
+	render() {
+		var elem = document.querySelector('.tabs');
+		var options = {};
+		var instance = M.Tabs.init(elem, options);
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.collapsible');
-      var instances = M.Collapsible.init(elems, options);
-    });
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.collapsible');
+			var instances = M.Collapsible.init(elems, options);
+		});
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.dropdown-trigger');
-      var instances = M.Dropdown.init(elems, options);
-    });
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.dropdown-trigger');
+			var instances = M.Dropdown.init(elems, options);
+		});
 
-    const college = this.props.college;
+		const college = this.props.college;
 
-    const dropdownOptions = [
-      'pending',
-      'accepted',
-      'denied',
-      'deferrd',
-      'wait-listed',
-      'withdrawn'
-    ];
-    const defaultOption = dropdownOptions[0];
+		const dropdownOptions = [
+			'pending',
+			'accepted',
+			'denied',
+			'deferrd',
+			'wait-listed',
+			'withdrawn'
+		];
+		const defaultOption = dropdownOptions[0];
 
-    return (
-      <div
-        className={'collegeCardProfile' + (college.key % 2)}
-        id={'collegecard' + college.key}
-      >
-        <div className="collegeBoxTitleAndStatusProfile">
-          <div className="collegeTitleProfile"> {this.getName()} </div>
-          <Dropdown
-            disabled={this.props.disabled}
-            options={dropdownOptions}
-            onChange={this._onSelect}
-            value={this.getStatus()}
-            placeholder="Select an option"
-          />
-        </div>
-      </div>
-    );
-  }
+		return (
+			<div
+				className={'collegeCardProfile' + (college.key % 2)}
+				id={'collegecard' + college.key}
+			>
+				<div className='collegeBoxTitleAndStatusProfile'>
+					<div className='collegeTitleProfile'> {this.getName()} </div>
+					<Dropdown
+						disabled={this.props.disabled}
+						options={dropdownOptions}
+						onChange={this._onSelect}
+						value={this.getStatus()}
+						placeholder='Select an option'
+					/>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default StudentCollege;

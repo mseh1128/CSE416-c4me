@@ -7,16 +7,16 @@ import FilteredCollege from './FilteredCollege.js';
 import data from '../test/TestCollegeData.json';
 
 class FilteredCollegesList extends React.Component {
-  render() {
-    return (
-      <div className="college-list section">
-        {data.colleges.map(college => {
-          const { key } = college;
-          return <FilteredCollege key={key} college={college} />;
-        })}
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div className='college-list section'>
+				{data.colleges.map(college => {
+					const { key } = college;
+					return <FilteredCollege key={key} college={college} />;
+				})}
+			</div>
+		);
+	}
 }
 
 export default FilteredCollegesList;

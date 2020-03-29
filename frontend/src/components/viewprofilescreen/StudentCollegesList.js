@@ -4,24 +4,21 @@ import React from 'react';
 import StudentCollege from './StudentCollege';
 //import { firestoreConnect } from 'react-redux-firebase';
 
-import data from '../test/TestCollegeData.json'
+import data from '../test/TestCollegeData.json';
 
 class StudentCollegesList extends React.Component {
-    render() {
+	render() {
+		const disabled = this.props.disabled;
 
-        const disabled = this.props.disabled
-
-        return (
-            <div className="college-listProfile">
-                { data.colleges.map(function(college) {
-                    college.id = college.key;
-                    return (
-                        <StudentCollege college={college} disabled={disabled}/>
-                    );})
-                }
-            </div>
-        );
-    }
+		return (
+			<div className='college-listProfile'>
+				{data.colleges.map(function(college) {
+					college.id = college.key;
+					return <StudentCollege college={college} disabled={disabled} />;
+				})}
+			</div>
+		);
+	}
 }
 
-export default StudentCollegesList
+export default StudentCollegesList;

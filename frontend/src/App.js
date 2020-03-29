@@ -14,23 +14,23 @@ import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.
 import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Navbar></Navbar>
-      <Switch>
-        <Route exact path="/" component={LoginScreen} />
-        <Route path="/register" component={RegisterScreen} />
-        <Route
-          path="/applicationTracker/:id"
-          component={ApplicationTrackerScreen}
-        />
-        <Route path="/home" component={StudentScreen} />
-        <Route path="/search" component={CollegeSearchScreen} />
-        <Route path="/profile" component={ViewProfileScreen} />
-        <Route path="/:any" component={StudentScreen} />
-      </Switch>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Navbar></Navbar>
+			<Switch>
+				<Route exact path='/' component={LoginScreen} />
+				<Route path='/register' component={RegisterScreen} />
+				<Route
+					path='/applicationTracker/:id'
+					component={ApplicationTrackerScreen}
+				/>
+				<Route path='/home' component={StudentScreen} />
+				<Route path='/search' component={CollegeSearchScreen} />
+				<Route path='/profile' component={ViewProfileScreen} />
+				<Route path='/:any' component={StudentScreen} />
+			</Switch>
+		</BrowserRouter>
+	);
 }
 
 export default App;

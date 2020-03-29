@@ -1,766 +1,773 @@
 html {
-  min-height: 100%;
+	min-height: 100%;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	min-height: 100%;
 }
 
 body {
-  position: absolute;
-  width: 80%;
-  left: 10%;
-  top: 5%;
+	position: absolute;
+	width: 80%;
+	left: 10%;
+	top: 5%;
 }
 
 div.banner {
-  padding: 20px;
-  margin-top: 35px;
+	padding: 20px;
+	margin-top: 35px;
 }
 
 form {
-  padding: 20px;
-  margin-top: 60px;
+	padding: 20px;
+	margin-top: 60px;
 }
 
-form button, form h5 {
-  margin: 20px 0;
+form button,
+form h5 {
+	margin: 20px 0;
 }
 
 #navbar {
-
 }
 
 #logoContainer {
-  background-color: white;
-  height: 30px;
-  width: 55%;
-  top: 16px;
-  position: absolute;
+	background-color: white;
+	height: 30px;
+	width: 55%;
+	top: 16px;
+	position: absolute;
 }
 
 #logoContainer:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 #editContainer {
-  background-color: rgb(102, 176, 201);
-  border-radius: 10%;
-  height: 30px;
-  width: 97px;
-  top: 16px;
-  left: 73%;
-  position: absolute;
-  text-align: center;
+	background-color: rgb(102, 176, 201);
+	border-radius: 10%;
+	height: 30px;
+	width: 97px;
+	top: 16px;
+	left: 73%;
+	position: absolute;
+	text-align: center;
 }
 
 #logOutContainer {
-  background-color: rgb(102, 176, 201);
-  border-radius: 10%;
-  height: 30px;
-  width: 97px;
-  top: 16px;
-  left: 82%;
-  position: absolute;
-  text-align: center;
+	background-color: rgb(102, 176, 201);
+	border-radius: 10%;
+	height: 30px;
+	width: 97px;
+	top: 16px;
+	left: 82%;
+	position: absolute;
+	text-align: center;
 }
 
-#logoContainer:hover, #editContainer:hover {
-  cursor: pointer;
+#logoContainer:hover,
+#editContainer:hover {
+	cursor: pointer;
 }
 
 #logo {
-  color: black;
-  position: relative;
-  left: 47%;
-  bottom: 17px;
-  height: 50%;
-  
+	color: black;
+	position: relative;
+	left: 47%;
+	bottom: 17px;
+	height: 50%;
 }
 
-#editLogo, #logOutLogo {
-  color: black;
-  position: relative;
-  bottom: 17px;
-  height: 50%;
+#editLogo,
+#logOutLogo {
+	color: black;
+	position: relative;
+	bottom: 17px;
+	height: 50%;
 }
 
-#logo:hover, #editLogo:hover, #logOutLogo:hover  {
-cursor: hover;
+#logo:hover,
+#editLogo:hover,
+#logOutLogo:hover {
+	cursor: hover;
 }
 
 .student_screen_container {
-  display: grid;
-  grid-template-columns: 1150px 350px;
+	display: grid;
+	grid-template-columns: 1150px 350px;
 }
 
 .schoolsContainer {
-  background-color: white;
-  height: 700px;
-  top: 20px;
-  position: relative;
+	background-color: white;
+	height: 700px;
+	top: 20px;
+	position: relative;
 }
 
 #collegeList {
-  height: 652px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+	height: 652px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .filtersContainer {
-  background-color: white;
-  height: 700px;
-  top: 20px;
-  left: 22px;
-  text-align: center;
-  position: relative;
-  display: grid;
-  grid-template-rows: 50px 55px 49px 49px 49px 49px 49px 49px 45px 65px 56px 50px;
+	background-color: white;
+	height: 700px;
+	top: 20px;
+	left: 22px;
+	text-align: center;
+	position: relative;
+	display: grid;
+	grid-template-rows: 50px 55px 49px 49px 49px 49px 49px 49px 45px 65px 56px 50px;
 }
 
 .filtersBanner {
-  background-color: lightskyblue;
-  height: 48px;
+	background-color: lightskyblue;
+	height: 48px;
 }
 
 #filterHeaderText {
-  font-size:xx-large;
-  right: 30%;
-  position: relative;
-  font-weight: bold;
+	font-size: xx-large;
+	right: 30%;
+	position: relative;
+	font-weight: bold;
 }
 
 #strictText {
-  color: darkslategrey;
-  right: 30%;
+	color: darkslategrey;
+	right: 30%;
 }
 
 #strictBox {
-  position: relative;
+	position: relative;
 }
 
 #strictBox:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 #strictBoxLocation {
-  margin-top: -70px;
-  margin-left: 220px;
+	margin-top: -70px;
+	margin-left: 220px;
 }
 
 #filtersText {
-  text-align: center;  position: relative;
-  font-weight: bold;
+	text-align: center;
+	position: relative;
+	font-weight: bold;
 }
 
 #nameFilter {
-  top: -8px;
-  width: 70%;
-  left: 14%
+	top: -8px;
+	width: 70%;
+	left: 14%;
 }
 
 .admissionRateFilter {
-  height: 50px;
+	height: 50px;
 }
 
 .admissionRate {
-  width: 50px;
+	width: 50px;
 }
 
 .costFilter {
-  height: 50px;
+	height: 50px;
 }
 
 .cost {
-  width: 70px;
+	width: 70px;
 }
 
 .rankFilter {
-  height: 50px;
+	height: 50px;
 }
 
 .rank {
-  width: 50px;
+	width: 50px;
 }
 
 .sizeFilter {
-  height: 50px;
+	height: 50px;
 }
 
 .size {
-  width: 70px;
+	width: 70px;
 }
 
 .scoreFilter {
-  height: 50px;
+	height: 50px;
 }
 
 .score {
-  width: 70px;
+	width: 70px;
 }
 
 #locationFilter {
-  width: 70%;
-  left: 14%;
+	width: 70%;
+	left: 14%;
 }
 
 #majorFilterContainer {
-  display: grid;
-  grid-template-columns: 349px 1px;
+	display: grid;
+	grid-template-columns: 349px 1px;
 }
 
 #majorFilter {
-  top: -8px;
-  width: 55%;
-  left: 14%
+	top: -8px;
+	width: 55%;
+	left: 14%;
 }
 
 #enterMajorBtn {
-  height: 40px;
-  width: 40px;
-  right: 95px;
-  top: 10px;
-  position: relative;
+	height: 40px;
+	width: 40px;
+	right: 95px;
+	top: 10px;
+	position: relative;
 }
 
 #chosenMajorContainer {
-  height: 52px;
-  width: 250px;
-  left: 13%;
-  position: relative;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
+	height: 52px;
+	width: 250px;
+	left: 13%;
+	position: relative;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
 }
 
 .majorListBox {
-  display: grid;
-  text-align: left;
-
+	display: grid;
+	text-align: left;
 }
 
-.majorItem{
-  display: grid;
-  grid-template-columns: 215px 33px;
+.majorItem {
+	display: grid;
+	grid-template-columns: 215px 33px;
 }
 
-.deleteMajorBtn{
-  height: 25px;
+.deleteMajorBtn {
+	height: 25px;
 }
 
 #searchCollegeBtn {
-  height: 70px;
-  width: 300px;
-  top: 5%;
-  position: relative;
+	height: 70px;
+	width: 300px;
+	top: 5%;
+	position: relative;
 }
 
 #searchCollegeBtn:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .searchCollegeBtn {
-  height: 40px;
-  width: 300px;
-  top: 5%;
-  position: relative;
+	height: 40px;
+	width: 300px;
+	top: 5%;
+	position: relative;
 }
 
 .searchCollegeBtn:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .collegeTitleText {
-  font-size: xx-large;
-  font-weight: bold;
+	font-size: xx-large;
+	font-weight: bold;
 }
 
 .collegeBodyText {
-  font-size: large;
-  font-weight: 600;
+	font-size: large;
+	font-weight: 600;
 }
 
 #collegeListBanner {
-  display: grid;
-  grid-template-columns: 100px 320px 230px 150px 120px 300px;
-  background-color: lightskyblue;
+	display: grid;
+	grid-template-columns: 100px 320px 230px 150px 120px 300px;
+	background-color: lightskyblue;
 }
 
 .college-list {
-  display: grid;
-  grid-template-columns: 555px 670px;
-  grid-template-rows: repeat(100, 320px);
+	display: grid;
+	grid-template-columns: 555px 670px;
+	grid-template-rows: repeat(100, 320px);
 }
 
 .collegeCard {
-  background-color: aquamarine;
-  margin-left: 20px;
-  height: 305px;
-  width: 540px;
+	background-color: aquamarine;
+	margin-left: 20px;
+	height: 305px;
+	width: 540px;
 }
 
 .collegeCardSearched {
-  background-color: aquamarine;
-  margin-left: 20px;
-  height: 305px;
-  width: 540px;
+	background-color: aquamarine;
+	margin-left: 20px;
+	height: 305px;
+	width: 540px;
 }
 
 .collegeCardSearched:hover {
-  cursor: pointer;
-  background-color: lightblue;
+	cursor: pointer;
+	background-color: lightblue;
 }
 
 .collegeTitle {
-  font-size: x-large;
-  font-weight: bold;
-  margin-left: 20px;
-  position: relative;
-  color: black;
+	font-size: x-large;
+	font-weight: bold;
+	margin-left: 20px;
+	position: relative;
+	color: black;
 }
 
 .collegeLocation {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  top: 10px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	top: 10px;
+	position: relative;
 }
 
 .collegeType {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  top: 50px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	top: 50px;
+	position: relative;
 }
 
 .collegeText {
-  font-weight: 100;
-  color: darkslategrey;
+	font-weight: 100;
+	color: darkslategrey;
 }
 
-
 .collegeBoxTitle {
-  top: 10px;
-  position: relative;
+	top: 10px;
+	position: relative;
 }
 
 .collegeBoxTitleAndStatus {
-  display: grid;
-  grid-template-columns: 403px 128px;
-  top: 10px;
-  position: relative;
+	display: grid;
+	grid-template-columns: 403px 128px;
+	top: 10px;
+	position: relative;
 }
 
 #dropdwn {
-  color: blue;
+	color: blue;
 }
 
 .collegeBoxSizeAndMath {
-  display: grid;
-  grid-template-columns: 115px 1000px;
+	display: grid;
+	grid-template-columns: 115px 1000px;
 }
 
 .collegeBoxSizeAndBar {
-  display: grid;
-  grid-template-columns: 115px 15px 250px;
-  margin-top: 60px;
+	display: grid;
+	grid-template-columns: 115px 15px 250px;
+	margin-top: 60px;
 }
 
 .collegeBoxCostAndEnglish {
-  display: grid;
-  grid-template-columns: 115px 1000px;
+	display: grid;
+	grid-template-columns: 115px 1000px;
 }
 
 .collegeBoxCostAndBar {
-  display: grid;
-  grid-template-columns: 115px 15px 250px 20px;
+	display: grid;
+	grid-template-columns: 115px 15px 250px 20px;
 }
 
 .collegeBoxDebtAndACT {
-  display: grid;
-  grid-template-columns: 115px 1000px;
+	display: grid;
+	grid-template-columns: 115px 1000px;
 }
 
 .collegeBoxDebtAndBar {
-  display: grid;
-  grid-template-columns: 115px 15px 250px;
+	display: grid;
+	grid-template-columns: 115px 15px 250px;
 }
 
 .collegeSize1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  top: 60px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	top: 60px;
+	position: relative;
 }
 
 .collegeMath1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  top: 60px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	top: 60px;
+	position: relative;
 }
 
 .collegeMath2 {
-  font-size: medium;
-  color: black;
-  position: relative;
+	font-size: medium;
+	color: black;
+	position: relative;
 }
 
 .collegeSize2 {
-  font-size: medium;
-  margin-left: 20px;
-  position: relative;
-  color: black;
+	font-size: medium;
+	margin-left: 20px;
+	position: relative;
+	color: black;
 }
 
 .collegeCost1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	position: relative;
 }
 
 .collegeEnglish1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	position: relative;
 }
 
 .collegeEnglish2 {
-  font-size: medium;
-  color: black;
-  position: relative;
+	font-size: medium;
+	color: black;
+	position: relative;
 }
 
 .collegeCost2 {
-  font-size: medium;
-  margin-left: 20px;
-  color: black;
-  position: relative;
+	font-size: medium;
+	margin-left: 20px;
+	color: black;
+	position: relative;
 }
 
 .collegeDebt1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	position: relative;
 }
 
 .collegeACT1 {
-  font-size: medium;
-  color: grey;
-  margin-left: 20px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	position: relative;
 }
 
 .collegeACT2 {
-  font-size: medium;
-  color: black;
-  position: relative;
+	font-size: medium;
+	color: black;
+	position: relative;
 }
 
 .collegeDebt2 {
-  font-size: medium;
-  margin-left: 20px;
-  position: relative;
-  color: black;
+	font-size: medium;
+	margin-left: 20px;
+	position: relative;
+	color: black;
 }
 
 .collegeAdmission {
-  font-size: medium;
-  color: grey;
-  top: 50px;
-  position: relative;
+	font-size: medium;
+	color: grey;
+	top: 50px;
+	position: relative;
 }
 
 #collegeBanner {
-  display: grid;
-  grid-template-columns: 400px 250px 130px 200px 100px;
+	display: grid;
+	grid-template-columns: 400px 250px 130px 200px 100px;
 }
 
 #collegeBanner:hover {
-  background-color: lightcyan;
+	background-color: lightcyan;
 }
 
 #collegeBody {
-  display: grid;
-  grid-template-columns: 200px 240px 240px 190px 145px 95px;
+	display: grid;
+	grid-template-columns: 200px 240px 240px 190px 145px 95px;
 }
 
 .collegeMoney {
-  position: relative;
-  top: -6px;
-  display: grid;
-  grid-template-rows: 22px 20px;
+	position: relative;
+	top: -6px;
+	display: grid;
+	grid-template-rows: 22px 20px;
 }
 
 .collegeScores {
-  position: relative;
-  top: -21px;
-  display: grid;
-  grid-template-rows: 22px 20px 20px;
+	position: relative;
+	top: -21px;
+	display: grid;
+	grid-template-rows: 22px 20px 20px;
 }
 
 .react-sweet-progress-circle-outer {
-  left: 400px;
-  bottom: 115px;
+	left: 400px;
+	bottom: 115px;
 }
 
 .profileContainer {
-  background-color: white;
-  height: 570px;
-  top: 20px;
-  position: relative;
+	background-color: white;
+	height: 570px;
+	top: 20px;
+	position: relative;
 }
 
 #profileList {
-  display: grid;
-  grid-template-columns: 756px 750px;
-  grid-template-rows: 210px 210px;
+	display: grid;
+	grid-template-columns: 756px 750px;
+	grid-template-rows: 210px 210px;
 }
 
 #generalInfoList {
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 10px;
-  height: 200px;
-  width: 745px;
-  border-color: lightgray;
-  border-width: 4px;
-  border-style: outset;
-  display: grid;
-  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
+	background-color: white;
+	margin-left: 10px;
+	margin-top: 10px;
+	height: 200px;
+	width: 745px;
+	border-color: lightgray;
+	border-width: 4px;
+	border-style: outset;
+	display: grid;
+	grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
 }
 
 #educationInfoList {
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 10px;
-  height: 290px;
-  width: 745px;
-  border-color: lightgray;
-  border-width: 4px;
-  border-style: outset;
-  display: grid;
-  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
+	background-color: white;
+	margin-left: 10px;
+	margin-top: 10px;
+	height: 290px;
+	width: 745px;
+	border-color: lightgray;
+	border-width: 4px;
+	border-style: outset;
+	display: grid;
+	grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
 }
-
 
 #collegeInfoList {
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 10px;
-  height: 500px;
-  width: 745px;
-  border-color: lightgray;
-  border-width: 4px;
-  border-style: outset;
-  display: grid;
-  grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+	background-color: white;
+	margin-left: 10px;
+	margin-top: 10px;
+	height: 500px;
+	width: 745px;
+	border-color: lightgray;
+	border-width: 4px;
+	border-style: outset;
+	display: grid;
+	grid-template-rows: 40px 30px 30px 30px 30px 30px 30px 30px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
-.collegeCardProfile0, .collegeCardProfile1 {
-  width: 737px;
+.collegeCardProfile0,
+.collegeCardProfile1 {
+	width: 737px;
 }
 
-.collegeCardProfile0{
-  background-color: white;
+.collegeCardProfile0 {
+	background-color: white;
 }
 
 .collegeCardProfile1 {
-  background-color: lightgrey;
-  height: 50px;
+	background-color: lightgrey;
+	height: 50px;
 }
 
 .college-listProfile {
-  display: grid;
-  grid-template-rows: repeat(100, 50px);
+	display: grid;
+	grid-template-rows: repeat(100, 50px);
 }
 
 .collegeBoxTitleAndStatusProfile {
-  display: grid;
-  grid-template-columns: 585px 128px;
-  margin-top: 5px;
-  position: relative;
+	display: grid;
+	grid-template-columns: 585px 128px;
+	margin-top: 5px;
+	position: relative;
 }
 
 .collegeTitleProfile {
-  font-size: x-large;
-  font-weight: bold;
-  margin-left: 20px;
+	font-size: x-large;
+	font-weight: bold;
+	margin-left: 20px;
 
-  position: relative;
-  color: black;
+	position: relative;
+	color: black;
 }
 
 .profileHeader {
-  position: relative;
-  font-size: x-large;
-  font-weight: bold;
-  background-color: lightblue;
-  top: -4px;
-  width: 350px;
-  border-style: outset;
-  border-width: 2px;
+	position: relative;
+	font-size: x-large;
+	font-weight: bold;
+	background-color: lightblue;
+	top: -4px;
+	width: 350px;
+	border-style: outset;
+	border-width: 2px;
 }
 
 .profileText {
-  position: relative;
-  font-size: large;
-  text-indent: 10px;
-  left: 10px;
-  font-weight: bold;
-
+	position: relative;
+	font-size: large;
+	text-indent: 10px;
+	left: 10px;
+	font-weight: bold;
 }
 
 .profilePrompt {
-  position: relative;
-  font-size: large;
-  width: 203px;
-  text-indent: 10px;
-  margin-left: 20px;
-  font-weight: bold;
-  background-color: lightgoldenrodyellow;
+	position: relative;
+	font-size: large;
+	width: 203px;
+	text-indent: 10px;
+	margin-left: 20px;
+	font-weight: bold;
+	background-color: lightgoldenrodyellow;
 }
 
 #generalHSHeader {
-  display: grid;
-  grid-template-columns: 387px 500px 10px;
+	display: grid;
+	grid-template-columns: 387px 500px 10px;
 }
 
 #profileBanner {
-  display: grid;
-  grid-template-columns: 100px 1092px 100px 10px 100px 10px 100px;
-  background-color: lightskyblue;
+	display: grid;
+	grid-template-columns: 100px 1092px 100px 10px 100px 10px 100px;
+	background-color: lightskyblue;
 }
 
 .profileButton {
-  position: relative;
-  top: 4px;
-  height: 40px;
-  background-color: rgb(102, 176, 201);
-  border-color: lightblue;
-  font-size: large;
+	position: relative;
+	top: 4px;
+	height: 40px;
+	background-color: rgb(102, 176, 201);
+	border-color: lightblue;
+	font-size: large;
 }
 
 .profileButton:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 #profileButtonSymbols {
-  font-size: 37px;
+	font-size: 37px;
 }
 
-.login_screen_container, .register_screen_container {
-  display: grid;
-  grid-template-columns: 500px 1000px;
+.login_screen_container,
+.register_screen_container {
+	display: grid;
+	grid-template-columns: 500px 1000px;
 }
 
 .loginContainer {
-  background-color: white;
-  height: 300px;
-  width: 400px;
-  margin-top: 30px;
-  margin-left: 30px;
-  border-radius: 10%;
-  text-align: center;
-  display: grid;
-  grid-template-rows: 20px 70px 75px 80px 32px;
+	background-color: white;
+	height: 300px;
+	width: 400px;
+	margin-top: 30px;
+	margin-left: 30px;
+	border-radius: 10%;
+	text-align: center;
+	display: grid;
+	grid-template-rows: 20px 70px 75px 80px 32px;
 }
 
 .loginText {
-  font-size: xx-large;
+	font-size: xx-large;
 }
 
-#userID, #password, #userIDCheck, #passwordCheck {
-  left: 5%;
-  width: 90%;
+#userID,
+#password,
+#userIDCheck,
+#passwordCheck {
+	left: 5%;
+	width: 90%;
 }
 
 .loginButtons {
-  display: grid;
-  grid-template-columns: 160px 25px;
+	display: grid;
+	grid-template-columns: 160px 25px;
 }
 
-#login, #register {
-  position: relative;
-  left: 45px;
-  width: 150px;
-  height: 35px;
+#login,
+#register {
+	position: relative;
+	left: 45px;
+	width: 150px;
+	height: 35px;
 }
 
-#login:hover, #register:hover {
-  cursor: pointer;
+#login:hover,
+#register:hover {
+	cursor: pointer;
 }
 
 .errorText {
-  color: red;
+	color: red;
 }
 
 .registerContainer {
-  background-color: white;
-  height: 447px;
-  width: 400px;
-  margin-top: 30px;
-  margin-left: 30px;
-  border-radius: 10%;
-  text-align: center;
-  display: grid;
-  grid-template-rows: 20px 70px 75px 75px 75px 75px 32px;
+	background-color: white;
+	height: 447px;
+	width: 400px;
+	margin-top: 30px;
+	margin-left: 30px;
+	border-radius: 10%;
+	text-align: center;
+	display: grid;
+	grid-template-rows: 20px 70px 75px 75px 75px 75px 32px;
 }
 
 #studentListBanner {
-  display: grid;
-  grid-template-columns: 100px 330px 930px ;
-  background-color: lightskyblue;
+	display: grid;
+	grid-template-columns: 100px 330px 930px;
+	background-color: lightskyblue;
 }
 
 #studentList {
-  height: 652px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+	height: 652px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .student-list {
-  display: grid;
-  grid-template-columns: 371px 371px 670px;
-  grid-template-rows: repeat(100, 320px);
+	display: grid;
+	grid-template-columns: 371px 371px 670px;
+	grid-template-rows: repeat(100, 320px);
 }
 
 .studentCard {
-  background-color: aquamarine;
-  margin-left: 20px;
-  height: 305px;
-  width: 350px;
+	background-color: aquamarine;
+	margin-left: 20px;
+	height: 305px;
+	width: 350px;
 }
 
 .studentBoxTitleAndStatus {
-  display: grid;
-  grid-template-columns: 255px 128px;
-  top: 10px;
-  position: relative;
+	display: grid;
+	grid-template-columns: 255px 128px;
+	top: 10px;
+	position: relative;
 }
 
-.studentStatus { 
-  background-color: lightcyan;
-  height: 36px;
-  border-radius: 50%;
-  text-align: center;
-  width: 90px;
-  padding-top: 5px;
-  font-size: large;
+.studentStatus {
+	background-color: lightcyan;
+	height: 36px;
+	border-radius: 50%;
+	text-align: center;
+	width: 90px;
+	padding-top: 5px;
+	font-size: large;
 }
