@@ -12,6 +12,11 @@ import PropTypes from 'prop-types';
 
 import data from '../test/TestStudentData.json';
 
+const nothingWasEntered = ' You did not enter a username and password ';
+const nonRepeatingUsername = ' Your username does not match up ';
+const nonRepeatingPassword = ' Your password does not match up ';
+const usedIDAndPassword = ' That username and password combo has been used ';
+
 export class RegisterScreen extends Component {
   state = {
     userID: '',
@@ -21,10 +26,46 @@ export class RegisterScreen extends Component {
     hidden: true
   };
 
-  checkCredentials = () => {
-    if (this.state.password.length === 0 || this.state.userID.length === 0)
+  checkCredentials = async () => {
+    let password = this.state.password;
+    let username = this.state.userID;
+    let passwordCheck = this.state.passwordCheck;
+    let usernameCheck = this.state.userIDCheck;
+
+    if (
+      username.length === 0 ||
+      password.length === 0 ||
+      usernameCheck.length === 0 ||
+      passwordCheck.length === 0
+    ) {
       this.setState({ hidden: false });
-    else this.goHome();
+      document.getElementById('errorText').textContent = nothingWasEntered;
+      return;
+    }
+
+    if (username !== usernameCheck) {
+      this.setState({ hidden: false });
+      document.getElementById('errorText').textContent = nonRepeatingUsername;
+      return;
+    }
+
+    if (password !== passwordCheck) {
+      this.setState({ hidden: false });
+      document.getElementById('errorText').textContent = nonRepeatingPassword;
+      return;
+    }
+
+    /*
+        let supposedUser = await fetch("http://localhost:5201/addANewStudent?username=" + username + "&password=" + password + "&name=samuel")
+        let supposedUserAnswer = await supposedUser.json()
+        if (supposedUser.status !== 200 || supposedUserAnswer.length !== 0 ){
+            this.setState({hidden:false})
+            document.getElementById("errorText").textContent = usedIDAndPassword
+            return
+        }
+        */
+
+    this.props.history.push('/');
   };
 
   goLogin = () => {
@@ -33,6 +74,15 @@ export class RegisterScreen extends Component {
 
   goHome = () => {
     this.props.history.push('/home');
+  };
+
+  handleChange = e => {
+    const { target } = e;
+
+    this.setState(state => ({
+      ...state,
+      [target.id]: target.value
+    }));
   };
 
   handleChange = e => {
