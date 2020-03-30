@@ -9,9 +9,15 @@ import PropTypes from 'prop-types';
 
 class Navbar extends React.Component {
 
+  state = {
+    disabled: true
+  }
+
   render() {
     //const { auth, profile } = this.props;
     //const links = auth.uid ? <LoggedInLinks profile={profile} /> : <LoggedOutLinks />;
+
+
 
     return (
       <nav className="nav-wrapper blue darken-3" id="navbar">

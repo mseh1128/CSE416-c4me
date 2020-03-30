@@ -17,7 +17,7 @@ export class LoginScreen extends Component {
         userID: '',
         password: '',
         hidden: true
-      }
+    }
 
     checkCredentials = async() => {
         let password = this.state.password
