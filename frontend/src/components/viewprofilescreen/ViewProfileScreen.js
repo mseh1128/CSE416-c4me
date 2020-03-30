@@ -16,7 +16,7 @@ import StudentCollegesList from './StudentCollegesList.js';
 
 import data from '../test/TestStudentData.json';
 
-const axios = require('axios').default;
+import axios from 'axios';
 
 export class ViewProfileScreen extends Component {
   //current way state obtains data is temporary to assist frontend development
