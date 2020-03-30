@@ -53,13 +53,15 @@ export class RegisterScreen extends Component {
             return
         }
 
-        let supposedUser = await fetch("http://localhost:5201/addANewStudent?username=" + username + "&password=" + password + "&name=" + name)
+        /*
+        let supposedUser = await fetch("http://localhost:5201/addANewStudent?username=" + username + "&password=" + password + "&name=samuel")
         let supposedUserAnswer = await supposedUser.json()
         if (supposedUser.status !== 200 || supposedUserAnswer.length !== 0 ){
             this.setState({hidden:false})
             document.getElementById("errorText").textContent = usedIDAndPassword
             return
         }
+        */
 
         this.props.history.push('/')
     }

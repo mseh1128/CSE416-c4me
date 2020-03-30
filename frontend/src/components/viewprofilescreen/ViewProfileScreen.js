@@ -80,7 +80,7 @@ export class ViewProfileScreen extends Component {
     });
 
 
-    let gpa = document.getElementById("GPA").value
+    let gpa = ((document.getElementById("GPA").value) !== "Not taken") ? document.getElementById("GPA") : -1
     let satMath = ((document.getElementById("SAT_Math").value) !== "Not taken") ? document.getElementById("SAT_Math").value : -1;
     let satEBRW = ((document.getElementById("SAT_EBRW").value) !== "Not taken") ? document.getElementById("SAT_EBRW").value : -1;
     let actEng = ((document.getElementById("ACT_English").value) !== "Not taken") ? document.getElementById("ACT_English").value : -1;
