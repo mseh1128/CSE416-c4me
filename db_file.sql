@@ -1,7 +1,6 @@
 drop database college_recommender;
 create database college_recommender;
 use college_recommender;
-create table admins (userID INT NOT NULL, `name` INT NULL DEFAULT NULL, PRIMARY KEY (`userID`));
 create table college (collegeName VARCHAR(100) NOT NULL, state VARCHAR(2) NOT NULL, region VARCHAR(45) NOT NULL, ACTComposite INT NOT NULL, SATEBRWScore INT NOT NULL, SATMathScore INT NOT NULL, admissionRatePercent INT NOT NULL, `rank` INT NOT NULL, institutionType VARCHAR(45) NOT NULL, medianCompletedStudentDebt INT NOT NULL, size VARCHAR(45) NOT NULL, PRIMARY KEY(collegeName));
 create table college_declaration (userID INT NOT NULL, collegeName VARCHAR(90) NOT NULL, acceptanceStatus VARCHAR(45) NOT NULL, questionable BOOL NOT NULL DEFAULT false, PRIMARY KEY (`userID`, `collegeName`));
 create table high_school (highSchool VARCHAR(50) NOT NULL, administrationScore VARCHAR(20) NOT NULL, readingProficiencyPerc INT NOT NULL, mathProficiencyPerc INT NOT NULL, averageSATScore INT NOT NULL, averageACTScore INT NOT NULL, averageSATEBRWScore INT NOT NULL, averageSATMathScore INT NOT NULL, favoriteMajors VARCHAR(200) NULL DEFAULT NULL);

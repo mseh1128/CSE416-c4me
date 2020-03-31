@@ -9,7 +9,10 @@ const queryInsertCollege =
 
 //this is quick and dirty, make sure to make a separate table for alternate
 //spellings and other things that college is called.
-const queryFetchCollege = 'SELECT * FROM college WHERE college=?';
+const queryGetCollege = 'SELECT * FROM college WHERE collegeName=?';
+const queryGetAllColleges = 'SELECT * FROM college';
+const queryGetStudentCollegeDecs =
+  'SELECT * FROM college_declaration WHERE userID=?';
 
 module.exports = function(app, connection) {
   app.post('/insertCollege', (req, res) => {
@@ -50,15 +53,43 @@ module.exports = function(app, connection) {
     );
   });
 
-  app.get('/retrieveCollege', (req, res) => {
-    const college = req.query.college;
-    connection.query(queryAdd, [college], (err, rows, params) => {
+  app.get('/getAllColleges', (req, res) => {
+    connection.query(queryGetAllColleges, (err, results, fields) => {
+      if (err) {
+        console.log(err);
+        return res.sendStatus(500).json('error occurred!');
+      }
+      console.log(results);
+      res.send(results);
+    });
+  });
+
+  app.get('/getCollege', (req, res) => {
+    console.log(req.query);
+    const { collegeName } = req.query;
+    connection.query(queryGetCollege, [collegeName], (err, results, fields) => {
       if (err) {
         console.log(err);
         res.sendStatus(500);
         return;
       }
-      res.json(rows[0]);
+      res.send(results[0]);
     });
+  });
+
+  app.get('/getStudentCollegeDeclarations', (req, res) => {
+    const { userID } = req.query;
+    connection.query(
+      queryGetStudentCollegeDecs,
+      [userID],
+      (err, results, fields) => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+          return;
+        }
+        res.send(results);
+      }
+    );
   });
 };
