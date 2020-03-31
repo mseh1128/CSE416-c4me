@@ -60,7 +60,7 @@ export class RegisterScreen extends Component {
     }
 
     try {
-      const response = await axios.post('http://localhost:5201/addNewStudent', {
+      const response = await axios.post('/addNewStudent', {
         username,
         password,
         name

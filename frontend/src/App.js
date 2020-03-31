@@ -10,27 +10,39 @@ import StudentScreen from './components/studentscreen/StudentScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen';
 import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.js';
+import authorizeComponent from './components/authentication/AuthComponent.js';
+// // import { ProtectedRoute } from './components/authentication/ProtectedRoute.js';
 
 import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Navbar></Navbar>
-			<Switch>
-				<Route exact path='/' component={LoginScreen} />
-				<Route path='/register' component={RegisterScreen} />
-				<Route
-					path='/applicationTracker/:id'
-					component={ApplicationTrackerScreen}
-				/>
-				<Route path='/home' component={StudentScreen} />
-				<Route path='/search' component={CollegeSearchScreen} />
-				<Route path='/profile' component={ViewProfileScreen} />
-				<Route path='/:any' component={StudentScreen} />
-			</Switch>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Navbar></Navbar>
+      <Switch>
+        <Route path="/" exact component={LoginScreen} />
+        <Route path="/register" component={RegisterScreen} />
+        <Route
+          path="/applicationTracker/:id"
+          component={ApplicationTrackerScreen}
+        />
+
+        <Route path="/home" component={authorizeComponent(StudentScreen)} />
+
+        <Route
+          path="/search"
+          component={authorizeComponent(CollegeSearchScreen)}
+        />
+
+        <Route
+          path="/profile"
+          component={authorizeComponent(ViewProfileScreen)}
+        />
+
+        <Route path="/:any" component={LoginScreen} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;

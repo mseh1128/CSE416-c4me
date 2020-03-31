@@ -34,13 +34,15 @@ export class LoginScreen extends Component {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5201/loginUser', {
+      const response = await axios.post('/loginUser', {
         username: userID,
         password
       });
-      if (response.status !== 200) {
-        console.log(`Status code of ${response.state} given`);
+      const { data, status } = response;
+      if (status !== 200) {
+        console.log(`Status code of ${status} given`);
       }
+      localStorage.setItem('user-id-jwt', data);
       this.props.history.push('/home');
     } catch (err) {
       const {

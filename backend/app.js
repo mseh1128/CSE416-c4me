@@ -4,12 +4,13 @@ const logger = require('morgan');
 
 const app = express();
 
+const { checkToken } = require('./auth');
+
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(cookieParser());
@@ -22,25 +23,39 @@ const connection = mysql.createConnection({
   database: 'college_recommender'
 });
 
-const sessionStore = new MySQLStore(connection);
-
-// need to keep secret in an environmental variable!
-app.use(
-  session({
-    secret: 'secret gpes jere!',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 // 1 day
-    }
-  })
-);
-
 connection.connect(err => {
   err
     ? console.log('You failed to connect because ' + err)
     : console.log('A connection has been established.');
+});
+
+const queryGetUserFromID = 'SELECT * FROM user WHERE userID=?';
+
+// const strategy = new JwtStrategy(opts, (payload, next) => {
+//   // get user from db
+//   console.log('IN THE STRAT');
+//   connection.query(queryGetUserFromID, [payload.id], (err, results, fields) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     // or results[0]>
+//     next(null, results[0]);
+//   });
+// });
+
+// passport.use(strategy);
+// app.use(passport.initialize());
+
+app.get('/getUser', checkToken, async (req, res) => {
+  const { userID } = req;
+  connection.query(queryGetUserFromID, [userID], (err, results, fields) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json('err!');
+    }
+    const user = results[0];
+    res.send(user);
+  });
 });
 
 require('./routes/student-functions.js')(app, connection);

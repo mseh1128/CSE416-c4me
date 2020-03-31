@@ -63,7 +63,7 @@ export class ViewProfileScreen extends Component {
 
   changeNonAcademicInfo = async attribute => {
     let info = document.getElementById(attribute).value;
-    let response = await fetch('http://localhost:5201/updateStudentInfo', {
+    let response = await fetch('/updateStudentInfo', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
@@ -78,7 +78,7 @@ export class ViewProfileScreen extends Component {
     let info = document.getAttributeById(attribute).value;
     let infoAsNumber = Number(info);
 
-    let response = await fetch('http://localhost:5201/updateProfileInfo', {
+    let response = await fetch('/updateProfileInfo', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({

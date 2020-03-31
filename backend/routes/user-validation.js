@@ -7,6 +7,7 @@ const queryAddUser =
   'INSERT INTO user (username, userPassword, name) VALUES (?, ?, ?)';
 const queryInstantiateStudent = 'INSERT INTO student (userID) VALUES (?)';
 const queryInstantiateProfile = 'INSERT INTO profile (userID) VALUES (?)';
+const jwt = require('jsonwebtoken');
 
 module.exports = function(app, connection) {
   app.post('/loginUser', (req, res) => {
@@ -24,10 +25,11 @@ module.exports = function(app, connection) {
           console.log('User not found!');
           return res.status(400).json('User not found!');
         }
-        console.log('User was found! Updating session now.');
-        req.session.userID = results[0].userID;
-        console.log(req.session);
-        return res.sendStatus(200);
+        console.log('User was found! Sending back jwt now.');
+        // const token = jwt.sign(payload, process.env.SECRET_OR_KEY);
+        // need to change secret to environment var
+        const token = jwt.sign(results[0].userID, 'jwt_secret_key');
+        return res.send(token);
       }
     );
   });
