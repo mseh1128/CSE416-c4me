@@ -45,7 +45,7 @@ const authorizeComponent = WrappedComponent => {
       if (user === undefined) {
         return <div>Loading...</div>;
       }
-      return <WrappedComponent {...this.props} />;
+      return <WrappedComponent {...this.props} user={user} />;
     }
   }
   return AuthComponent;
