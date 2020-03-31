@@ -12,39 +12,55 @@ import PropTypes from 'prop-types';
 
 import data from '../test/TestStudentData.json';
 
+import axios from 'axios';
+
+const nothingWasEntered = 'Please fill in all the fields!';
+
 export class LoginScreen extends Component {
   state = {
     userID: '',
     password: '',
-    hidden: true
+    hideErrorMessage: true,
+    errorTextContent: null
   };
 
   checkCredentials = async () => {
-    let password = this.state.password;
-    let userID = this.state.userID;
-
+    const { userID, password } = this.state;
     if (password.length === 0 || userID.length === 0) {
-      this.setState({ hidden: false });
+      this.setState({
+        hideErrorMessage: false,
+        errorTextContent: nothingWasEntered
+      });
       return;
     }
-    //else
-    //this.goHome()
-
-    //fetch all of a supposed user as a JSON object. if it turns up empty,
-    let supposedUser = await fetch(
-      'http://localhost:5201/tryToRetrieveUser?username=' +
-        userID +
-        '&password=' +
+    try {
+      const response = await axios.post('http://localhost:5201/loginUser', {
+        username: userID,
         password
-    );
-    let supposedUserAnswer = await supposedUser.json();
-    console.log(supposedUserAnswer);
-    if (supposedUser.status !== 200 || supposedUserAnswer.length === 0) {
-      this.setState({ hidden: false });
-      return;
+      });
+      if (response.status !== 200) {
+        console.log(`Status code of ${response.state} given`);
+      }
+      this.props.history.push('/home');
+    } catch (err) {
+      const {
+        response: { data, status }
+      } = err;
+      const userFoundMessage = 'User not found!';
+      if (status === 400 && data === userFoundMessage) {
+        this.setState({
+          hideErrorMessage: false,
+          errorTextContent: userFoundMessage
+        });
+      } else {
+        console.log(err);
+        const unknownErrorText = `An unknown error with error code ${status} occurred`;
+        this.setState({
+          hideErrorMessage: false,
+          errorTextContent: unknownErrorText
+        });
+      }
     }
-
-    this.goHome();
   };
 
   goRegister = () => {
@@ -65,6 +81,12 @@ export class LoginScreen extends Component {
   };
 
   render() {
+    const { hideErrorMessage, errorTextContent } = this.state;
+    let errorMessage = null;
+    if (!hideErrorMessage) {
+      errorMessage = <span className="errorText">{errorTextContent}</span>;
+    }
+
     return (
       <div className="login_screen_container">
         <div className="loginContainer">
@@ -104,10 +126,7 @@ export class LoginScreen extends Component {
               register{' '}
             </button>
           </div>
-          <span className="errorText" hidden={this.state.hidden}>
-            {' '}
-            Wrong email or password{' '}
-          </span>
+          {errorMessage}
         </div>
         <div className="banner">
           C4Me

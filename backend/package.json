@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "concurrently \"npm start\" \"cd ../frontend && npm start\""
+    "backend": "nodemon ./bin/www",
+    "dev": "concurrently \"npm backend\" \"cd ../frontend && npm start\""
   },
   "proxy": "http://localhost:5201",
   "dependencies": {
@@ -14,6 +15,8 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.16.4",
+    "express-mysql-session": "^2.1.4",
+    "express-session": "^1.17.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1"
   },

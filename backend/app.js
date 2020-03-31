@@ -7,6 +7,8 @@ const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 app.use(bodyParser.json());
 app.use(logger('dev'));
@@ -19,6 +21,21 @@ const connection = mysql.createConnection({
   password: 'gas pedal',
   database: 'college_recommender'
 });
+
+const sessionStore = new MySQLStore(connection);
+
+// need to keep secret in an environmental variable!
+app.use(
+  session({
+    secret: 'secret gpes jere!',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+  })
+);
 
 connection.connect(err => {
   err

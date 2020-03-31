@@ -3,98 +3,76 @@ const express = require('path');
 
 const queryCheckForUser =
   'SELECT * FROM user WHERE username=? AND userPassword=?';
-const queryAddAUser =
+const queryAddUser =
   'INSERT INTO user (username, userPassword, name) VALUES (?, ?, ?)';
-const queryGetID =
-  'SELECT id FROM user WHERE username=? AND userPassword=?';
-const queryaauInstantiateStudent =
-  'INSERT INTO student (userID) VALUES (?)';
-const queryaauInstantiateProfile =
-  'INSERT INTO profile (userID) VALUES (?)'
-
+const queryInstantiateStudent = 'INSERT INTO student (userID) VALUES (?)';
+const queryInstantiateProfile = 'INSERT INTO profile (userID) VALUES (?)';
 
 module.exports = function(app, connection) {
-  app.get('/tryToRetrieveUser', (req, res) => {
-    let username = req.query.username;
-    let password = req.query.password;
-
+  app.post('/loginUser', (req, res) => {
+    const { username, password } = req.body;
     connection.query(
       queryCheckForUser,
       [username, password],
-      (err, rows, params) => {
+      (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
-          return;
+          return res.status(500).json('err!');
         }
-        console.log(rows);
-        res.json(rows); //here we want all the people who have been accepted to ...
+        if (results === undefined || results.length == 0) {
+          // could not find user
+          console.log('User not found!');
+          return res.status(400).json('User not found!');
+        }
+        console.log('User was found! Updating session now.');
+        req.session.userID = results[0].userID;
+        console.log(req.session);
+        return res.sendStatus(200);
       }
     );
   });
 
-  app.post('/addANewStudent', (req, res) => {
-    let username = req.query.username;
-    let password = req.query.password;
-    let name = req.query.name;
-
+  app.post('/addNewStudent', (req, res) => {
+    const { username, password, name } = req.body;
+    // check if user already exists
     connection.query(
-      queryAddAUser,
-      [username, password, name],
-      (err, rows, params) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(500);
-          return;
-        }
-
-        console.log("Added " + name + " as a user to the database.")
-      }
-    );
-
-    let id = 0;
-    connection.query(
-      queryGetID,
+      queryCheckForUser,
       [username, password],
-      (err, rows, params) => {
-        if (err) {
-          console.log(err)
-          res.sendStatus(500)
-          return;
-        }
-
-        id = rows[0].id;
-        console.log("The id is " + id);
-      }
-    );
-
-    connection.query(
-      queryaauInstantiateStudent,
-      [id],
-      (err, rows, params) => {
+      (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
-          return;
+          return res.status(500).json('err!');
         }
-
-        console.log("User " + id + " has nonacademic info")
-      }
-    );
-
-    connection.query(
-      queryaauInstantiateProfile,
-      [id],
-      (err, rows, params) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(500);
-          return;
+        if (results === undefined || results.length == 0) {
+          // no duplicate found, can add it
+          connection.query(
+            queryAddUser,
+            [username, password, name],
+            async (err, results, fields) => {
+              if (err) {
+                console.log(err);
+                return res.status(500).json('err!');
+              }
+              console.log(`Added ${name} as a user to the database.`);
+              const { insertId } = results;
+              try {
+                const result = await Promise.all([
+                  connection.query(queryInstantiateStudent, [insertId]),
+                  connection.query(queryInstantiateProfile, [insertId])
+                ]);
+                return res.sendStatus(200);
+              } catch (err) {
+                console.log(err);
+                return res.status(500).json('err!');
+              }
+            }
+          );
+        } else {
+          // duplicate found
+          console.log('Duplicate found!');
+          return res.status(400).json('Duplicate account found!');
         }
-
-        console.log("User " + id + " has academic info")
       }
     );
   });
-
 };
