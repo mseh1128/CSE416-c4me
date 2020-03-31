@@ -59,6 +59,7 @@ app.get('/getUser', checkToken, async (req, res) => {
 });
 
 require('./routes/student-functions.js')(app, connection);
+require('./routes/college-functions.js')(app, connection);
 require('./routes/student-acceptance-claims.js')(app, connection);
 require('./routes/user-validation.js')(app, connection);
 
