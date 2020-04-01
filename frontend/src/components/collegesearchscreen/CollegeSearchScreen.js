@@ -69,7 +69,7 @@ export class CollegeSeachScreen extends Component {
 		});
 
 		return (
-			<div className='student_screen_container'>
+			<div className='college_screen_container'>
 				<div className='schoolsContainer'>
 					<div id='collegeListBanner'>
 						<div></div>

@@ -99,7 +99,9 @@ form h5 {
 	cursor: hover;
 }
 
-.student_screen_container {
+.student_screen_container,
+.college_screen_container,
+.tracker_screen_container {
 	display: grid;
 	grid-template-columns: 1150px 350px;
 }
@@ -117,6 +119,9 @@ form h5 {
 	overflow-x: hidden;
 }
 
+/* 
+    filters CSS for studentHome/college search screen
+*/
 .filtersContainer {
 	background-color: white;
 	height: 700px;
@@ -244,7 +249,8 @@ form h5 {
 	border-width: 1px;
 }
 
-.majorListBox {
+.majorListBox,
+.highschoolListBox {
 	display: grid;
 	text-align: left;
 }
@@ -254,8 +260,14 @@ form h5 {
 	grid-template-columns: 215px 33px;
 }
 
-.deleteMajorBtn {
+.deleteMajorBtn,
+.deleteHSBtn {
 	height: 25px;
+}
+
+.deleteMajorBtn:hover,
+.deleteHSBtn:hover {
+	cursor: pointer;
 }
 
 #searchCollegeBtn {
@@ -520,6 +532,9 @@ form h5 {
 	bottom: 115px;
 }
 
+/* 
+    viewProfile screen CSS
+*/
 .profileContainer {
 	background-color: white;
 	height: 570px;
@@ -666,6 +681,9 @@ form h5 {
 	font-size: 37px;
 }
 
+/* 
+    login/register screen CSS
+*/
 .login_screen_container,
 .register_screen_container {
 	display: grid;
@@ -730,6 +748,9 @@ form h5 {
 	grid-template-rows: 20px 70px 75px 75px 75px 75px 32px;
 }
 
+/* 
+    appTracker CSS
+*/
 #studentListBanner {
 	display: grid;
 	grid-template-columns: 100px 330px 930px;
@@ -770,4 +791,94 @@ form h5 {
 	width: 90px;
 	padding-top: 5px;
 	font-size: large;
+}
+
+.trackerFiltersContainer {
+	background-color: white;
+	height: 700px;
+	top: 20px;
+	left: 22px;
+	text-align: center;
+	position: relative;
+	display: grid;
+	grid-template-rows: 50px 55px 175px 60px 85px 55px;
+}
+
+.collegeClassFilter {
+	height: 50px;
+}
+
+.collegeClass {
+	width: 50px;
+}
+
+#highschoolFilterContainer {
+	display: grid;
+	grid-template-columns: 349px 1px;
+}
+
+#highschoolFilter {
+	top: -8px;
+	width: 55%;
+	left: 14%;
+}
+
+#enterHighschoolBtn {
+	height: 40px;
+	width: 40px;
+	right: 95px;
+	top: 10px;
+	position: relative;
+}
+
+.appStatusFilter {
+	display: grid;
+	grid-template-rows: 1px 1px 1px 1px 1px 1px;
+}
+
+#acceptedBoxLocation {
+	margin-top: -10px;
+	margin-left: 80px;
+}
+
+#pendingBoxLocation {
+	margin-top: 12px;
+	margin-left: 75px;
+}
+
+#wait-listedBoxLocation {
+	margin-top: 34px;
+	margin-left: 85px;
+}
+
+#deferredBoxLocation {
+	margin-top: 57px;
+	margin-left: 77px;
+}
+
+#deniedBoxLocation {
+	margin-top: 80px;
+	margin-left: 71px;
+}
+
+#withdrawnBoxLocation {
+	margin-top: 102px;
+	margin-left: 86px;
+}
+
+#chosenHSContainer {
+	height: 78px;
+	width: 250px;
+	left: 13%;
+	position: relative;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.highschoolItem {
+	display: grid;
+	grid-template-columns: 197px 33px;
 }

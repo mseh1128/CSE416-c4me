@@ -8,214 +8,209 @@ import PropTypes from 'prop-types';
 import data from '../test/TestCollegeData.json';
 import StudentList from './StudentList';
 
+import HighSchoolFiltersList from './HighSchoolFiltersList';
+
 export class ApplicationTrackerScreen extends Component {
-  state = {
-    major: '',
-    majorIndex: 0,
-    majorList: [],
-    college: ''
-  };
+	state = {
+		highschool: '',
+		highschoolIndex: 0,
+		highschoolList: [],
+		college: ''
+	};
 
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    console.log('id (key) is: ');
-    console.log(id);
+	componentDidMount() {
+		const { id } = this.props.match.params;
+		console.log('id (key) is: ');
+		console.log(id);
 
-    const { colleges } = data;
-    const college = colleges ? colleges[id] : null;
-    this.setState({ college: college });
-    // do any fetch api requests here & setState
-  }
+		const { colleges } = data;
+		const college = colleges ? colleges[id] : null;
+		this.setState({ college: college });
+		// do any fetch api requests here & setState
+	}
 
-  goCollegeSearch = () => {
-    this.props.history.push('/search');
-  };
+	goCollegeSearch = () => {
+		this.props.history.push('/search');
+	};
 
-  updateMajor = () => {
-    let newMajor = document.getElementById('major').value;
-    this.setState({ major: newMajor });
-    console.log(newMajor);
-  };
+	updateHighschool = () => {
+		let newHighschool = document.getElementById('highschool').value;
+		this.setState({ highschool: newHighschool });
+		console.log(newHighschool);
+	};
 
-  updateMajor = category => {
-    let newMajor = document.getElementById('major').value;
-    this.setState({ major: newMajor });
-    console.log(newMajor);
-  };
+	updateHighschool = category => {
+		let newHighschool = document.getElementById('highschool').value;
+		this.setState({ highschool: newHighschool });
+		console.log(newHighschool);
+	};
 
-  addMajor = () => {
-    if (this.state.major === '' || this.state.majorList.length === 2) {
-      return;
-    }
+	addHighschool = () => {
+		if (this.state.highschool === '') {
+			return;
+		}
 
-    let newMajor = {
-      name: this.state.major,
-      key: this.state.majorIndex,
-      id: this.state.majorIndex
-    };
-    this.setState({ majorIndex: this.state.majorIndex + 1 });
-    let newList = this.state.majorList;
-    newList.push(newMajor);
-    this.setState({ majorList: newList });
-    this.setState({ major: '' });
-    document.getElementById('major').value = '';
-  };
+		let newHighschool = {
+			name: this.state.highschool,
+			key: this.state.highschoolIndex,
+			id: this.state.highschoolIndex
+		};
+		this.setState({ highschoolIndex: this.state.highschoolIndex + 1 });
+		let newList = this.state.highschoolList;
+		newList.push(newHighschool);
+		this.setState({ highschoolList: newList });
+		this.setState({ highschool: '' });
+		document.getElementById('highschool').value = '';
+	};
 
-  deleteMajor = key => {
-    let newList = this.state.majorList.filter(item => item.key !== key);
-    this.setState({ majorList: newList });
-  };
+	deleteHighschool = key => {
+		let newList = this.state.highschoolList.filter(item => item.key !== key);
+		this.setState({ highschoolList: newList });
+	};
 
-  render() {
-    var elem = document.querySelector('.tabs');
-    var options = {};
-    var instance = M.Tabs.init(elem, options);
+	render() {
+		var elem = document.querySelector('.tabs');
+		var options = {};
+		var instance = M.Tabs.init(elem, options);
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('select');
-      var instances = M.FormSelect.init(elems, options);
-    });
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('select');
+			var instances = M.FormSelect.init(elems, options);
+		});
 
-    const college = this.state.college;
+		const college = this.state.college;
 
-    return (
-      <div className="student_screen_container">
-        <div className="schoolsContainer">
-          <div id="studentListBanner">
-            <div></div>
-            <span className="collegeTitleText"> Application Tracker:</span>
-            <span className="collegeTitleText">{college.name}</span>
-          </div>
-          <div id="studentList">
-            <StudentList></StudentList>
-          </div>
-        </div>
-        <div className="filtersContainer">
-          <div className="filtersBanner">
-            <span id="filterHeaderText">Filters:</span>
-            <form action="#" id="strictBoxLocation">
-              <p>
-                <label id="strictBox">
-                  <input type="checkbox" />
-                  <span id="strictText">Strict</span>
-                </label>
-              </p>
-            </form>
-          </div>
-          <div className="input-field" id="nameFilter">
-            <input id="name" type="text"></input>
-            <label htmlFor="name">College Name</label>
-          </div>
-          <div className="admissionRateFilter">
-            <span id="filtersText">Admission Rate</span>
-            <div>
-              <input
-                type="textfield"
-                className="admissionRate"
-                placeholder="0%"
-              />
-              -
-              <input
-                type="textfield"
-                className="admissionRate"
-                placeholder="100%"
-              />
-            </div>
-          </div>
-          <div className="costFilter">
-            <span id="filtersText">Cost of Attendance</span>
-            <div>
-              <input type="textfield" className="cost" placeholder="0" />
-              -
-              <input type="textfield" className="cost" placeholder="100000" />
-            </div>
-          </div>
-          <div className="rankFilter">
-            <span id="filtersText">Rank</span>
-            <div>
-              <input type="textfield" className="rank" placeholder="1" />
-              -
-              <input type="textfield" className="rank" placeholder="10000" />
-            </div>
-          </div>
-          <div className="sizeFilter">
-            <span id="filtersText">Size</span>
-            <div>
-              <input type="textfield" className="size" placeholder="1" />
-              -
-              <input type="textfield" className="size" placeholder="100000" />
-            </div>
-          </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average Math Score</span>
-            <div>
-              <input type="textfield" className="score" placeholder="1" />
-              -
-              <input type="textfield" className="score" placeholder="800" />
-            </div>
-          </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average EBRW Score</span>
-            <div>
-              <input type="textfield" className="score" placeholder="1" />
-              -
-              <input type="textfield" className="score" placeholder="800" />
-            </div>
-          </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average ACT Score</span>
-            <div>
-              <input type="textfield" className="score" placeholder="1" />
-              -
-              <input type="textfield" className="score" placeholder="36" />
-            </div>
-          </div>
-          <div className="input-field col s12" id="locationFilter">
-            <select className="browser-default">
-              <option value="" defaultValue>
-                Choose a Location
-              </option>
-              <option value="1">North East</option>
-              <option value="2">Midwest</option>
-              <option value="3">South</option>
-              <option value="3">West</option>
-            </select>
-          </div>
-          <div id="majorFilterContainer">
-            <div className="input-field" id="majorFilter">
-              <input
-                id="major"
-                type="text"
-                onChange={this.updateMajor.bind(this)}
-              ></input>
-              <label htmlFor="major">Two Desired Majors</label>
-            </div>
-            <a
-              className="btn-floating btn-large waves-effect waves-light blue"
-              id="enterMajorBtn"
-              onClick={this.addMajor.bind(this.self)}
-            >
-              <Add></Add>
-            </a>
-          </div>
-          <div id="chosenMajorContainer"></div>
-          <div>
-            <button className="searchCollegeBtn" onClick={this.goCollegeSearch}>
-              {' '}
-              Start college search{' '}
-            </button>
-            <button
-              className="searchCollegeBtn"
-              onClick={this.goCollegeReccomendation}
-            >
-              {' '}
-              Reccomend Me Colleges{' '}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+		return (
+			<div className='tracker_screen_container'>
+				<div className='schoolsContainer'>
+					<div id='studentListBanner'>
+						<div></div>
+						<span className='collegeTitleText'> Application Tracker:</span>
+						<span className='collegeTitleText'>{college.name}</span>
+					</div>
+					<div id='studentList'>
+						<StudentList></StudentList>
+					</div>
+				</div>
+				<div className='trackerFiltersContainer'>
+					<div className='filtersBanner'>
+						<span id='filterHeaderText'>Filters:</span>
+						<form action='#' id='strictBoxLocation'>
+							<p>
+								<label id='strictBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Strict</span>
+								</label>
+							</p>
+						</form>
+					</div>
+					<div className='collegeClassFilter'>
+						<span id='filtersText'>College Class</span>
+						<div>
+							<input
+								type='textfield'
+								className='collegeClass'
+								placeholder='2020'
+							/>
+							-
+							<input
+								type='textfield'
+								className='collegeClass'
+								placeholder='2030'
+							/>
+						</div>
+					</div>
+					<div className='appStatusFilter'>
+						<span id='filtersText'>Application Status</span>
+						<form action='#' id='acceptedBoxLocation'>
+							<p>
+								<label id='acceptedBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Accepted</span>
+								</label>
+							</p>
+						</form>
+						<form action='#' id='pendingBoxLocation'>
+							<p>
+								<label id='pendingBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Pending</span>
+								</label>
+							</p>
+						</form>
+						<form action='#' id='wait-listedBoxLocation'>
+							<p>
+								<label id='wait-listedBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Wait-listed</span>
+								</label>
+							</p>
+						</form>
+						<form action='#' id='deferredBoxLocation'>
+							<p>
+								<label id='deferredBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Deferred</span>
+								</label>
+							</p>
+						</form>
+						<form action='#' id='deniedBoxLocation'>
+							<p>
+								<label id='deniedBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Denied</span>
+								</label>
+							</p>
+						</form>
+						<form action='#' id='withdrawnBoxLocation'>
+							<p>
+								<label id='withdrawnBox'>
+									<input type='checkbox' />
+									<span id='strictText'>Withdrawn</span>
+								</label>
+							</p>
+						</form>
+					</div>
+					<div id='highschoolFilterContainer'>
+						<div className='input-field' id='highschoolFilter'>
+							<input
+								id='highschool'
+								type='text'
+								onChange={this.updateHighschool.bind(this)}
+							></input>
+							<label htmlFor='highschool'>Applicants Highschool</label>
+						</div>
+						<a
+							className='btn-floating btn-large waves-effect waves-light blue'
+							id='enterHighschoolBtn'
+							onClick={this.addHighschool.bind(this.self)}
+						>
+							<Add></Add>
+						</a>
+					</div>
+					<div id='chosenHSContainer'>
+						<HighSchoolFiltersList
+							highschools={this.state.highschoolList}
+							deleteHighschool={this.deleteHighschool}
+						/>
+					</div>
+					<div>
+						<button className='searchCollegeBtn' onClick={this.goCollegeSearch}>
+							{' '}
+							Start college search{' '}
+						</button>
+						<button
+							className='searchCollegeBtn'
+							onClick={this.goCollegeReccomendation}
+						>
+							{' '}
+							Reccomend Me Colleges{' '}
+						</button>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default ApplicationTrackerScreen;
