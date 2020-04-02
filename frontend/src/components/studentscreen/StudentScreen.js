@@ -122,11 +122,7 @@ export class StudentScreen extends Component {
 						<form action='#' id='strictBoxLocation'>
 							<p>
 								<label id='strictBox'>
-									<input
-										type='checkbox'
-										id='strict'
-										onChange={this.handleChange}
-									/>
+									<input type='checkbox' id='strict' onChange={this.handleChange} />
 									<span id='strictText'>Strict</span>
 								</label>
 							</p>
@@ -277,11 +273,7 @@ export class StudentScreen extends Component {
 						</div>
 					</div>
 					<div className='input-field col s12' id='locationFilter'>
-						<select
-							className='browser-default'
-							id='location'
-							onChange={this.handleChange}
-						>
+						<select className='browser-default' id='location' onChange={this.handleChange}>
 							<option value='' defaultValue>
 								Choose a Location
 							</option>
@@ -293,11 +285,7 @@ export class StudentScreen extends Component {
 					</div>
 					<div id='majorFilterContainer'>
 						<div className='input-field' id='majorFilter'>
-							<input
-								id='major'
-								type='text'
-								onChange={this.updateMajor.bind(this)}
-							></input>
+							<input id='major' type='text' onChange={this.updateMajor.bind(this)}></input>
 							<label htmlFor='major'>Two Desired Majors</label>
 						</div>
 						<a
@@ -309,10 +297,7 @@ export class StudentScreen extends Component {
 						</a>
 					</div>
 					<div id='chosenMajorContainer'>
-						<MajorFiltersList
-							majors={this.state.majorList}
-							deleteMajor={this.deleteMajor}
-						/>
+						<MajorFiltersList majors={this.state.majorList} deleteMajor={this.deleteMajor} />
 					</div>
 					<div>
 						<button id='searchCollegeBtn' onClick={this.goCollegeSearch}>
