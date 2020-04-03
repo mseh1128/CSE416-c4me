@@ -334,7 +334,8 @@ form h5 {
 	background-color: lightblue;
 }
 
-.collegeTitle {
+.collegeTitle,
+.studentTitle {
 	font-size: x-large;
 	font-weight: bold;
 	margin-left: 20px;
@@ -342,7 +343,8 @@ form h5 {
 	color: black;
 }
 
-.collegeLocation {
+.collegeLocation,
+.studentLocation {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -350,7 +352,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeType {
+.collegeType,
+.studentMajors {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -358,7 +361,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeText {
+.collegeText,
+.studentText {
 	font-weight: 100;
 	color: darkslategrey;
 }
@@ -418,7 +422,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeMath1 {
+.collegeMath1,
+.studentMath1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -426,7 +431,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeMath2 {
+.collegeMath2,
+.studentMath2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -446,14 +452,16 @@ form h5 {
 	position: relative;
 }
 
-.collegeEnglish1 {
+.collegeEnglish1,
+.studentEBRW1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
 	position: relative;
 }
 
-.collegeEnglish2 {
+.collegeEnglish2,
+.studentEBRW2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -473,14 +481,16 @@ form h5 {
 	position: relative;
 }
 
-.collegeACT1 {
+.collegeACT1,
+.studentACT1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
 	position: relative;
 }
 
-.collegeACT2 {
+.collegeACT2,
+.studentACT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -882,6 +892,19 @@ form h5 {
 .highschoolItem {
 	display: grid;
 	grid-template-columns: 197px 33px;
+}
+
+.studentMathScore {
+	margin-left: 20px;
+	margin-top: 60px;
+	display: grid;
+	grid-template-columns: 20px 220px;
+}
+
+.studentEBRWScore {
+	margin-left: 20px;
+	display: grid;
+	grid-template-columns: 20px 220px;
 }
 
 /*

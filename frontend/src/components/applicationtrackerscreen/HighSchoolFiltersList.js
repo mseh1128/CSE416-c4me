@@ -9,13 +9,11 @@ class HighSchoolFiltersList extends React.Component {
 
 		return (
 			<div className='highschoolListBox'>
-				{highschools.map(function(highschool) {
+				{highschools.map(function (highschool) {
 					highschool.id = highschool.key;
+					const { key } = highschool.key;
 					return (
-						<HighSchoolItem
-							highschool={highschool}
-							deleteHighschool={deleteHighschool}
-						/>
+						<HighSchoolItem key={key} highschool={highschool} deleteHighschool={deleteHighschool} />
 					);
 				})}
 			</div>

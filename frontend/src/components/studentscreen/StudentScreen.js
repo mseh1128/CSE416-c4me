@@ -34,8 +34,8 @@ export class StudentScreen extends Component {
 			actUB: '',
 			location: '',
 			major1: '',
-			major2: ''
-		}
+			major2: '',
+		},
 	};
 
 	goCollegeSearch = () => {
@@ -58,7 +58,7 @@ export class StudentScreen extends Component {
 		let newMajor = {
 			name: this.state.major,
 			key: this.state.majorIndex,
-			id: this.state.majorIndex
+			id: this.state.majorIndex,
 		};
 		this.setState({ majorIndex: this.state.majorIndex + 1 });
 		let newList = this.state.majorList;
@@ -69,23 +69,27 @@ export class StudentScreen extends Component {
 
 		//updates the filters state with the new majors
 		let newFilters = this.state.filters;
-		if (this.state.majorList[0] != undefined) {
+		if (this.state.majorList[0] !== undefined) {
 			newFilters.major1 = this.state.majorList[0].name;
 		}
-		if (this.state.majorList[1] != undefined) {
+		if (this.state.majorList[1] !== undefined) {
 			newFilters.major2 = this.state.majorList[1].name;
 		}
 		this.setState({ filters: newFilters });
 	};
 
-	deleteMajor = key => {
-		console.log(this.props.user);
-		let newList = this.state.majorList.filter(item => item.key !== key);
+	deleteMajor = (key) => {
+		let newList = this.state.majorList.filter((item) => item.key !== key);
 		this.setState({ majorList: newList });
+
+		let newFilters = this.state.filters;
+		newFilters.highschools = newList;
+		this.setState({ filters: newFilters });
+		console.log(this.state.filters);
 	};
 
 	//updates the filter state whenever a filter updates
-	handleChange = e => {
+	handleChange = (e) => {
 		const { target } = e;
 		let newFilters = this.state.filters;
 		const id = target.id;
@@ -100,7 +104,7 @@ export class StudentScreen extends Component {
 		var options = {};
 		var instance = M.Tabs.init(elem, options);
 
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var elems = document.querySelectorAll('select');
 			var instances = M.FormSelect.init(elems, options);
 		});
