@@ -432,7 +432,11 @@ form h5 {
 }
 
 .collegeMath2,
-.studentMath2 {
+.studentMath2,
+.acceptedMath2,
+.acceptedGPA2,
+.acceptedEBRW2,
+.acceptedACT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -812,7 +816,7 @@ form h5 {
 	text-align: center;
 	position: relative;
 	display: grid;
-	grid-template-rows: 50px 55px 175px 60px 85px 55px;
+	grid-template-rows: 50px 55px 175px 60px 85px 45px;
 }
 
 .collegeClassFilter {
@@ -894,7 +898,11 @@ form h5 {
 	grid-template-columns: 197px 33px;
 }
 
-.studentMathScore {
+.studentMathScore,
+.acceptedMathScore,
+.acceptedGPAScore,
+.acceptedEBRWScore,
+.acceptedACTScore {
 	margin-left: 20px;
 	margin-top: 60px;
 	display: grid;
@@ -907,6 +915,49 @@ form h5 {
 	grid-template-columns: 20px 220px;
 }
 
+#trackerStatContainer {
+	bottom: 50px;
+	display: grid;
+	grid-template-rows: 0px 10px 35px 10px 35px 10px 35px 10px;
+}
+
+#filterStatsText {
+	font-size: 30px;
+	position: relative;
+	font-weight: bold;
+}
+
+.acceptedGPA1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 153px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedMath1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 73px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedEBRW1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 72px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedACT1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 81px;
+	top: 50px;
+	position: relative;
+}
 /*
 	admin screen
 */

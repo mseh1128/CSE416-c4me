@@ -10,6 +10,9 @@ import StudentList from './StudentList';
 
 import HighSchoolFiltersList from './HighSchoolFiltersList';
 
+import { Progress } from 'react-sweet-progress';
+import 'react-sweet-progress/lib/style.css';
+
 export class ApplicationTrackerScreen extends Component {
 	state = {
 		highschool: '',
@@ -97,6 +100,21 @@ export class ApplicationTrackerScreen extends Component {
 		console.log(this.state.filters);
 	};
 
+	getPercent = (type, amount) => {
+		if (type == 'math') {
+			return (amount / 800) * 100;
+		}
+		if (type == 'ebrw') {
+			return (amount / 800) * 100;
+		}
+		if (type == 'act') {
+			return (amount / 36) * 100;
+		}
+		if (type == 'gpa') {
+			return (amount / 4.0) * 100;
+		}
+	};
+
 	render() {
 		var elem = document.querySelector('.tabs');
 		var options = {};
@@ -108,6 +126,25 @@ export class ApplicationTrackerScreen extends Component {
 		});
 
 		const college = this.state.college;
+
+		let theme = {
+			math: {
+				symbol: '‍800',
+				color: 'rgb(223, 105, 180)',
+			},
+			EBRW: {
+				symbol: '800',
+				color: 'rgb(153, 105, 180)',
+			},
+			ACT: {
+				symbol: '36',
+				color: 'rgb(23, 105, 180)',
+			},
+			gpa: {
+				symbol: '4.0',
+				color: 'rgb(23, 145, 10)',
+			},
+		};
 
 		return (
 			<div className='tracker_screen_container'>
@@ -232,6 +269,63 @@ export class ApplicationTrackerScreen extends Component {
 							{' '}
 							Back to college search{' '}
 						</button>
+					</div>
+					<div id='trackerStatContainer'>
+						<div className='filtersBanner'>
+							<span id='filterStatsText'>Stats of accepted students</span>
+						</div>
+						<div className='acceptedGPA1'>
+							{'Average GPA: '}
+							<span className='acceptedGPA2'>{3.6}</span>
+						</div>
+						<div className='acceptedGPAScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('gpa', 3.6)}
+								status='gpa'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedMath1'>
+							{'Average Math SAT Score: '}
+							<span className='acceptedMath2'>{600}</span>
+						</div>
+						<div className='acceptedMathScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('math', 600)}
+								status='math'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedEBRW1'>
+							{'Average Math SAT Score: '}
+							<span className='acceptedEBRW2'>{650}</span>
+						</div>
+						<div className='acceptedEBRWScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('ebrw', 650)}
+								status='EBRW'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedACT1'>
+							{'Average Math SAT Score: '}
+							<span className='acceptedACT2'>{30}</span>
+						</div>
+						<div className='acceptedACTScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('act', 30)}
+								status='ACT'
+								theme={theme}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
