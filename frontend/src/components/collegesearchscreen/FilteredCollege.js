@@ -1,9 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-//import { connect } from 'react-redux';
-//import { compose } from 'redux';
-//import { firestoreConnect } from 'react-redux-firebase';
-//import { tsConstructSignatureDeclaration } from '@babel/types';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css';
@@ -13,7 +9,7 @@ import 'react-sweet-progress/lib/style.css';
 
 class FilteredCollege extends React.Component {
 	state = {
-		status: this.props.college.status
+		status: this.props.college.status,
 	};
 
 	getName = () => {
@@ -27,7 +23,7 @@ class FilteredCollege extends React.Component {
 		return this.state.status;
 	};
 
-	changeStatus = newStatus => {
+	changeStatus = (newStatus) => {
 		this.setState({ status: newStatus });
 	};
 
@@ -46,7 +42,7 @@ class FilteredCollege extends React.Component {
 		}
 	};
 
-	getRecColor = score => {
+	getRecColor = (score) => {
 		if (score < 25) return 'rgb(252, 3, 3)';
 		else if (score < 50) return 'rgb(252, 207, 3)';
 		else if (score < 75) return 'rgb(89, 145, 78)';
@@ -58,12 +54,12 @@ class FilteredCollege extends React.Component {
 		var options = {};
 		var instance = M.Tabs.init(elem, options);
 
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var elems = document.querySelectorAll('.collapsible');
 			var instances = M.Collapsible.init(elems, options);
 		});
 
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var elems = document.querySelectorAll('.dropdown-trigger');
 			var instances = M.Dropdown.init(elems, options);
 		});
@@ -73,27 +69,24 @@ class FilteredCollege extends React.Component {
 		let theme = {
 			math: {
 				symbol: '‍800',
-				color: 'rgb(223, 105, 180)'
+				color: 'rgb(223, 105, 180)',
 			},
 			EBRW: {
 				symbol: '800',
-				color: 'rgb(153, 105, 180)'
+				color: 'rgb(153, 105, 180)',
 			},
 			ACT: {
 				symbol: '36',
-				color: 'rgb(23, 105, 180)'
+				color: 'rgb(23, 105, 180)',
 			},
 			rec: {
 				symbol: college.reccomendScore,
-				color: this.getRecColor(college.reccomendScore)
-			}
+				color: this.getRecColor(college.reccomendScore),
+			},
 		};
 
 		return (
-			<Link
-				to={'/applicationTracker/' + college.key}
-				className='collegeCardSearched'
-			>
+			<Link to={'/applicationTracker/' + college.key} className='collegeCardSearched'>
 				<div className='collegeBoxTitle'>
 					<div className='collegeTitle'> {this.getName()} </div>
 				</div>

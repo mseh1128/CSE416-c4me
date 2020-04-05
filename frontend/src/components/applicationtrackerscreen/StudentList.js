@@ -9,7 +9,7 @@ class StudentList extends React.Component {
 			<div className='student-list section'>
 				{data.students.map((student) => {
 					const { key } = student.key;
-					return <Student key={key} student={student} />;
+					return <Student college={this.props.college} key={key} student={student} />;
 				})}
 			</div>
 		);

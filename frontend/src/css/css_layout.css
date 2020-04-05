@@ -329,7 +329,8 @@ form h5 {
 	width: 540px;
 }
 
-.collegeCardSearched:hover {
+.collegeCardSearched:hover,
+.studentCard:hover {
 	cursor: pointer;
 	background-color: lightblue;
 }
@@ -958,10 +959,21 @@ form h5 {
 	top: 50px;
 	position: relative;
 }
+
+#graphBtn {
+	position: relative;
+	margin-left: 265px;
+	bottom: 180px;
+	height: 183px;
+}
+
+#graphBtn:hover {
+	cursor: pointer;
+}
+
 /*
 	admin screen
 */
-
 .adminContainer {
 	background-color: white;
 	height: 400px;

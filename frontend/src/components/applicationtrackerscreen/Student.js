@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css';
 
@@ -73,53 +75,55 @@ class Student extends React.Component {
 		};
 
 		return (
-			<div className='studentCard'>
-				<div className='studentBoxTitleAndStatus'>
-					<div className='studentTitle'> {this.getName()} </div>
-					<div className='studentStatus'> {student.status} </div>
+			<Link to={'/applicationTracker/' + this.props.college.key + '/view/' + student.key}>
+				<div className='studentCard'>
+					<div className='studentBoxTitleAndStatus'>
+						<div className='studentTitle'> {this.getName()} </div>
+						<div className='studentStatus'> {student.status} </div>
+					</div>
+					<div className='studentLocation'> {student.high_school_name} </div>
+					<div className='studentMajors'>{this.getMajors()}</div>
+					<div className='studentMath1'>
+						{'SAT Math Score: '}
+						<span className='studentMath2'>{student.SAT_Math}</span>
+					</div>
+					<div className='studentMathScore'>
+						<span className='studentText'>0</span>
+						<Progress
+							className='mathBar'
+							percent={this.getPercent('math', student.SAT_Math)}
+							status='math'
+							theme={theme}
+						/>
+					</div>
+					<div className='studentEBRW1'>
+						{'SAT EBRW Score: '}
+						<span className='studentEBRW2'>{student.SAT_EBRW}</span>
+					</div>
+					<div className='studentEBRWScore'>
+						<span className='studentText'>0</span>
+						<Progress
+							className='ebrwBar'
+							percent={this.getPercent('ebrw', student.SAT_EBRW)}
+							status='EBRW'
+							theme={theme}
+						/>
+					</div>
+					<div className='studentACT1'>
+						{'ACT Composite Score: '}
+						<span className='studentACT2'>{student.ACT_Composite}</span>
+					</div>
+					<div className='studentEBRWScore'>
+						<span className='studentText'>0</span>
+						<Progress
+							className='ACTBar'
+							percent={this.getPercent('act', student.ACT_Composite)}
+							status='ACT'
+							theme={theme}
+						/>
+					</div>
 				</div>
-				<div className='studentLocation'> {student.high_school_name} </div>
-				<div className='studentMajors'>{this.getMajors()}</div>
-				<div className='studentMath1'>
-					{'SAT Math Score: '}
-					<span className='studentMath2'>{student.SAT_Math}</span>
-				</div>
-				<div className='studentMathScore'>
-					<span className='studentText'>0</span>
-					<Progress
-						className='mathBar'
-						percent={this.getPercent('math', student.SAT_Math)}
-						status='math'
-						theme={theme}
-					/>
-				</div>
-				<div className='studentEBRW1'>
-					{'SAT EBRW Score: '}
-					<span className='studentEBRW2'>{student.SAT_EBRW}</span>
-				</div>
-				<div className='studentEBRWScore'>
-					<span className='studentText'>0</span>
-					<Progress
-						className='ebrwBar'
-						percent={this.getPercent('ebrw', student.SAT_EBRW)}
-						status='EBRW'
-						theme={theme}
-					/>
-				</div>
-				<div className='studentACT1'>
-					{'ACT Composite Score: '}
-					<span className='studentACT2'>{student.ACT_Composite}</span>
-				</div>
-				<div className='studentEBRWScore'>
-					<span className='studentText'>0</span>
-					<Progress
-						className='ACTBar'
-						percent={this.getPercent('act', student.ACT_Composite)}
-						status='ACT'
-						theme={theme}
-					/>
-				</div>
-			</div>
+			</Link>
 		);
 	}
 }

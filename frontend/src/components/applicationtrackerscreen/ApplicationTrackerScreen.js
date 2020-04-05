@@ -155,7 +155,7 @@ export class ApplicationTrackerScreen extends Component {
 						<span className='collegeTitleText'>{college.name}</span>
 					</div>
 					<div id='studentList'>
-						<StudentList></StudentList>
+						<StudentList college={college}></StudentList>
 					</div>
 				</div>
 				<div className='trackerFiltersContainer'>
@@ -326,6 +326,7 @@ export class ApplicationTrackerScreen extends Component {
 								theme={theme}
 							/>
 						</div>
+						<button id='graphBtn'> See Graph </button>
 					</div>
 				</div>
 			</div>
