@@ -302,10 +302,15 @@ form h5 {
 	font-weight: 600;
 }
 
-#collegeListBanner,
+#collegeListBanner {
+	display: grid;
+	grid-template-columns: 100px 320px 130px 200px 120px 110px;
+	background-color: lightskyblue;
+}
+
 #adminBanner {
 	display: grid;
-	grid-template-columns: 100px 320px 230px 150px 120px 300px;
+	grid-template-columns: 100px 320px 90px 161px;
 	background-color: lightskyblue;
 }
 
@@ -546,6 +551,42 @@ form h5 {
 .react-sweet-progress-circle-outer {
 	left: 400px;
 	bottom: 115px;
+}
+
+.sortNameBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 43px 0px 0px;
+}
+
+.sortARBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 116px 0px 0px;
+}
+
+.sortCostBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 33px 0px 0px;
+}
+
+.sortRankBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 39px 0px 0px;
+}
+
+.sortNameBtn:hover,
+.sortARBtn:hover,
+.sortCostBtn:hover,
+.sortRankBtn:hover {
+	cursor: pointer;
+	color: cadetblue;
 }
 
 /* 

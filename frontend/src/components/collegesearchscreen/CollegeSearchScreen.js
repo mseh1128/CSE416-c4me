@@ -7,6 +7,8 @@ import { Redirect } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css';
 import Add from '@material-ui/icons/Add';
+import Down from '@material-ui/icons/ExpandMore';
+import Up from '@material-ui/icons/ExpandLess';
 import PropTypes from 'prop-types';
 
 import FilteredCollegesList from './FilteredCollegesList.js';
@@ -19,6 +21,8 @@ export class CollegeSeachScreen extends Component {
 		major: '',
 		majorIndex: 0,
 		majorList: [],
+		currentSortType: 'nameUp',
+		currentSortIncreasing: true,
 		filters: {
 			strict: false,
 			name: '',
@@ -87,6 +91,36 @@ export class CollegeSeachScreen extends Component {
 		this.setState({ majorList: newList });
 	};
 
+	//determines which sorting symbol is shown
+	getHidden = (type) => {
+		if (this.state.currentSortType === type) return false;
+		else return true;
+	};
+
+	//generalType is the sort type without direction. ex: type=nameUp, generalType=name
+	getGeneralType = (type) => {
+		let generalType = type.substring(0, type.length - 2);
+		return generalType;
+	};
+
+	changeSort = (type) => {
+		if (this.getGeneralType(this.state.currentSortType) === type) {
+			if (this.state.currentSortIncreasing === true) {
+				let newType = type + 'Dn';
+				this.setState({ currentSortType: newType });
+				this.setState({ currentSortIncreasing: false });
+			} else {
+				let newType = type + 'Up';
+				this.setState({ currentSortType: newType });
+				this.setState({ currentSortIncreasing: true });
+			}
+		} else {
+			let newType = type + 'Up';
+			this.setState({ currentSortType: newType });
+			this.setState({ currentSortIncreasing: true });
+		}
+	};
+
 	handleChange = (e) => {
 		const { target } = e;
 		let newFilters = this.state.filters;
@@ -113,6 +147,46 @@ export class CollegeSeachScreen extends Component {
 					<div id='collegeListBanner'>
 						<div></div>
 						<span className='collegeTitleText'> Filtered Colleges </span>
+						<span class='sortNameBtn' onClick={this.changeSort.bind(this, 'name')}>
+							{' '}
+							Name
+							<div hidden={this.getHidden('nameUp')}>
+								<Up id='nameUp'></Up>
+							</div>
+							<div hidden={this.getHidden('nameDn')}>
+								<Down id='nameDown'></Down>
+							</div>
+						</span>
+						<span class='sortARBtn' onClick={this.changeSort.bind(this, 'AR')}>
+							{' '}
+							Admission Rate
+							<div hidden={this.getHidden('ARUp')}>
+								<Up id='ARUp'></Up>
+							</div>
+							<div hidden={this.getHidden('ARDn')}>
+								<Down id='ARDown'></Down>
+							</div>
+						</span>
+						<span class='sortCostBtn' onClick={this.changeSort.bind(this, 'cost')}>
+							{' '}
+							Cost
+							<div hidden={this.getHidden('costUp')}>
+								<Up id='costUp'></Up>
+							</div>
+							<div hidden={this.getHidden('costDn')}>
+								<Down id='costDown'></Down>
+							</div>
+						</span>
+						<span class='sortRankBtn' onClick={this.changeSort.bind(this, 'rank')}>
+							{' '}
+							Rank
+							<div hidden={this.getHidden('rankUp')}>
+								<Up id='rankUp'></Up>
+							</div>
+							<div hidden={this.getHidden('rankDn')}>
+								<Down id='rankDown'></Down>
+							</div>
+						</span>
 					</div>
 					<div id='collegeList'>
 						<FilteredCollegesList />
