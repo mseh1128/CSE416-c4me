@@ -6,31 +6,18 @@ import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 
 import data from '../test/TestCollegeData.json';
-import StudentList from './StudentList';
 
 import HighSchoolFiltersList from './HighSchoolFiltersList';
 
 import { Progress } from 'react-sweet-progress';
 import 'react-sweet-progress/lib/style.css';
 
-export class ApplicationTrackerScreen extends Component {
+export class ApplicationGraphScreen extends Component {
 	state = {
 		highschool: '',
 		highschoolIndex: 0,
 		highschoolList: [],
 		college: '',
-		filters: {
-			strict: false,
-			collegeClassLB: '',
-			collegeClassUB: '',
-			isAccepted: false,
-			isPending: false,
-			isWaitListed: false,
-			isDeferred: false,
-			isDenied: false,
-			isWithdrawn: false,
-			highschools: [],
-		},
 	};
 
 	componentDidMount() {
@@ -44,65 +31,13 @@ export class ApplicationTrackerScreen extends Component {
 		// do any fetch api requests here & setState
 	}
 
-	goGraph = () => {
+	goBack = () => {
 		const { id } = this.props.match.params;
-		this.props.history.push('/applicationTracker/' + id + '/graph');
+		this.props.history.push('/applicationTracker/' + id);
 	};
 
 	goCollegeSearch = () => {
 		this.props.history.push('/search');
-	};
-
-	updateHighschool = () => {
-		let newHighschool = document.getElementById('highschool').value;
-		this.setState({ highschool: newHighschool });
-		console.log(newHighschool);
-	};
-
-	addHighschool = () => {
-		if (this.state.highschool === '') {
-			return;
-		}
-
-		let newHighschool = {
-			name: this.state.highschool,
-			key: this.state.highschoolIndex,
-			id: this.state.highschoolIndex,
-		};
-		this.setState({ highschoolIndex: this.state.highschoolIndex + 1 });
-		let newList = this.state.highschoolList;
-		newList.push(newHighschool);
-		this.setState({ highschoolList: newList });
-		this.setState({ highschool: '' });
-		document.getElementById('highschool').value = '';
-
-		//updates the filters state with the new majors
-		let newFilters = this.state.filters;
-		newFilters.highschools = this.state.highschoolList.map((item) => item.name);
-		this.setState({ filters: newFilters });
-	};
-
-	deleteHighschool = (key) => {
-		let newList = this.state.highschoolList.filter((item) => item.key !== key);
-		this.setState({ highschoolList: newList });
-
-		//updates the filters state with the new majors
-		let newFilters = this.state.filters;
-		newFilters.highschools = newList.map((item) => item.name);
-		this.setState({ filters: newFilters });
-		console.log(this.state.filters);
-	};
-
-	handleChange = (e) => {
-		const { target } = e;
-		let newFilters = this.state.filters;
-		const id = target.id;
-		newFilters[id] = target.value;
-		if (newFilters[id] === 'on') {
-			newFilters[id] = target.checked;
-		}
-		this.setState({ filters: newFilters });
-		console.log(this.state.filters);
 	};
 
 	getPercent = (type, amount) => {
@@ -159,9 +94,6 @@ export class ApplicationTrackerScreen extends Component {
 						<span className='collegeTitleText'> Application Tracker:</span>
 						<span className='collegeTitleText'>{college.name}</span>
 					</div>
-					<div id='studentList'>
-						<StudentList college={college}></StudentList>
-					</div>
 				</div>
 				<div className='trackerFiltersContainer'>
 					<div className='filtersBanner'>
@@ -169,7 +101,7 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='strictBoxLocation'>
 							<p>
 								<label id='strictBox'>
-									<input type='checkbox' id='strict' onChange={this.handleChange} />
+									<input type='checkbox' id='strict' onChange={this.handleChange} disabled={true} />
 									<span id='strictText'>Strict</span>
 								</label>
 							</p>
@@ -184,6 +116,7 @@ export class ApplicationTrackerScreen extends Component {
 								placeholder='2020'
 								id='collegeClassLB'
 								onChange={this.handleChange}
+								disabled={true}
 							/>
 							-
 							<input
@@ -192,6 +125,7 @@ export class ApplicationTrackerScreen extends Component {
 								placeholder='2030'
 								id='collegeClassUB'
 								onChange={this.handleChange}
+								disabled={true}
 							/>
 						</div>
 					</div>
@@ -200,7 +134,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='acceptedBoxLocation'>
 							<p>
 								<label id='acceptedBox'>
-									<input type='checkbox' id='isAccepted' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isAccepted'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Accepted</span>
 								</label>
 							</p>
@@ -208,7 +147,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='pendingBoxLocation'>
 							<p>
 								<label id='pendingBox'>
-									<input type='checkbox' id='isPending' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isPending'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Pending</span>
 								</label>
 							</p>
@@ -216,7 +160,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='wait-listedBoxLocation'>
 							<p>
 								<label id='wait-listedBox'>
-									<input type='checkbox' id='isWaitListed' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isWaitListed'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Wait-listed</span>
 								</label>
 							</p>
@@ -224,7 +173,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='deferredBoxLocation'>
 							<p>
 								<label id='deferredBox'>
-									<input type='checkbox' id='isDeferred' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isDeferred'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Deferred</span>
 								</label>
 							</p>
@@ -232,7 +186,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='deniedBoxLocation'>
 							<p>
 								<label id='deniedBox'>
-									<input type='checkbox' id='isDenied' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isDenied'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Denied</span>
 								</label>
 							</p>
@@ -240,7 +199,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='withdrawnBoxLocation'>
 							<p>
 								<label id='withdrawnBox'>
-									<input type='checkbox' id='isWithdrawn' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isWithdrawn'
+										onChange={this.handleChange}
+										disabled={true}
+									/>
 									<span id='strictText'>Withdrawn</span>
 								</label>
 							</p>
@@ -248,26 +212,19 @@ export class ApplicationTrackerScreen extends Component {
 					</div>
 					<div id='highschoolFilterContainer'>
 						<div className='input-field' id='highschoolFilter'>
-							<input
-								id='highschool'
-								type='text'
-								onChange={this.updateHighschool.bind(this)}
-							></input>
+							<input id='highschool' type='text' disabled={true}></input>
 							<label htmlFor='highschool'>Applicants Highschool</label>
 						</div>
 						<a
 							className='btn-floating btn-large waves-effect waves-light blue'
 							id='enterHighschoolBtn'
-							onClick={this.addHighschool.bind(this.self)}
+							disabled={true}
 						>
 							<Add></Add>
 						</a>
 					</div>
 					<div id='chosenHSContainer'>
-						<HighSchoolFiltersList
-							highschools={this.state.highschoolList}
-							deleteHighschool={this.deleteHighschool}
-						/>
+						<HighSchoolFiltersList highschools={this.state.highschoolList} />
 					</div>
 					<div>
 						<button className='searchCollegeBtn' onClick={this.goCollegeSearch}>
@@ -331,9 +288,9 @@ export class ApplicationTrackerScreen extends Component {
 								theme={theme}
 							/>
 						</div>
-						<button id='graphBtn' onClick={this.goGraph}>
+						<button id='graphBtn' onClick={this.goBack}>
 							{' '}
-							See Graph{' '}
+							See Students{' '}
 						</button>
 					</div>
 				</div>
@@ -342,4 +299,4 @@ export class ApplicationTrackerScreen extends Component {
 	}
 }
 
-export default ApplicationTrackerScreen;
+export default ApplicationGraphScreen;

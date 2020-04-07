@@ -321,7 +321,7 @@ export class ViewOtherScreen extends Component {
 						<div>
 							<div id='collegeInfoList'>
 								<div id='generalHSHeader'>
-									<span className='profileHeader'>Your Applications</span>
+									<span className='profileHeader'>Their Applications</span>
 								</div>
 								<StudentCollegesList disabled={this.state.disabled} />
 							</div>

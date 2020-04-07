@@ -9,6 +9,7 @@ import RegisterScreen from './components/registerscreen/RegisterScreen.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen';
+import ApplicationGraphScreen from './components/applicationgraphscreen/ApplicationGraphScreen';
 import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.js';
 import ViewOtherScreen from './components/viewotherscreen/ViewOtherScreen.js';
 import AdminScreen from './components/adminscreen/AdminScreen.js';
@@ -26,6 +27,7 @@ function App() {
 				<Route path='/register' component={RegisterScreen} />
 
 				<Route path='/applicationTracker/:id/view/:idStudent' component={ViewOtherScreen} />
+				<Route path='/applicationTracker/:id/graph' component={ApplicationGraphScreen} />
 				<Route path='/applicationTracker/:id' component={ApplicationTrackerScreen} />
 
 				<Route path='/home' component={authorizeComponent(StudentScreen)} />
