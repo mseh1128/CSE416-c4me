@@ -302,10 +302,15 @@ form h5 {
 	font-weight: 600;
 }
 
-#collegeListBanner,
+#collegeListBanner {
+	display: grid;
+	grid-template-columns: 100px 320px 130px 200px 120px 110px;
+	background-color: lightskyblue;
+}
+
 #adminBanner {
 	display: grid;
-	grid-template-columns: 100px 320px 230px 150px 120px 300px;
+	grid-template-columns: 100px 320px 90px 161px;
 	background-color: lightskyblue;
 }
 
@@ -329,12 +334,14 @@ form h5 {
 	width: 540px;
 }
 
-.collegeCardSearched:hover {
+.collegeCardSearched:hover,
+.studentCard:hover {
 	cursor: pointer;
 	background-color: lightblue;
 }
 
-.collegeTitle {
+.collegeTitle,
+.studentTitle {
 	font-size: x-large;
 	font-weight: bold;
 	margin-left: 20px;
@@ -342,7 +349,8 @@ form h5 {
 	color: black;
 }
 
-.collegeLocation {
+.collegeLocation,
+.studentLocation {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -350,7 +358,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeType {
+.collegeType,
+.studentMajors {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -358,7 +367,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeText {
+.collegeText,
+.studentText {
 	font-weight: 100;
 	color: darkslategrey;
 }
@@ -418,7 +428,8 @@ form h5 {
 	position: relative;
 }
 
-.collegeMath1 {
+.collegeMath1,
+.studentMath1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -426,7 +437,12 @@ form h5 {
 	position: relative;
 }
 
-.collegeMath2 {
+.collegeMath2,
+.studentMath2,
+.acceptedMath2,
+.acceptedGPA2,
+.acceptedEBRW2,
+.acceptedACT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -446,14 +462,16 @@ form h5 {
 	position: relative;
 }
 
-.collegeEnglish1 {
+.collegeEnglish1,
+.studentEBRW1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
 	position: relative;
 }
 
-.collegeEnglish2 {
+.collegeEnglish2,
+.studentEBRW2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -473,14 +491,16 @@ form h5 {
 	position: relative;
 }
 
-.collegeACT1 {
+.collegeACT1,
+.studentACT1 {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
 	position: relative;
 }
 
-.collegeACT2 {
+.collegeACT2,
+.studentACT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -531,6 +551,42 @@ form h5 {
 .react-sweet-progress-circle-outer {
 	left: 400px;
 	bottom: 115px;
+}
+
+.sortNameBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 43px 0px 0px;
+}
+
+.sortARBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 116px 0px 0px;
+}
+
+.sortCostBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 33px 0px 0px;
+}
+
+.sortRankBtn {
+	margin-top: 11px;
+	font-size: large;
+	display: grid;
+	grid-template-columns: 39px 0px 0px;
+}
+
+.sortNameBtn:hover,
+.sortARBtn:hover,
+.sortCostBtn:hover,
+.sortRankBtn:hover {
+	cursor: pointer;
+	color: cadetblue;
 }
 
 /* 
@@ -802,7 +858,7 @@ form h5 {
 	text-align: center;
 	position: relative;
 	display: grid;
-	grid-template-rows: 50px 55px 175px 60px 85px 55px;
+	grid-template-rows: 50px 55px 175px 60px 85px 45px;
 }
 
 .collegeClassFilter {
@@ -884,10 +940,81 @@ form h5 {
 	grid-template-columns: 197px 33px;
 }
 
+.studentMathScore,
+.acceptedMathScore,
+.acceptedGPAScore,
+.acceptedEBRWScore,
+.acceptedACTScore {
+	margin-left: 20px;
+	margin-top: 60px;
+	display: grid;
+	grid-template-columns: 20px 220px;
+}
+
+.studentEBRWScore {
+	margin-left: 20px;
+	display: grid;
+	grid-template-columns: 20px 220px;
+}
+
+#trackerStatContainer {
+	bottom: 50px;
+	display: grid;
+	grid-template-rows: 0px 10px 35px 10px 35px 10px 35px 10px;
+}
+
+#filterStatsText {
+	font-size: 30px;
+	position: relative;
+	font-weight: bold;
+}
+
+.acceptedGPA1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 153px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedMath1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 73px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedEBRW1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 72px;
+	top: 50px;
+	position: relative;
+}
+
+.acceptedACT1 {
+	font-size: medium;
+	color: grey;
+	margin-right: 81px;
+	top: 50px;
+	position: relative;
+}
+
+#graphBtn {
+	position: relative;
+	margin-left: 265px;
+	bottom: 180px;
+	height: 183px;
+}
+
+#graphBtn:hover {
+	cursor: pointer;
+}
+
 /*
 	admin screen
 */
-
 .adminContainer {
 	background-color: white;
 	height: 400px;
