@@ -11,6 +11,8 @@ import MajorFiltersList from './MajorFiltersList';
 
 import data from '../test/TestCollegeData.json';
 
+import axios from 'axios';
+
 export class StudentScreen extends Component {
 	state = {
 		major: '',
@@ -38,8 +40,47 @@ export class StudentScreen extends Component {
 		}
 	};
 
-	goCollegeSearch = () => {
-		this.props.history.push('/search');
+	goCollegeSearch = async() => {
+		//let response = "Placeholder until response is changed."
+
+		const filters = this.state.filters;
+
+		//if (this.state.filters.strict === true){
+		//}
+		try{
+			let response = await axios.get('/getFilteredColleges', {
+				params: {
+					strict: filters.strict,
+					name: filters.name,
+					admissionRateLB: filters.admissionRateLB,
+					admissionRateUB: filters.admissionRateUB,
+					costLB: filters.costLB,
+					costUB: filters.costUB,
+					rankLB: filters.rankLB,
+					rankUB: filters.rankUB,
+					sizeLB: filters.sizeLB,
+					sizeUB: filters.sizeUB,
+					ebrwLB: filters.ebrwLB,
+					ebrwUB: filters.ebrwUB,
+					actLB: filters.actLB,
+					actUB: filters.actUB,
+					location: filters.location,
+					major1: filters.major1,
+					major2: filters.major2
+				}
+			});
+			//let allTheColleges = await response.json();
+			console.log(response);
+			this.props.history.push('/search');
+		} catch (err) {
+			const {
+				response: {data, status}
+			} = err;
+			console.log(err);
+			const unknownErrorText = `An unknown error with error code ${status} occurred`;
+			console.log(unknownErrorText);
+		}
+
 	};
 
 	makeStrict = () => {
@@ -277,7 +318,7 @@ export class StudentScreen extends Component {
 							<option value='' defaultValue>
 								Choose a Location
 							</option>
-							<option value='North East'>North East</option>
+							<option value='Northeast'>Northeast</option>
 							<option value='MidWest'>Midwest</option>
 							<option value='South'>South</option>
 							<option value='West'>West</option>
@@ -315,8 +356,8 @@ export default StudentScreen;
 /*
 <div id="collegeListBanner">
   <div></div>
-  <span className="collegeTitleText"> Name </span> 
-  <span className="collegeTitleText"> Location </span> 
+  <span className="collegeTitleText"> Name </span>
+  <span className="collegeTitleText"> Location </span>
   <span className="collegeTitleText"> Rank </span>
   <span className="collegeTitleText"> Size </span>
   <span className="collegeTitleText"> Admission Rate </span>

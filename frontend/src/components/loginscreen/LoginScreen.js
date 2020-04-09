@@ -36,7 +36,7 @@ export class LoginScreen extends Component {
     try {
       const response = await axios.post('/loginUser', {
         username: userID,
-        password
+        password: password
       });
       const { data, status } = response;
       if (status !== 200) {

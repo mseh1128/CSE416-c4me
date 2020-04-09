@@ -14,7 +14,7 @@ import MajorFiltersList from './MajorFiltersList';
 
 import data from '../test/TestCollegeData.json';
 
-export class CollegeSeachScreen extends Component {
+export class CollegeSearchScreen extends Component {
 	state = {
 		major: '',
 		majorIndex: 0,
@@ -212,4 +212,4 @@ export class CollegeSeachScreen extends Component {
 	}
 }
 
-export default CollegeSeachScreen;
+export default CollegeSearchScreen;
