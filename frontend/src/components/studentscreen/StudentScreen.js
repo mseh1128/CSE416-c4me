@@ -45,6 +45,7 @@ export class StudentScreen extends Component {
 
 		const filters = this.state.filters;
 
+
 		//if (this.state.filters.strict === true){
 		//}
 		try{
@@ -72,6 +73,7 @@ export class StudentScreen extends Component {
 			//let allTheColleges = await response.json();
 			console.log(response);
 			this.props.history.push('/search');
+			//this.props.history.push('/search', response);
 		} catch (err) {
 			const {
 				response: {data, status}

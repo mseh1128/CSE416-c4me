@@ -218,8 +218,111 @@ module.exports = function(app, connection) {
     else{
       //nothing is supposed to change if a person does not specify majors
     }
+    let finalInputs = seventeenInputs.filter(element => element)
+
+    if (finalQueryString === queryGetFilteredColleges){
+      finalQueryString = queryGetAllColleges;
+    }
+
+    console.log(finalQueryString)
+    console.log(finalInputs)
+
+    connection.query(finalQueryString, finalInputs, (err, results, fields) => {
+      if (err){
+        console.log(err);
+        return res.sendStatus(500).json('Fetching college data went wrong');
+      }
+
+      console.log(results);
+      res.json(results);
+    })
+
+  });
 
 
+  app.get('/getFilteredColleges', (req, res) => {
+    //console.log("What good is love and peace on earth");
+    console.log(req.query);
+    //console.log("when its exclusive?");
+    const filters = req.query;
+    //console.log("What truth is there in the written word");
+
+
+    const sevenFilters = ['', '', '', '', '', '', '']
+    const seventeenInputs = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+
+    function fillInInputs(lb, hb, sfIndex, query, queryOneSided){
+        if (lb && hb){
+          sevenFilters[sfIndex] = query
+          fourteenInputs[2 * sfIndex] = Number(lb)
+          fourteenInputs[2 * sfIndex + 1] = Number(hb)
+        }
+        else if (lb){
+          sevenFilters[sfIndex] = queryOneSided;
+          fourteenInputs[2 * sfIndex] = '>';
+          fourteenInputs[2 * sfIndex + 1] = Number(lb);
+        }
+        else if (hb){
+          sevenFilters[sfIndex] = queryOneSided;
+          fourteenInputs[2 * sfIndex] = '<';
+          fourteenInputs[2 * sfIndex + 1] = Number(hb);
+        }
+        else{
+          //Nothing should happen here.
+        }
+    }
+
+
+    fillInInputs(filters.admissionRateLB, filters.admissionRateUB, 0, queryAdmissionRate, queryAdmissionRateOneSided);
+    //console.log("when no one reads it?")
+    fillInInputs(filters.costLB, filters.costUB, 1, queryCost, queryCostOneSided);
+    fillInInputs(filters.rankLB, filters.rankUB, 2, queryRank, queryRankOneSided);
+    fillInInputs(filters.sizetLB, filters.sizeUB, 3, querySize, querySizeOneSided);
+    fillInInputs(filters.lbSATMath, filters.hbSATMath, 4, querySATMath, querySATMathOneSided);
+    fillInInputs(filters.lbSATEBRW, filters.hbSATEBRW, 5, querySATEBRW, querySATEBRWOneSided);
+    fillInInputs(filters.lbACTComp, filters.hbACTComp, 6, queryACTComp, queryACTCompOneSided);
+
+
+    const emptyFilterTest = sevenFilters.filter(element => element); //filters out seraches that have not been used.
+    if (emptyFilterTest === []){
+      res.sendStatus(500).json('You did not send anything');
+    }
+    let finalQueryString = queryGetFilteredColleges + emptyFilterTest.join(queryAnd);
+
+    //this part takes the location.
+    if (filters.location){
+      if (finalQueryString !== queryGetFilteredColleges){
+        finalQueryString += queryAnd;
+      }
+      finalQueryString += queryLocation;
+      seventeenInputs[14] = filters.location;
+    }
+
+    //this last part takes care of the majors, which are not numbers and can't be subject to the easy comparison fillInInputs does.
+    //a person can handle two majors, which are weird
+    if (filters.major1 && filters.major2){
+      if (finalQueryString !== queryGetFilteredColleges){
+        finalQueryString += queryAnd;
+      }
+      finalQueryString += queryTwoMajors;
+      seventeenInputs[15] = filters.major1;
+      seventeenInputs[16] = filters.major2;
+    }
+    else if (filters.major1 || filters.major2){
+      if (finalQueryString !== queryGetFilteredColleges){
+        finalQueryString += queryAnd;
+      }
+      finalQueryString += queryMajor;
+      seventeenInputs[15] = filters.major1;
+      seventeenInputs[16] = filters.major2;
+    }
+    else{
+      //nothing is supposed to change if a person does not specify majors
+    }
+    if (finalQueryString === queryGetFilteredColleges){
+      console.log("No college will be filtered out");
+      finalQueryString = queryGetAllColleges;
+    }
 
     let finalInputs = seventeenInputs.filter(element => element)
 
@@ -237,6 +340,5 @@ module.exports = function(app, connection) {
     })
 
   });
-
 
 };
