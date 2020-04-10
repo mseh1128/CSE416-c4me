@@ -10,9 +10,11 @@ class FilteredCollegesList extends React.Component {
 	render() {
 		return (
 			<div className='college-list section'>
-				{data.colleges.map(college => {
+				{data.colleges.map((college) => {
 					const { key } = college;
-					return <FilteredCollege key={key} college={college} />;
+					return (
+						<FilteredCollege key={key} college={college} goAppTracker={this.props.goAppTracker} />
+					);
 				})}
 			</div>
 		);

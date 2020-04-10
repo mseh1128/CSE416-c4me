@@ -48,6 +48,10 @@ export class CollegeSearchScreen extends Component {
 		console.log('college search');
 	};
 
+	goAppTracker = (id) => {
+		this.props.history.push('/applicationTracker/' + id);
+	};
+
 	makeStrict = () => {
 		console.log('make strict');
 	};
@@ -189,7 +193,7 @@ export class CollegeSearchScreen extends Component {
 						</span>
 					</div>
 					<div id='collegeList'>
-						<FilteredCollegesList />
+						<FilteredCollegesList goAppTracker={this.goAppTracker} />
 					</div>
 				</div>
 				<div className='filtersContainer'>
