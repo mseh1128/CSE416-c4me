@@ -30,6 +30,8 @@ export class StudentScreen extends Component {
 			rankUB: '',
 			sizeLB: '',
 			sizeUB: '',
+			mathLB: '',
+			mathUB: '',
 			ebrwLB: '',
 			ebrwUB: '',
 			actLB: '',
@@ -45,35 +47,65 @@ export class StudentScreen extends Component {
 
 		const filters = this.state.filters;
 
-
-		//if (this.state.filters.strict === true){
-		//}
 		try{
-			let response = await axios.get('/getFilteredColleges', {
-				params: {
-					strict: filters.strict,
-					name: filters.name,
-					admissionRateLB: filters.admissionRateLB,
-					admissionRateUB: filters.admissionRateUB,
-					costLB: filters.costLB,
-					costUB: filters.costUB,
-					rankLB: filters.rankLB,
-					rankUB: filters.rankUB,
-					sizeLB: filters.sizeLB,
-					sizeUB: filters.sizeUB,
-					ebrwLB: filters.ebrwLB,
-					ebrwUB: filters.ebrwUB,
-					actLB: filters.actLB,
-					actUB: filters.actUB,
-					location: filters.location,
-					major1: filters.major1,
-					major2: filters.major2
-				}
-			});
-			//let allTheColleges = await response.json();
+			let response = '';
+			if (filters.strict === true){
+				response = await axios.get('/getStrictFilteredColleges', {
+					params: {
+						strict: filters.strict,
+						name: filters.name,
+						admissionRateLB: filters.admissionRateLB,
+						admissionRateUB: filters.admissionRateUB,
+						costLB: filters.costLB,
+						costUB: filters.costUB,
+						rankLB: filters.rankLB,
+						rankUB: filters.rankUB,
+						sizeLB: filters.sizeLB,
+						sizeUB: filters.sizeUB,
+						ebrwLB: filters.ebrwLB,
+						ebrwUB: filters.ebrwUB,
+						actLB: filters.actLB,
+						actUB: filters.actUB,
+						location: filters.location,
+						major1: filters.major1,
+						major2: filters.major2
+					}
+				});
+			}
+			else{
+				response = await axios.get('/getLaxFilteredColleges', {
+					params: {
+						strict: filters.strict,
+						name: filters.name,
+						admissionRateLB: filters.admissionRateLB,
+						admissionRateUB: filters.admissionRateUB,
+						costLB: filters.costLB,
+						costUB: filters.costUB,
+						rankLB: filters.rankLB,
+						rankUB: filters.rankUB,
+						sizeLB: filters.sizeLB,
+						sizeUB: filters.sizeUB,
+						mathLB: filters.mathLB,
+						mathUB: filters.mathUB,
+						ebrwLB: filters.ebrwLB,
+						ebrwUB: filters.ebrwUB,
+						actLB: filters.actLB,
+						actUB: filters.actUB,
+						location: filters.location,
+						major1: filters.major1,
+						major2: filters.major2
+					}
+				});
+			}
 			console.log(response);
+
+			/*
+			this.props.history.push('/search', {
+				filters: filters,
+				colleges: response
+			});
+			*/
 			this.props.history.push('/search');
-			//this.props.history.push('/search', response);
 		} catch (err) {
 			const {
 				response: {data, status}
@@ -293,7 +325,7 @@ export class StudentScreen extends Component {
 							<input
 								type='textfield'
 								className='score'
-								id='ebrwLB'
+								id='ebrwUB'
 								placeholder='800'
 								onChange={this.handleChange}
 							/>

@@ -21,33 +21,47 @@ const queryAnd = ' AND ';
 const queryCollegeName = 'collegeName=?';
 const queryCollegeNameLax = '(collegeName=? OR collegeName IS NULL)';
 const queryAdmissionRate = 'admissionRatePerc BETWEEN ? AND ?';
-const queryAdmissionRateOneSided = 'admissionRatePerc ? ?';
+const queryAdmissionRateLessThan = 'admissionRatePerc < ?';
+const queryAdmissionRateGreaterThan = 'admissionRatePerc > ?';
 const queryAdmissionRateLax = '(admissionRatePerc BETWEEN ? AND ? OR admissionRatePerc IS NULL)';
-const queryAdmissionRateOneSidedLax = '(admissionRatePerc ? ? OR admissionRatePerc IS NULL)';
+const queryAdmissionRateLessThanLax = '(admissionRatePerc < ? OR admissionRatePerc IS NULL)';
+const queryAdmissionRateGreaterThanLax = '(admissionRatePerc > ? OR admissionRatePerc IS NULL)';
 const queryCost = 'cost BETWEEN ? AND ?';
-const queryCostOneSided = 'cost ? ?';
+const queryCostLessThan = 'cost < ?';
+const queryCostGreaterThan = 'cost > ?';
 const queryCostLax = '(cost BETWEEN ? AND ? OR cost IS NULL)';
-const queryCostOneSidedLax = '(cost ? ? OR cost IS NULL)';
+const queryCostLessThanLax = '(cost < ? OR cost IS NULL)';
+const queryCostGreaterThanLax = '(cost > ? OR cost IS NULL)';
 const queryRank = 'rank BETWEEN ? and ?';
-const queryRankOneSided = 'rank ? ?';
+const queryRankLessThan = 'rank < ?';
+const queryRankGreaterThan = 'rank > ?';
 const queryRankLax = '(rank BETWEEN ? and ? OR rank IS NULL)';
-const queryRankOneSidedLax = '(rank ? ? OR rank IS NULL)';
+const queryRankLessThanLax = '(rank < ? OR rank IS NULL)';
+const queryRankGreaterThanLax = '(rank > ? OR rank IS NULL)';
 const querySize = 'size BETWEEN ? and ?';
-const querySizeOneSided = 'size ? ?';
+const querySizeLessThan = 'size < ?';
+const querySizeGreaterThan = 'size > ?';
 const querySizeLax = '(size BETWEEN ? and ? OR size IS NULL)';
-const querySizeOneSidedLax = '(size ? ? OR size IS NULL)';
+const querySizeLessThanLax = '(size < ? OR size IS NULL)';
+const querySizeGreaterThanLax = '(size > ? OR size IS NULL)';
 const querySATMath = 'SATMathScore BETWEEN ? AND ?';
-const querySATMathOneSided = 'SATMathScore ? ?';
+const querySATMathLessThan = 'SATMathScore < ?';
+const querySATMathGreaterThan = 'SATMathScore > ?';
 const querySATMathLax = '(SATMathScore BETWEEN ? AND ? OR SATMathScore IS NULL)';
-const querySATMathOneSidedLax = '(SATMathScore ? ? OR SATMathScore IS NULL)';
+const querySATMathLessThanLax = '(SATMathScore < ? OR SATMathScore IS NULL)';
+const querySATMathGreaterThanLax = '(SATMathScore > ? OR SATMathScore IS NULL)';
 const querySATEBRW = 'SATEBRWScore BETWEEN ? AND ?';
-const querySATEBRWOneSided = 'SATEBRWScore ? ?';
+const querySATEBRWLessThan = 'SATMathScore < ?';
+const querySATEBRWGreaterThan = 'SATMathScore > ?';
 const querySATEBRWLax = '(SATEBRWScore BETWEEN ? AND ? OR SATEBRWScore IS NULL)';
-const querySATEBRWOneSidedLax = '(SATEBRWScore ? ? OR SATEBRWScore IS NULL)';
+const querySATEBRWLessThanLax = '(SATEBRWScore < ? OR SATEBRWScore IS NULL)';
+const querySATEBRWGreaterThanLax = '(SATEBRWScore > ? OR SATEBRWScore IS NULL)';
 const queryACTComp = 'ACTScore BETWEEN ? AND ?';
-const queryACTCompOneSided = 'ACTScore ? ?';
+const queryACTCompLessThan = 'ACTCompScore < ?';
+const queryACTCompGreaterThan = 'ACTCompScore > ?';
 const queryACTCompLax = '(ACTScore BETWEEN ? AND ? OR ACTScore IS NULL)';
-const queryACTCompOneSidedLax = '(ACTScore ? ? OR ACTScore IS NULL)';
+const queryACTCompLessThanLax = '(ACTCompScore < ? OR ACTCompScore IS NULL)';
+const queryACTCompGreaterThanLax = '(ACTCompScore > ? OR ACTCompScore IS NULL)';
 const queryLocation = 'region=?'
 const queryLocationLax = '(region=? OR region IS NULL)'
 const queryMajor = 'majors LIKE \"%?%\"'
@@ -139,7 +153,7 @@ module.exports = function(app, connection) {
 
 
 //lb = lower bound, hb = higher bound
-  app.get('/getFilteredColleges', (req, res) => {
+  app.get('/getStrictFilteredColleges', (req, res) => {
     //console.log("What good is love and peace on earth");
     console.log(req.query);
     //console.log("when its exclusive?");
@@ -150,21 +164,19 @@ module.exports = function(app, connection) {
     const sevenFilters = ['', '', '', '', '', '', '']
     const seventeenInputs = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
 
-    function fillInInputs(lb, hb, sfIndex, query, queryOneSided){
+    function fillInInputs(lb, hb, sfIndex, query, queryLessThan, queryGreaterThan){
         if (lb && hb){
-          sevenFilters[sfIndex] = query
-          fourteenInputs[2 * sfIndex] = Number(lb)
-          fourteenInputs[2 * sfIndex + 1] = Number(hb)
+          sevenFilters[sfIndex] = query;
+          seventeenInputs[2 * sfIndex] = Number(lb);
+          seventeenInputs[2 * sfIndex + 1] = Number(hb);
         }
         else if (lb){
-          sevenFilters[sfIndex] = queryOneSided;
-          fourteenInputs[2 * sfIndex] = '>';
-          fourteenInputs[2 * sfIndex + 1] = Number(lb);
+          sevenFilters[sfIndex] = queryGreaterThan;
+          seventeenInputs[2 * sfIndex] = Number(lb);
         }
         else if (hb){
-          sevenFilters[sfIndex] = queryOneSided;
-          fourteenInputs[2 * sfIndex] = '<';
-          fourteenInputs[2 * sfIndex + 1] = Number(hb);
+          sevenFilters[sfIndex] = queryLessThan;
+          seventeenInputs[2 * sfIndex + 1] = Number(hb);
         }
         else{
           //Nothing should happen here.
@@ -172,14 +184,14 @@ module.exports = function(app, connection) {
     }
 
 
-    fillInInputs(filters.admissionRateLB, filters.admissionRateUB, 0, queryAdmissionRate, queryAdmissionRateOneSided);
+    fillInInputs(filters.admissionRateLB, filters.admissionRateUB, 0, queryAdmissionRate, queryAdmissionRateLessThan, queryAdmissionRateGreaterThan);
     //console.log("when no one reads it?")
-    fillInInputs(filters.costLB, filters.costUB, 1, queryCost, queryCostOneSided);
-    fillInInputs(filters.rankLB, filters.rankUB, 2, queryRank, queryRankOneSided);
-    fillInInputs(filters.sizetLB, filters.sizeUB, 3, querySize, querySizeOneSided);
-    fillInInputs(filters.lbSATMath, filters.hbSATMath, 4, querySATMath, querySATMathOneSided);
-    fillInInputs(filters.lbSATEBRW, filters.hbSATEBRW, 5, querySATEBRW, querySATEBRWOneSided);
-    fillInInputs(filters.lbACTComp, filters.hbACTComp, 6, queryACTComp, queryACTCompOneSided);
+    fillInInputs(filters.costLB, filters.costUB, 1, queryCost, queryCostLessThan, queryCostGreaterThan);
+    fillInInputs(filters.rankLB, filters.rankUB, 2, queryRank, queryRankLessThan, queryRankGreaterThan);
+    fillInInputs(filters.sizetLB, filters.sizeUB, 3, querySize, querySizeLessThan, querySizeGreaterThan);
+    fillInInputs(filters.mathLB, filters.mathUB, 4, querySATMath, querySATMathLessThan, querySATMathGreaterThan);
+    fillInInputs(filters.ebrwLB, filters.ebrwUB, 5, querySATEBRW, querySATEBRWLessThan, querySATEBRWGreaterThan);
+    fillInInputs(filters.actLB, filters.actUB, 6, queryACTComp, queryACTCompLessThan, queryACTCompGreaterThan);
 
 
     const emptyFilterTest = sevenFilters.filter(element => element); //filters out seraches that have not been used.
@@ -240,7 +252,7 @@ module.exports = function(app, connection) {
   });
 
 
-  app.get('/getFilteredColleges', (req, res) => {
+  app.get('/getLaxFilteredColleges', (req, res) => {
     //console.log("What good is love and peace on earth");
     console.log(req.query);
     //console.log("when its exclusive?");
@@ -251,21 +263,19 @@ module.exports = function(app, connection) {
     const sevenFilters = ['', '', '', '', '', '', '']
     const seventeenInputs = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
 
-    function fillInInputs(lb, hb, sfIndex, query, queryOneSided){
+    function fillInInputs(lb, hb, sfIndex, query, queryLessThan, queryGreaterThan){
         if (lb && hb){
-          sevenFilters[sfIndex] = query
-          fourteenInputs[2 * sfIndex] = Number(lb)
-          fourteenInputs[2 * sfIndex + 1] = Number(hb)
+          sevenFilters[sfIndex] = query;
+          seventeenInputs[2 * sfIndex] = Number(lb);
+          seventeenInputs[2 * sfIndex + 1] = Number(hb);
         }
         else if (lb){
-          sevenFilters[sfIndex] = queryOneSided;
-          fourteenInputs[2 * sfIndex] = '>';
-          fourteenInputs[2 * sfIndex + 1] = Number(lb);
+          sevenFilters[sfIndex] = queryGreaterThan;
+          seventeenInputs[2 * sfIndex] = Number(lb);
         }
         else if (hb){
-          sevenFilters[sfIndex] = queryOneSided;
-          fourteenInputs[2 * sfIndex] = '<';
-          fourteenInputs[2 * sfIndex + 1] = Number(hb);
+          sevenFilters[sfIndex] = queryLessThan;
+          seventeenInputs[2 * sfIndex + 1] = Number(hb);
         }
         else{
           //Nothing should happen here.
@@ -273,14 +283,14 @@ module.exports = function(app, connection) {
     }
 
 
-    fillInInputs(filters.admissionRateLB, filters.admissionRateUB, 0, queryAdmissionRate, queryAdmissionRateOneSided);
+    fillInInputs(filters.admissionRateLB, filters.admissionRateUB, 0, queryAdmissionRateLax, queryAdmissionRateLessThanLax, queryAdmissionRateGreaterThanLax);
     //console.log("when no one reads it?")
-    fillInInputs(filters.costLB, filters.costUB, 1, queryCost, queryCostOneSided);
-    fillInInputs(filters.rankLB, filters.rankUB, 2, queryRank, queryRankOneSided);
-    fillInInputs(filters.sizetLB, filters.sizeUB, 3, querySize, querySizeOneSided);
-    fillInInputs(filters.lbSATMath, filters.hbSATMath, 4, querySATMath, querySATMathOneSided);
-    fillInInputs(filters.lbSATEBRW, filters.hbSATEBRW, 5, querySATEBRW, querySATEBRWOneSided);
-    fillInInputs(filters.lbACTComp, filters.hbACTComp, 6, queryACTComp, queryACTCompOneSided);
+    fillInInputs(filters.costLB, filters.costUB, 1, queryCostLax, queryCostLessThanLax, queryCostGreaterThanLax);
+    fillInInputs(filters.rankLB, filters.rankUB, 2, queryRankLax, queryRankLessThanLax, queryRankGreaterThanLax);
+    fillInInputs(filters.sizeLB, filters.sizeUB, 3, querySizeLax, querySizeLessThanLax, querySizeGreaterThanLax);
+    fillInInputs(filters.mathLB, filters.mathUB, 4, querySATMathLax, querySATMathLessThanLax, querySATMathGreaterThanLax);
+    fillInInputs(filters.ebrwLB, filters.ebrwUB, 5, querySATEBRWLax, querySATEBRWLessThanLax, querySATEBRWGreaterThanLax);
+    fillInInputs(filters.actLB, filters.actUB, 6, queryACTCompLax, queryACTCompLessThanLax, queryACTCompGreaterThanLax);
 
 
     const emptyFilterTest = sevenFilters.filter(element => element); //filters out seraches that have not been used.
@@ -294,7 +304,7 @@ module.exports = function(app, connection) {
       if (finalQueryString !== queryGetFilteredColleges){
         finalQueryString += queryAnd;
       }
-      finalQueryString += queryLocation;
+      finalQueryString += queryLocationLax;
       seventeenInputs[14] = filters.location;
     }
 
@@ -304,7 +314,7 @@ module.exports = function(app, connection) {
       if (finalQueryString !== queryGetFilteredColleges){
         finalQueryString += queryAnd;
       }
-      finalQueryString += queryTwoMajors;
+      finalQueryString += queryTwoMajorsLax;
       seventeenInputs[15] = filters.major1;
       seventeenInputs[16] = filters.major2;
     }
@@ -312,19 +322,18 @@ module.exports = function(app, connection) {
       if (finalQueryString !== queryGetFilteredColleges){
         finalQueryString += queryAnd;
       }
-      finalQueryString += queryMajor;
+      finalQueryString += queryMajorLax;
       seventeenInputs[15] = filters.major1;
       seventeenInputs[16] = filters.major2;
     }
     else{
       //nothing is supposed to change if a person does not specify majors
     }
+    let finalInputs = seventeenInputs.filter(element => element)
+
     if (finalQueryString === queryGetFilteredColleges){
-      console.log("No college will be filtered out");
       finalQueryString = queryGetAllColleges;
     }
-
-    let finalInputs = seventeenInputs.filter(element => element)
 
     console.log(finalQueryString)
     console.log(finalInputs)

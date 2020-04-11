@@ -23,6 +23,7 @@ export class CollegeSearchScreen extends Component {
 		majorList: [],
 		currentSortType: 'nameUp',
 		currentSortIncreasing: true,
+		colleges: [],
 		filters: {
 			strict: false,
 			name: '',
