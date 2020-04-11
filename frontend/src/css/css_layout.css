@@ -376,6 +376,15 @@ form h5 {
 .collegeBoxTitle {
 	top: 10px;
 	position: relative;
+	display: grid;
+	grid-template-columns: 428px 100px;
+}
+
+#applyBtn {
+	font-weight: bold;
+	cursor: pointer;
+	border-color: teal;
+	background-color: cadetblue;
 }
 
 .collegeBoxTitleAndStatus {

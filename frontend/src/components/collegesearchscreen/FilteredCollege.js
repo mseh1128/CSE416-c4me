@@ -13,8 +13,8 @@ class FilteredCollege extends React.Component {
 	};
 
 	getName = () => {
-		if (this.props.college.name.length > 49) {
-			let tempName = this.props.college.name.substring(0, 48) + '...';
+		if (this.props.college.name.length > 39) {
+			let tempName = this.props.college.name.substring(0, 38) + '...';
 			return tempName;
 		} else return this.props.college.name;
 	};
@@ -25,6 +25,11 @@ class FilteredCollege extends React.Component {
 
 	changeStatus = (newStatus) => {
 		this.setState({ status: newStatus });
+	};
+
+	apply = (e) => {
+		e.stopPropagation();
+		console.log('apply');
 	};
 
 	getPercent = (type, amount) => {
@@ -86,9 +91,15 @@ class FilteredCollege extends React.Component {
 		};
 
 		return (
-			<Link to={'/applicationTracker/' + college.key} className='collegeCardSearched'>
+			<div
+				className='collegeCardSearched'
+				onClick={this.props.goAppTracker.bind(this, college.key)}
+			>
 				<div className='collegeBoxTitle'>
 					<div className='collegeTitle'> {this.getName()} </div>
+					<button id='applyBtn' onClick={this.apply}>
+						Apply
+					</button>
 				</div>
 				<div className='collegeLocation'> {college.location} </div>
 				<div className='collegeType'>
@@ -152,7 +163,7 @@ class FilteredCollege extends React.Component {
 						theme={theme}
 					/>
 				</div>
-			</Link>
+			</div>
 		);
 	}
 }
