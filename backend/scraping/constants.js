@@ -18,15 +18,16 @@ module.exports = {
       'University of Massachusetts-Amherst',
     'Indiana University Bloomington': 'Indiana University-Bloomington',
     'The College of St Scholastica': 'The College of Saint Scholastica',
-    'Franklin & Marshall College': 'Franklin and Marshall College'
+    'Franklin & Marshall College': 'Franklin and Marshall College',
   },
   CSFieldNamesToDBFields: {
     INSTNM: 'collegeName',
+    CITY: 'city',
     STABBR: 'state',
     ADM_RATE: 'admissionRatePercent',
     CONTROL: 'institutionType',
     GRAD_DEBT_MDN: 'medianCompletedStudentDebt',
     UG: 'size',
-    UGDS: 'size'
-  }
+    UGDS: 'size',
+  },
 };

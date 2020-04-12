@@ -20,10 +20,10 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'gas pedal',
-  database: 'college_recommender'
+  database: 'college_recommender',
 });
 
-connection.connect(err => {
+connection.connect((err) => {
   err
     ? console.log('You failed to connect because ' + err)
     : console.log('A connection has been established.');

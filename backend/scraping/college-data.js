@@ -4,22 +4,22 @@ const {
   collegeNames,
   collegeDataBaseURL,
   maxConcurrentConns,
-  collegeNameRegex
+  collegeNameRegex,
 } = require('./constants');
 const collegeDataCollegeURL = `${collegeDataBaseURL}/college/`;
 const Bottleneck = require('bottleneck');
 
-const mapNameToCollegeDataURL = collegeList => {
-  return collegeList.map(college => ({
+const mapNameToCollegeDataURL = (collegeList) => {
+  return collegeList.map((college) => ({
     collegeName: college,
     collegeURL: `${collegeDataCollegeURL}${college
       .replace(/^The\s/, '')
       .replace(/SUNY/, 'State University of New York')
-      .replace(collegeNameRegex, `$1-$3`)}/`
+      .replace(collegeNameRegex, `$1-$3`)}/`,
   }));
 };
 
-const computeAvgScore = scoreText => {
+const computeAvgScore = (scoreText) => {
   // console.log(scoreText);
   let avgScore = null;
   const avgRegex = /(\d*) average/;
@@ -49,7 +49,7 @@ const computeAvgScore = scoreText => {
   return avgScore;
 };
 
-const sanitizeCostOfAttendance = costStr => {
+const sanitizeCostOfAttendance = (costStr) => {
   // basically just remove commas and covert to int
   const attendanceCostRegex = /\$([\d,]*)/;
   const computedCostRegex = attendanceCostRegex.exec(costStr);
@@ -65,7 +65,7 @@ const sanitizeCostOfAttendance = costStr => {
   return null;
 };
 
-const getAttendanceCost = profileOverviewEl => {
+const getAttendanceCost = (profileOverviewEl) => {
   // cost of attendance
   const costOfAttendance = profileOverviewEl
     .find('.card:nth-of-type(3)')
@@ -87,7 +87,7 @@ const getAttendanceCost = profileOverviewEl => {
   }
   return {
     InStateAttendanceCost: inStateCost,
-    OutStateAttendanceCost: outStateCost
+    OutStateAttendanceCost: outStateCost,
   };
 };
 
@@ -149,7 +149,7 @@ const scrapeCollege = async (collegeName, collegeDataURL) => {
     collegeData['avgSATEBRW'] = avgSATEBRW;
     collegeData['avgACTComposite'] = avgACTComposite;
 
-    // console.log(`${collegeName} finished`);
+    console.log(`${collegeName} finished`);
     return collegeData;
   } catch (err) {
     console.log(err);
@@ -170,14 +170,15 @@ const scrapeCollegeData = async () => {
     const scrapedCollegesInfo = await Promise.all(tasks);
     // sets college name as the key
     const scrapedCollegeMap = {};
-    scrapedCollegesInfo.forEach(collegeInfo => {
+    scrapedCollegesInfo.forEach((collegeInfo) => {
       const { name } = collegeInfo;
       scrapedCollegeMap[name] = collegeInfo;
     });
     return scrapedCollegeMap;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     console.log('Error occurred in scraping data!');
+    throw err;
   }
 };
 
