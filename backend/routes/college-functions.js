@@ -155,11 +155,8 @@ module.exports = function (app, connection) {
 
   //lb = lower bound, hb = higher bound
   app.get('/getStrictFilteredColleges', (req, res) => {
-    //console.log("What good is love and peace on earth");
     console.log(req.query);
-    //console.log("when its exclusive?");
     const filters = req.query;
-    //console.log("What truth is there in the written word");
 
     const sevenFilters = ['', '', '', '', '', '', ''];
     const seventeenInputs = [
