@@ -400,33 +400,33 @@ form h5 {
 
 .collegeBoxSizeAndMath {
 	display: grid;
-	grid-template-columns: 115px 1000px;
+	grid-template-columns: 135px 1000px;
 }
 
 .collegeBoxSizeAndBar {
 	display: grid;
-	grid-template-columns: 115px 15px 250px;
+	grid-template-columns: 135px 15px 250px;
 	margin-top: 60px;
 }
 
 .collegeBoxCostAndEnglish {
 	display: grid;
-	grid-template-columns: 115px 1000px;
+	grid-template-columns: 135px 1000px;
 }
 
 .collegeBoxCostAndBar {
 	display: grid;
-	grid-template-columns: 115px 15px 250px 20px;
+	grid-template-columns: 135px 15px 250px 20px;
 }
 
 .collegeBoxDebtAndACT {
 	display: grid;
-	grid-template-columns: 115px 1000px;
+	grid-template-columns: 135px 1000px;
 }
 
 .collegeBoxDebtAndBar {
 	display: grid;
-	grid-template-columns: 115px 15px 250px;
+	grid-template-columns: 135px 15px 250px;
 }
 
 .collegeSize1 {

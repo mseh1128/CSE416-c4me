@@ -8,173 +8,263 @@ import { Progress } from 'react-sweet-progress';
 import 'react-sweet-progress/lib/style.css';
 
 class FilteredCollege extends React.Component {
-  state = {
-    status: 'Admitted',
-  };
+	state = {
+		status: 'Admitted',
+	};
 
-  getName = () => {
-    if (this.props.college.collegeName.length > 39) {
-      let tempName = this.props.college.collegeName.substring(0, 38) + '...';
-      return tempName;
-    } else return this.props.college.collegeName;
-  };
+	getName = () => {
+		if (this.props.college.collegeName.length > 33) {
+			let tempName = this.props.college.collegeName.substring(0, 32) + '...';
+			return tempName;
+		} else return this.props.college.collegeName;
+	};
 
-  getStatus = () => {
-    return this.state.status;
-  };
+	getType = () => {
+		if (
+			this.props.college.institutionType === undefined ||
+			this.props.college.institutionType === null
+		) {
+			return 'nondescript';
+		} else return this.props.college.institutionType;
+	};
 
-  changeStatus = (newStatus) => {
-    this.setState({ status: newStatus });
-  };
+	getCity = () => {
+		if (this.props.college.city === undefined || this.props.college.city === null) {
+			return 'Unknown';
+		} else return this.props.college.city;
+	};
 
-  apply = (e) => {
-    e.stopPropagation();
-    console.log('apply');
-  };
+	getState = () => {
+		if (this.props.college.state === undefined || this.props.college.state === null) {
+			return 'Unknown';
+		} else return this.props.college.state;
+	};
 
-  getPercent = (type, amount) => {
-    if (type == 'math') {
-      return (amount / 800) * 100;
-    }
-    if (type == 'ebrw') {
-      return (amount / 800) * 100;
-    }
-    if (type == 'act') {
-      return (amount / 36) * 100;
-    }
-    if (type == 'rec') {
-      return amount;
-    }
-  };
+	getAdmissionRate = () => {
+		if (
+			this.props.college.admissionRatePercent === undefined ||
+			this.props.college.admissionRatePercent === null
+		) {
+			return 'Unknown';
+		} else return Math.floor(this.props.college.admissionRatePercent * 10000) / 100 + '%';
+	};
 
-  getRecColor = (score) => {
-    if (score < 25) return 'rgb(252, 3, 3)';
-    else if (score < 50) return 'rgb(252, 207, 3)';
-    else if (score < 75) return 'rgb(89, 145, 78)';
-    else return 'rgb(3, 144, 252)';
-  };
+	getCompletionRate = () => {
+		if (
+			this.props.college.completion_rate === undefined ||
+			this.props.college.completion_rate === null
+		) {
+			return 'Unknown';
+		} else return Math.floor(this.props.college.admissionRatePercent * 100) / 100 + '%';
+	};
 
-  render() {
-    var elem = document.querySelector('.tabs');
-    var options = {};
-    var instance = M.Tabs.init(elem, options);
+	getRank = () => {
+		if (this.props.college.ranking === undefined || this.props.college.ranking === null) {
+			return '?';
+		} else return this.props.college.ranking;
+	};
 
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.collapsible');
-      var instances = M.Collapsible.init(elems, options);
-    });
+	getSize = () => {
+		if (this.props.college.size === undefined || this.props.college.size === null) {
+			return 'Unknown';
+		} else return this.props.college.size;
+	};
 
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.dropdown-trigger');
-      var instances = M.Dropdown.init(elems, options);
-    });
+	getPrice = () => {
+		let inCost = '';
+		if (
+			this.props.college.inStateAttendanceCost === undefined ||
+			this.props.college.inStateAttendanceCost === null
+		) {
+			inCost = 'N/A';
+		} else inCost = '$' + this.props.college.inStateAttendanceCost;
+		let outCost = '';
+		if (
+			this.props.college.outOfStateAttendanceCost === undefined ||
+			this.props.college.outOfStateAttendanceCost === null
+		) {
+			outCost = 'N/A';
+		} else outCost = '$' + this.props.college.outOfStateAttendanceCost;
+		return inCost + ' | ' + outCost;
+	};
 
-    const college = this.props.college;
+	getDebt = () => {
+		if (
+			this.props.college.medianCompletedStudentDebt === undefined ||
+			this.props.college.medianCompletedStudentDebt === null
+		) {
+			return 'Unknown';
+		} else return '$' + this.props.college.medianCompletedStudentDebt;
+	};
 
-    let theme = {
-      math: {
-        symbol: '‍800',
-        color: 'rgb(223, 105, 180)',
-      },
-      EBRW: {
-        symbol: '800',
-        color: 'rgb(153, 105, 180)',
-      },
-      ACT: {
-        symbol: '36',
-        color: 'rgb(23, 105, 180)',
-      },
-      rec: {
-        symbol: 50,
-        color: this.getRecColor(50),
-      },
-    };
+	getMathScore = () => {
+		if (this.props.college.SATMathScore === undefined || this.props.college.SATMathScore === null) {
+			return 'Unknown';
+		} else return this.props.college.SATMathScore;
+	};
 
-    return (
-      <div
-        className="collegeCardSearched"
-        onClick={this.props.goAppTracker.bind(this, college.key)}
-      >
-        <div className="collegeBoxTitle">
-          <div className="collegeTitle"> {college.collegeName} </div>
-          <button id="applyBtn" onClick={this.apply}>
-            Apply
-          </button>
-        </div>
-        <div className="collegeLocation">
-          {' '}
-          {college.city + ', ' + college.state}{' '}
-        </div>
-        <div className="collegeType">
-          {' '}
-          {college.institutionType +
-            ' | ' +
-            college.admissionRatePercent * 100 +
-            '% Acceptance Rate | ' +
-            college.completion_rate +
-            '% Completion Rate | Rank: ' +
-            college.ranking}{' '}
-        </div>
-        <div className="collegeBoxSizeAndMath">
-          <div className="collegeSize1">{'Size:'}</div>
-          <div className="collegeMath1">
-            {'Average SAT Math: '}
-            <span className="collegeMath2">{college.SATMathScore}</span>
-          </div>
-        </div>
-        <div className="collegeBoxSizeAndBar">
-          <div className="collegeSize2"> {college.size} </div>
-          <span className="collegeText">0</span>
-          <Progress
-            className="mathBar"
-            percent={this.getPercent('math', college.SATMathScore)}
-            status="math"
-            theme={theme}
-          />
-        </div>
-        <div className="collegeBoxCostAndEnglish">
-          <div className="collegeCost1"> {'Avg Price:'} </div>
-          <div className="collegeEnglish1">
-            {'Average SAT EBRW: '}
-            <span className="collegeEnglish2">{college.SATEBRWScore}</span>
-          </div>
-        </div>
-        <div className="collegeBoxCostAndBar">
-          <div className="collegeCost2">
-            {' '}
-            {'$' + college.inStateAttendanceCost}{' '}
-          </div>
-          <span className="collegeText">0</span>
-          <Progress
-            className="ebrwBar"
-            percent={this.getPercent('ebrw', college.SATEBRWScore)}
-            status="EBRW"
-            theme={theme}
-          />
-        </div>
-        <div className="collegeBoxDebtAndACT">
-          <div className="collegeDebt1"> {'Avg Debt:'} </div>
-          <div className="collegeACT1">
-            {'Average ACT: '}
-            <span className="collegeACT2">{college.ACTScore}</span>
-          </div>
-        </div>
-        <div className="collegeBoxDebtAndBar">
-          <div className="collegeDebt2">
-            {' '}
-            {'$' + college.medianCompletedStudentDebt}{' '}
-          </div>
-          <span className="collegeText">0</span>
-          <Progress
-            className="ACTBar"
-            percent={this.getPercent('act', college.ACTScore)}
-            status="ACT"
-            theme={theme}
-          />
-        </div>
-      </div>
-    );
-  }
+	getEnglishScore = () => {
+		if (this.props.college.SATEBRWScore === undefined || this.props.college.SATMathScore === null) {
+			return 'Unknown';
+		} else return this.props.college.SATEBRWScore;
+	};
+
+	getACTScore = () => {
+		if (this.props.college.ACTScore === undefined || this.props.college.ACTScore === null) {
+			return 'Unknown';
+		} else return this.props.college.ACTScore;
+	};
+
+	getStatus = () => {
+		return this.state.status;
+	};
+
+	changeStatus = (newStatus) => {
+		this.setState({ status: newStatus });
+	};
+
+	apply = (e) => {
+		e.stopPropagation();
+		console.log('apply');
+	};
+
+	getPercent = (type, amount) => {
+		if (amount === undefined || amount === null) {
+			return 0;
+		}
+		if (type == 'math') {
+			return (amount / 800) * 100;
+		}
+		if (type == 'ebrw') {
+			return (amount / 800) * 100;
+		}
+		if (type == 'act') {
+			return (amount / 36) * 100;
+		}
+		if (type == 'rec') {
+			return amount;
+		}
+	};
+
+	getRecColor = (score) => {
+		if (score < 25) return 'rgb(252, 3, 3)';
+		else if (score < 50) return 'rgb(252, 207, 3)';
+		else if (score < 75) return 'rgb(89, 145, 78)';
+		else return 'rgb(3, 144, 252)';
+	};
+
+	render() {
+		var elem = document.querySelector('.tabs');
+		var options = {};
+		var instance = M.Tabs.init(elem, options);
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('.collapsible');
+			var instances = M.Collapsible.init(elems, options);
+		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('.dropdown-trigger');
+			var instances = M.Dropdown.init(elems, options);
+		});
+
+		const college = this.props.college;
+
+		let theme = {
+			math: {
+				symbol: '‍800',
+				color: 'rgb(223, 105, 180)',
+			},
+			EBRW: {
+				symbol: '800',
+				color: 'rgb(153, 105, 180)',
+			},
+			ACT: {
+				symbol: '36',
+				color: 'rgb(23, 105, 180)',
+			},
+			rec: {
+				symbol: 50,
+				color: this.getRecColor(50),
+			},
+		};
+
+		return (
+			<div
+				className='collegeCardSearched'
+				onClick={this.props.goAppTracker.bind(this, college.key)}
+			>
+				<div className='collegeBoxTitle'>
+					<div className='collegeTitle'> {this.getName()} </div>
+					<button id='applyBtn' onClick={this.apply}>
+						Apply
+					</button>
+				</div>
+				<div className='collegeLocation'> {this.getCity() + ', ' + this.getState()} </div>
+				<div className='collegeType'>
+					{' '}
+					{this.getType() +
+						' | ' +
+						this.getAdmissionRate() +
+						' Acceptance Rate | ' +
+						this.getCompletionRate() +
+						' Completion | Rank: ' +
+						this.getRank()}{' '}
+				</div>
+				<div className='collegeBoxSizeAndMath'>
+					<div className='collegeSize1'>{'Size:'}</div>
+					<div className='collegeMath1'>
+						{'Average SAT Math: '}
+						<span className='collegeMath2'>{this.getMathScore()}</span>
+					</div>
+				</div>
+				<div className='collegeBoxSizeAndBar'>
+					<div className='collegeSize2'> {this.getSize()} </div>
+					<span className='collegeText'>0</span>
+					<Progress
+						className='mathBar'
+						percent={this.getPercent('math', college.SATMathScore)}
+						status='math'
+						theme={theme}
+					/>
+				</div>
+				<div className='collegeBoxCostAndEnglish'>
+					<div className='collegeCost1'> {'Avg Price:'} </div>
+					<div className='collegeEnglish1'>
+						{'Average SAT EBRW: '}
+						<span className='collegeEnglish2'>{this.getEnglishScore()}</span>
+					</div>
+				</div>
+				<div className='collegeBoxCostAndBar'>
+					<div className='collegeCost2'> {this.getPrice()} </div>
+					<span className='collegeText'>0</span>
+					<Progress
+						className='ebrwBar'
+						percent={this.getPercent('ebrw', college.SATEBRWScore)}
+						status='EBRW'
+						theme={theme}
+					/>
+				</div>
+				<div className='collegeBoxDebtAndACT'>
+					<div className='collegeDebt1'> {'Avg Debt:'} </div>
+					<div className='collegeACT1'>
+						{'Average ACT: '}
+						<span className='collegeACT2'>{this.getACTScore()}</span>
+					</div>
+				</div>
+				<div className='collegeBoxDebtAndBar'>
+					<div className='collegeDebt2'> {this.getDebt()} </div>
+					<span className='collegeText'>0</span>
+					<Progress
+						className='ACTBar'
+						percent={this.getPercent('act', college.ACTScore)}
+						status='ACT'
+						theme={theme}
+					/>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default FilteredCollege;
