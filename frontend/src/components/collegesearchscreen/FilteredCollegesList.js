@@ -8,7 +8,7 @@ import FilteredCollege from './FilteredCollege.js';
 
 class FilteredCollegesList extends React.Component {
   render() {
-    console.log('in filitered college list, props are');
+    console.log('in filtered college list, props are');
     console.log(this.props.colleges[0]);
     return (
       <div className="college-list section">

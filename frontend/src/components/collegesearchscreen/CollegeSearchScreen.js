@@ -76,8 +76,72 @@ export class CollegeSearchScreen extends Component {
     }
   };
 
-  goCollegeSearch = () => {
+  goCollegeSearch = async() => {
     console.log('college search');
+
+		const filters = this.state.filters;
+
+		try{
+			let response = '';
+			if (filters.strict === true){
+				response = await axios.get('/getStrictFilteredColleges', {
+					params: {
+						strict: filters.strict,
+						name: filters.name,
+						admissionRateLB: filters.admissionRateLB,
+						admissionRateUB: filters.admissionRateUB,
+						costLB: filters.costLB,
+						costUB: filters.costUB,
+						rankLB: filters.rankLB,
+						rankUB: filters.rankUB,
+						sizeLB: filters.sizeLB,
+						sizeUB: filters.sizeUB,
+						ebrwLB: filters.ebrwLB,
+						ebrwUB: filters.ebrwUB,
+						actLB: filters.actLB,
+						actUB: filters.actUB,
+						location: filters.location,
+						major1: filters.major1,
+						major2: filters.major2
+					}
+				});
+			}
+			else{
+				response = await axios.get('/getLaxFilteredColleges', {
+					params: {
+						strict: filters.strict,
+						name: filters.name,
+						admissionRateLB: filters.admissionRateLB,
+						admissionRateUB: filters.admissionRateUB,
+						costLB: filters.costLB,
+						costUB: filters.costUB,
+						rankLB: filters.rankLB,
+						rankUB: filters.rankUB,
+						sizeLB: filters.sizeLB,
+						sizeUB: filters.sizeUB,
+						mathLB: filters.mathLB,
+						mathUB: filters.mathUB,
+						ebrwLB: filters.ebrwLB,
+						ebrwUB: filters.ebrwUB,
+						actLB: filters.actLB,
+						actUB: filters.actUB,
+						location: filters.location,
+						major1: filters.major1,
+						major2: filters.major2
+					}
+				});
+			}
+			console.log(response);
+			this.setState({colleges: response.data});
+		} catch (err) {
+			const {
+				response: {data, status}
+			} = err;
+			console.log(err);
+			const unknownErrorText = `An unknown error with error code ${status} occurred`;
+			console.log(unknownErrorText);
+		}
+
   };
 
   goAppTracker = (id) => {
@@ -1292,10 +1356,10 @@ export class CollegeSearchScreen extends Component {
               <option value="" defaultValue>
                 Choose a Location
               </option>
-              <option value="1">North East</option>
-              <option value="2">Midwest</option>
-              <option value="3">South</option>
-              <option value="3">West</option>
+              <option value="Northeast">Northeast</option>
+              <option value="Midwest">Midwest</option>
+              <option value="South">South</option>
+              <option value="West">West</option>
             </select>
           </div>
           <div id="majorFilterContainer">
@@ -1322,7 +1386,10 @@ export class CollegeSearchScreen extends Component {
             />
           </div>
           <div>
-            <button className="searchCollegeBtn" onClick={this.goCollegeSearch}>
+            <button
+							className="searchCollegeBtn"
+							onClick={this.goCollegeSearch}
+							colleges={this.state.colleges}>
               {' '}
               Search Again{' '}
             </button>
@@ -1331,7 +1398,7 @@ export class CollegeSearchScreen extends Component {
               onClick={this.goCollegeReccomendation}
             >
               {' '}
-              Reccomend Me Colleges{' '}
+              Recommend Me Colleges{' '}
             </button>
           </div>
         </div>
