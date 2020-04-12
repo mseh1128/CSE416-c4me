@@ -2,10 +2,10 @@ const scrapeCollegeScorecard = require('./CollegeScorecard/college-scorecard');
 const scrapeCollegeData = require('./college-data');
 const scrapeCollegeRanking = require('./college-ranking');
 const mysql = require('mysql');
-const queryInsertCollegeScorecard = `INSERT INTO college (collegeName, city, state, admissionRatePercent, institutionType, medianCompletedStudentDebt, size) 
-  VALUES (?, ?, ?, ?, ?, ?, ?)
+const queryInsertCollegeScorecard = `INSERT INTO college (collegeName, city, state, admissionRatePercent, institutionType, medianCompletedStudentDebt, size, region) 
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   ON DUPLICATE KEY UPDATE 
-    city=?, state=?,admissionRatePercent=?,institutionType=?,medianCompletedStudentDebt=?,size=?`;
+    city=?, state=?,admissionRatePercent=?,institutionType=?,medianCompletedStudentDebt=?,size=?,region=?`;
 const queryInsertCollegeData = `INSERT INTO college (collegeName, inStateAttendanceCost, outOfStateAttendanceCost, completionRate, GPA, SATMathScore, SATEBRWScore, ACTScore) 
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   ON DUPLICATE KEY UPDATE 
@@ -15,6 +15,8 @@ const queryInsertMajor = `INSERT IGNORE INTO major (collegeName, major)
   VALUES (?, ?)`;
 
 const queryUpdateRank = 'UPDATE college SET ranking=? WHERE collegeName=?';
+
+const { regionToStateMapping } = require('./constants');
 
 // const queryInsertCollegeData = `INSERT INTO college (collegeName, city, state, admissionRatePercent, institutionType, medianCompletedStudentDebt, size)
 //   VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -58,11 +60,11 @@ const collegeRankingToSQL = async () => {
   }
 };
 
-collegeRankingToSQL()
-  .then((res) =>
-    console.log('All college ranking data was succesfully saved to DB!')
-  )
-  .catch((err) => console.log(err));
+// collegeRankingToSQL()
+//   .then((res) =>
+//     console.log('All college ranking data was succesfully saved to DB!')
+//   )
+//   .catch((err) => console.log(err));
 
 const collegeDataToSQL = async () => {
   try {
@@ -129,6 +131,15 @@ const collegeDataToSQL = async () => {
   }
 };
 
+const mapStateToRegion = (state) => {
+  for (const region in regionToStateMapping) {
+    // console.log(`${state} matched to region ${region}`);
+    if (regionToStateMapping[region].includes(state)) return region;
+  }
+  console.log('Could not find any region matching to that state!');
+  return null;
+};
+
 const collegeScorecardStreamToSQL = async () => {
   // scrapes directly from huge college scorecard file site (stream) so will take a long time
   try {
@@ -146,6 +157,9 @@ const collegeScorecardStreamToSQL = async () => {
         size,
       } = collegeScorecardData[college];
 
+      // need to eventually put this in college-scorecard file
+      const region = mapStateToRegion(state);
+
       promises.push(
         connection.query(queryInsertCollegeScorecard, [
           college,
@@ -155,12 +169,14 @@ const collegeScorecardStreamToSQL = async () => {
           institutionType,
           medianCompletedStudentDebt,
           size,
+          region,
           city,
           state,
           admissionRatePercent,
           institutionType,
           medianCompletedStudentDebt,
           size,
+          region,
         ])
       );
     }
@@ -174,6 +190,12 @@ const collegeScorecardStreamToSQL = async () => {
     throw err;
   }
 };
+
+collegeScorecardStreamToSQL()
+  .then((res) =>
+    console.log('All college scorecard data was succesfully saved to DB!')
+  )
+  .catch((err) => console.log(err));
 
 // collegeDataToSQL()
 //   .then((res) => {

@@ -14,60 +14,6 @@ const queryGetAllColleges = 'SELECT * FROM college';
 const queryGetStudentCollegeDecs =
   'SELECT * FROM college_declaration WHERE userID=?';
 
-const queryGetFilteredColleges = 'SELECT * FROM college WHERE ';
-const queryAnd = ' AND ';
-
-const queryCollegeName = 'collegeName=?';
-const queryCollegeNameLax = '(collegeName=? OR collegeName IS NULL)';
-const queryAdmissionRate = 'admissionRatePerc BETWEEN ? AND ?';
-const queryAdmissionRateLessThan = 'admissionRatePerc < ?';
-const queryAdmissionRateGreaterThan = 'admissionRatePerc > ?';
-const queryAdmissionRateLax =
-  '(admissionRatePerc BETWEEN ? AND ? OR admissionRatePerc IS NULL)';
-const queryAdmissionRateLessThanLax =
-  '(admissionRatePerc < ? OR admissionRatePerc IS NULL)';
-const queryAdmissionRateGreaterThanLax =
-  '(admissionRatePerc > ? OR admissionRatePerc IS NULL)';
-const queryCost = 'cost BETWEEN ? AND ?';
-const queryCostLessThan = 'cost < ?';
-const queryCostGreaterThan = 'cost > ?';
-const queryCostLax = '(cost BETWEEN ? AND ? OR cost IS NULL)';
-const queryCostLessThanLax = '(cost < ? OR cost IS NULL)';
-const queryCostGreaterThanLax = '(cost > ? OR cost IS NULL)';
-const queryRank = 'rank BETWEEN ? and ?';
-const queryRankLessThan = 'rank < ?';
-const queryRankGreaterThan = 'rank > ?';
-const queryRankLax = '(rank BETWEEN ? and ? OR rank IS NULL)';
-const queryRankLessThanLax = '(rank < ? OR rank IS NULL)';
-const queryRankGreaterThanLax = '(rank > ? OR rank IS NULL)';
-const querySize = 'size BETWEEN ? and ?';
-const querySizeLessThan = 'size < ?';
-const querySizeGreaterThan = 'size > ?';
-const querySizeLax = '(size BETWEEN ? and ? OR size IS NULL)';
-const querySizeLessThanLax = '(size < ? OR size IS NULL)';
-const querySizeGreaterThanLax = '(size > ? OR size IS NULL)';
-const querySATMath = 'SATMathScore BETWEEN ? AND ?';
-const querySATMathLessThan = 'SATMathScore < ?';
-const querySATMathGreaterThan = 'SATMathScore > ?';
-const querySATMathLax =
-  '(SATMathScore BETWEEN ? AND ? OR SATMathScore IS NULL)';
-const querySATMathLessThanLax = '(SATMathScore < ? OR SATMathScore IS NULL)';
-const querySATMathGreaterThanLax = '(SATMathScore > ? OR SATMathScore IS NULL)';
-const querySATEBRW = 'SATEBRWScore BETWEEN ? AND ?';
-const querySATEBRWLessThan = 'SATMathScore < ?';
-const querySATEBRWGreaterThan = 'SATMathScore > ?';
-const querySATEBRWLax =
-  '(SATEBRWScore BETWEEN ? AND ? OR SATEBRWScore IS NULL)';
-const querySATEBRWLessThanLax = '(SATEBRWScore < ? OR SATEBRWScore IS NULL)';
-const querySATEBRWGreaterThanLax = '(SATEBRWScore > ? OR SATEBRWScore IS NULL)';
-const queryACTComp = 'ACTScore BETWEEN ? AND ?';
-const queryACTCompLessThan = 'ACTCompScore < ?';
-const queryACTCompGreaterThan = 'ACTCompScore > ?';
-const queryACTCompLax = '(ACTScore BETWEEN ? AND ? OR ACTScore IS NULL)';
-const queryACTCompLessThanLax = '(ACTCompScore < ? OR ACTCompScore IS NULL)';
-const queryACTCompGreaterThanLax = '(ACTCompScore > ? OR ACTCompScore IS NULL)';
-const queryLocation = 'region=?';
-const queryLocationLax = '(region=? OR region IS NULL)';
 const queryMajor = 'majors LIKE "%?%"';
 const queryTwoMajors = '(majors LIKE "%?%" OR majors LIKE "%?%")';
 const queryMajorLax = '(majors LIKE "%?%" OR majors IS NULL)';
