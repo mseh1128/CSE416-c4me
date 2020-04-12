@@ -4,21 +4,28 @@ import React from 'react';
 import FilteredCollege from './FilteredCollege.js';
 //import { firestoreConnect } from 'react-redux-firebase';
 
-import data from '../test/TestCollegeData.json';
+// import data from '../test/TestCollegeData.json';
 
 class FilteredCollegesList extends React.Component {
-	render() {
-		return (
-			<div className='college-list section'>
-				{this.props.colleges.map((college) => {
-					const { collegeName } = college;
-					return (
-						<FilteredCollege key={collegeName} college={college} goAppTracker={this.props.goAppTracker} />
-					);
-				})}
-			</div>
-		);
-	}
+  render() {
+    console.log('in filtered college list, props are');
+    console.log(this.props.colleges[0]);
+    return (
+      <div className="college-list section">
+        {this.props.colleges.map((college) => {
+          const { collegeName } = college;
+          const key = collegeName;
+          return (
+            <FilteredCollege
+              key={key}
+              college={college}
+              goAppTracker={this.props.goAppTracker}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 }
 
 export default FilteredCollegesList;

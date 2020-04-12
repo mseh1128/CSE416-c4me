@@ -301,8 +301,7 @@ module.exports = function (app, connection) {
       finalQueryString = queryGetAllColleges;
     }
 
-    console.log(finalQueryString);
-    console.log(finalInputs);
+
 
     connection.query(finalQueryString, finalInputs, (err, results, fields) => {
       if (err) {
@@ -311,6 +310,8 @@ module.exports = function (app, connection) {
       }
 
       console.log(results);
+      console.log(finalQueryString);
+      console.log(finalInputs);
       res.json(results);
     });
   });
