@@ -45,8 +45,8 @@ export class CollegeSearchScreen extends Component {
     major: '',
     majorIndex: 0,
     majorList: [],
-    currentSortType: 'nameUp',
-    currentSortIncreasing: true,
+    currentSortType: 'nameDn',
+    currentSortIncreasing: false,
     colleges: [],
     filters: {
       admissionRateValues: [0, 100],
@@ -76,72 +76,70 @@ export class CollegeSearchScreen extends Component {
     }
   };
 
-  goCollegeSearch = async() => {
+  goCollegeSearch = async () => {
     console.log('college search');
 
-		const filters = this.state.filters;
+    const filters = this.state.filters;
 
-		try{
-			let response = '';
-			if (filters.strict === true){
-				response = await axios.get('/getStrictFilteredColleges', {
-					params: {
-						strict: filters.strict,
-						name: filters.name,
-						admissionRateLB: filters.admissionRateLB,
-						admissionRateUB: filters.admissionRateUB,
-						costLB: filters.costLB,
-						costUB: filters.costUB,
-						rankLB: filters.rankLB,
-						rankUB: filters.rankUB,
-						sizeLB: filters.sizeLB,
-						sizeUB: filters.sizeUB,
-						ebrwLB: filters.ebrwLB,
-						ebrwUB: filters.ebrwUB,
-						actLB: filters.actLB,
-						actUB: filters.actUB,
-						location: filters.location,
-						major1: filters.major1,
-						major2: filters.major2
-					}
-				});
-			}
-			else{
-				response = await axios.get('/getLaxFilteredColleges', {
-					params: {
-						strict: filters.strict,
-						name: filters.name,
-						admissionRateLB: filters.admissionRateLB,
-						admissionRateUB: filters.admissionRateUB,
-						costLB: filters.costLB,
-						costUB: filters.costUB,
-						rankLB: filters.rankLB,
-						rankUB: filters.rankUB,
-						sizeLB: filters.sizeLB,
-						sizeUB: filters.sizeUB,
-						mathLB: filters.mathLB,
-						mathUB: filters.mathUB,
-						ebrwLB: filters.ebrwLB,
-						ebrwUB: filters.ebrwUB,
-						actLB: filters.actLB,
-						actUB: filters.actUB,
-						location: filters.location,
-						major1: filters.major1,
-						major2: filters.major2
-					}
-				});
-			}
-			console.log(response);
-			this.setState({colleges: response.data});
-		} catch (err) {
-			const {
-				response: {data, status}
-			} = err;
-			console.log(err);
-			const unknownErrorText = `An unknown error with error code ${status} occurred`;
-			console.log(unknownErrorText);
-		}
-
+    try {
+      let response = '';
+      if (filters.strict === true) {
+        response = await axios.get('/getStrictFilteredColleges', {
+          params: {
+            strict: filters.strict,
+            name: filters.name,
+            admissionRateLB: filters.admissionRateLB,
+            admissionRateUB: filters.admissionRateUB,
+            costLB: filters.costLB,
+            costUB: filters.costUB,
+            rankLB: filters.rankLB,
+            rankUB: filters.rankUB,
+            sizeLB: filters.sizeLB,
+            sizeUB: filters.sizeUB,
+            ebrwLB: filters.ebrwLB,
+            ebrwUB: filters.ebrwUB,
+            actLB: filters.actLB,
+            actUB: filters.actUB,
+            location: filters.location,
+            major1: filters.major1,
+            major2: filters.major2,
+          },
+        });
+      } else {
+        response = await axios.get('/getLaxFilteredColleges', {
+          params: {
+            strict: filters.strict,
+            name: filters.name,
+            admissionRateLB: filters.admissionRateLB,
+            admissionRateUB: filters.admissionRateUB,
+            costLB: filters.costLB,
+            costUB: filters.costUB,
+            rankLB: filters.rankLB,
+            rankUB: filters.rankUB,
+            sizeLB: filters.sizeLB,
+            sizeUB: filters.sizeUB,
+            mathLB: filters.mathLB,
+            mathUB: filters.mathUB,
+            ebrwLB: filters.ebrwLB,
+            ebrwUB: filters.ebrwUB,
+            actLB: filters.actLB,
+            actUB: filters.actUB,
+            location: filters.location,
+            major1: filters.major1,
+            major2: filters.major2,
+          },
+        });
+      }
+      console.log(response);
+      this.setState({ colleges: response.data });
+    } catch (err) {
+      const {
+        response: { data, status },
+      } = err;
+      console.log(err);
+      const unknownErrorText = `An unknown error with error code ${status} occurred`;
+      console.log(unknownErrorText);
+    }
   };
 
   goAppTracker = (id) => {
@@ -231,6 +229,85 @@ export class CollegeSearchScreen extends Component {
     console.log(this.state.filters);
   };
 
+  sortingFunction = (a, b, ascending) => {
+    // equal items sort equally
+    if (a === b) {
+      return 0;
+    }
+    // nulls sort after anything else
+    else if (a === null) {
+      return 1;
+    } else if (b === null) {
+      return -1;
+    }
+    // otherwise, if we're ascending, lowest sorts first
+    else if (ascending) {
+      return a < b ? -1 : 1;
+    }
+    // if descending, highest sorts first
+    else {
+      return a < b ? 1 : -1;
+    }
+  };
+
+  sortColleges = () => {
+    // nameUp
+    // null results will show at the end!
+    // attendance cost sorting based on avg of instate
+    const { colleges, currentSortType } = this.state;
+    if (currentSortType === 'nameDn') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(a.collegeName, b.collegeName, true)
+      );
+    } else if (currentSortType === 'nameUp') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(a.collegeName, b.collegeName, false)
+      );
+    } else if (currentSortType === 'ARDn') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(
+          a.admissionRatePercent,
+          b.admissionRatePercent,
+          true
+        )
+      );
+    } else if (currentSortType === 'ARUp') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(
+          a.admissionRatePercent,
+          b.admissionRatePercent,
+          false
+        )
+      );
+    } else if (currentSortType === 'costDn') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(
+          a.inStateAttendanceCost,
+          b.inStateAttendanceCost,
+          true
+        )
+      );
+    } else if (currentSortType === 'costUp') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(
+          a.inStateAttendanceCost,
+          b.inStateAttendanceCost,
+          false
+        )
+      );
+    } else if (currentSortType === 'rankDn') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(a.ranking, b.ranking, true)
+      );
+    } else if (currentSortType === 'rankUp') {
+      return colleges.sort((a, b) =>
+        this.sortingFunction(a.ranking, b.ranking, false)
+      );
+    } else {
+      console.log('COULD NOT IDENTIFY CURRENT SORT TYPE!');
+    }
+  };
+
   render() {
     var elem = document.querySelector('.tabs');
     var options = {};
@@ -244,6 +321,9 @@ export class CollegeSearchScreen extends Component {
     if (this.state.colleges === undefined || this.state.colleges.length == 0) {
       return <div>Loading...</div>;
     }
+    console.log(this.state.colleges);
+
+    const sortedColleges = this.sortColleges();
 
     return (
       <div className="college_screen_container">
@@ -307,7 +387,7 @@ export class CollegeSearchScreen extends Component {
           <div id="collegeList">
             <FilteredCollegesList
               goAppTracker={this.goAppTracker}
-              colleges={this.state.colleges}
+              colleges={sortedColleges}
             />
           </div>
         </div>
@@ -1387,9 +1467,10 @@ export class CollegeSearchScreen extends Component {
           </div>
           <div>
             <button
-							className="searchCollegeBtn"
-							onClick={this.goCollegeSearch}
-							colleges={this.state.colleges}>
+              className="searchCollegeBtn"
+              onClick={this.goCollegeSearch}
+              colleges={this.state.colleges}
+            >
               {' '}
               Search Again{' '}
             </button>

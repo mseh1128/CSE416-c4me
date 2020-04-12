@@ -4,8 +4,6 @@ import React from 'react';
 import FilteredCollege from './FilteredCollege.js';
 //import { firestoreConnect } from 'react-redux-firebase';
 
-// import data from '../test/TestCollegeData.json';
-
 class FilteredCollegesList extends React.Component {
   render() {
     console.log('in filtered college list, props are');
