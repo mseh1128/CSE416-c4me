@@ -19,29 +19,47 @@ import authorizeComponent from './components/authentication/AuthComponent.js';
 import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Navbar></Navbar>
-			<Switch>
-				<Route path='/' exact component={LoginScreen} />
-				<Route path='/register' component={RegisterScreen} />
+  return (
+    <BrowserRouter>
+      <Navbar></Navbar>
+      <Switch>
+        <Route path="/" exact component={LoginScreen} />
+        <Route path="/register" component={RegisterScreen} />
 
-				<Route path='/applicationTracker/:id/view/:idStudent' component={ViewOtherScreen} />
-				<Route path='/applicationTracker/:id/graph' component={ApplicationGraphScreen} />
-				<Route path='/applicationTracker/:id' component={ApplicationTrackerScreen} />
+        <Route
+          path="/applicationTracker/:id/view/:idStudent"
+          component={ViewOtherScreen}
+        />
+        <Route
+          path="/applicationTracker/:id/graph"
+          component={ApplicationGraphScreen}
+        />
+        <Route
+          path="/applicationTracker/:id"
+          component={ApplicationTrackerScreen}
+        />
 
-				<Route path='/home' component={authorizeComponent(StudentScreen)} />
+        <Route
+          path="/home"
+          component={authorizeComponent(CollegeSearchScreen)}
+        />
 
-				<Route path='/search' component={authorizeComponent(CollegeSearchScreen)} />
+        <Route
+          path="/search"
+          component={authorizeComponent(CollegeSearchScreen)}
+        />
 
-				<Route path='/profile' component={authorizeComponent(ViewProfileScreen)} />
+        <Route
+          path="/profile"
+          component={authorizeComponent(ViewProfileScreen)}
+        />
 
-				<Route path='/admin' component={authorizeComponent(AdminScreen)} />
+        <Route path="/admin" component={authorizeComponent(AdminScreen)} />
 
-				<Route path='/:any' component={LoginScreen} />
-			</Switch>
-		</BrowserRouter>
-	);
+        <Route path="/:any" component={LoginScreen} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;

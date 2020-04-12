@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "backend": "nodemon ./bin/www",
-    "dev": "concurrently \"npm backend\" \"cd ../frontend && npm start\""
+    "dev": "concurrently \"npm run backend\" \"cd ../frontend && npm start\""
   },
   "proxy": "http://localhost:5201",
   "dependencies": {
