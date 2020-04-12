@@ -8,10 +8,13 @@ import FilteredCollege from './FilteredCollege.js';
 
 class FilteredCollegesList extends React.Component {
   render() {
+    console.log('in filitered college list, props are');
+    console.log(this.props.colleges[0]);
     return (
       <div className="college-list section">
-        {/* {data.colleges.map((college) => {
-          const { key } = college;
+        {this.props.colleges.map((college) => {
+          const { collegeName } = college;
+          const key = collegeName;
           return (
             <FilteredCollege
               key={key}
@@ -19,7 +22,7 @@ class FilteredCollegesList extends React.Component {
               goAppTracker={this.props.goAppTracker}
             />
           );
-        })} */}
+        })}
       </div>
     );
   }

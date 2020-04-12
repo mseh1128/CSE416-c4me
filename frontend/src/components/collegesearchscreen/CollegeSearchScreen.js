@@ -9,6 +9,7 @@ import Down from '@material-ui/icons/ExpandMore';
 import Up from '@material-ui/icons/ExpandLess';
 import PropTypes from 'prop-types';
 import { Range, getTrackBackground } from 'react-range';
+import axios from 'axios';
 
 import FilteredCollegesList from './FilteredCollegesList.js';
 import MajorFiltersList from './MajorFiltersList';
@@ -61,6 +62,18 @@ export class CollegeSearchScreen extends Component {
       strict: false,
       name: '',
     },
+  };
+
+  componentDidMount = async () => {
+    try {
+      const allColleges = await axios.get('/getAllColleges');
+      const { data } = allColleges;
+      // by default shows all colleges
+      this.setState({ colleges: data });
+    } catch (err) {
+      console.log(err);
+      console.log('Error occurred, could not retrieve all colleges');
+    }
   };
 
   goCollegeSearch = () => {
@@ -164,12 +177,16 @@ export class CollegeSearchScreen extends Component {
       var instances = M.FormSelect.init(elems, options);
     });
 
+    if (this.state.colleges === undefined || this.state.colleges.length == 0) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <div className="college_screen_container">
         <div className="schoolsContainer">
           <div id="collegeListBanner">
             <div></div>
-            <span className="collegeTitleText"> Filtered Colleges </span>
+            <span className="collegeTitleText">Filtered Colleges </span>
             <span
               className="sortNameBtn"
               onClick={this.changeSort.bind(this, 'name')}
@@ -224,7 +241,10 @@ export class CollegeSearchScreen extends Component {
             </span>
           </div>
           <div id="collegeList">
-            <FilteredCollegesList goAppTracker={this.goAppTracker} />
+            <FilteredCollegesList
+              goAppTracker={this.goAppTracker}
+              colleges={this.state.colleges}
+            />
           </div>
         </div>
         <div className="filtersContainer">
