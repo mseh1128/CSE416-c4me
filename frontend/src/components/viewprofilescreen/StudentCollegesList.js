@@ -8,13 +8,11 @@ import data from '../test/TestCollegeData.json';
 
 class StudentCollegesList extends React.Component {
 	render() {
-		const disabled = this.props.disabled;
-
 		return (
-			<div className='college-listProfile'>
-				{data.colleges.map(function(college) {
-					college.id = college.key;
-					return <StudentCollege college={college} disabled={disabled} />;
+			<div className='college-list-view section'>
+				{data.colleges.map((college) => {
+					const { key } = college.key;
+					return <StudentCollege key={key} college={college} disabled={this.props.disabled} />;
 				})}
 			</div>
 		);
