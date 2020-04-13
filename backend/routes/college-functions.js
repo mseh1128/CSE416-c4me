@@ -80,7 +80,7 @@ module.exports = function (app, connection) {
   });
 
   app.get('/getCollege', (req, res) => {
-    console.log(req.query);
+    //console.log(req.query);
     const { collegeName } = req.query;
     connection.query(queryGetCollege, [collegeName], (err, results, fields) => {
       if (err) {
@@ -88,6 +88,7 @@ module.exports = function (app, connection) {
         res.sendStatus(500);
         return;
       }
+      console.log(results)
       res.send(results[0]);
     });
   });

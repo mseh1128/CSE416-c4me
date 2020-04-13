@@ -7,7 +7,7 @@ const queryAddDecision =
 const queryChangeQuestionability =
   'UPDATE college_declaration SET questionable=? where userID=?';
 const queryGetDecision =
-  'SELECT * FROM college_declaration WHERE collegename=? AND questionable=0';
+  'select * from college_declaration inner join student on college_declaration.studentID=student.userID inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where collegeName=? and questionable=0;';
 const queryDeleteEveryAcceptance = 'TRUNCATE college_declaration';
 
 module.exports = function(app, connection) {
@@ -51,18 +51,21 @@ module.exports = function(app, connection) {
     );
   });
 
-  app.get('/retrieveDecision', (req, res) => {
+  app.get('/retrieveStudentsDecisions', (req, res) => {
     const collegeName = req.query.collegeName;
-    connection.query(queryGetDecision, [collegeName], (err, rows, params) => {
+    connection.query(queryGetDecision, [collegeName], (err, results, params) => {
       if (err) {
         console.log(err);
         res.sendStatus(500);
         return;
       }
-      res.json(rows); //here we want all the people who have been accepted to ...
+
+      console.log(results);
+      res.json(results); //here we want all the people who have been accepted to ...
     });
   });
 
+/*
   app.post('/deleteEveryCollegeDeclaration', (req, res) => {
     connection.query(queryChangeQuestionability, (err, rows, params) => {
       if (err) {
@@ -73,4 +76,5 @@ module.exports = function(app, connection) {
       res.sendStatus(200);
     });
   });
+*/
 };

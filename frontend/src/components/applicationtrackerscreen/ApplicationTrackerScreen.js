@@ -15,24 +15,25 @@ import 'react-sweet-progress/lib/style.css';
 
 export class ApplicationTrackerScreen extends Component {
 	state = {
-		highschool: '',
-		highschoolIndex: 0,
-		highschoolList: [],
-		college: '',
-		filters: {
-			strict: false,
-			collegeClassLB: '',
-			collegeClassUB: '',
-			isAccepted: false,
-			isPending: false,
-			isWaitListed: false,
-			isDeferred: false,
-			isDenied: false,
-			isWithdrawn: false,
-			highschools: [],
-		},
-	};
-
+			highschool: '',
+			highschoolIndex: 0,
+			highschoolList: [],
+			college: '',
+			studentsWhoApplied: [],
+			filters: {
+				strict: false,
+				collegeClassLB: '',
+				collegeClassUB: '',
+				isAccepted: false,
+				isPending: false,
+				isWaitListed: false,
+				isDeferred: false,
+				isDenied: false,
+				isWithdrawn: false,
+				highschools: [],
+			},
+		};
+/*
 	componentDidMount() {
 		const { id } = this.props.match.params;
 		console.log('id (key) is: ');
@@ -43,6 +44,18 @@ export class ApplicationTrackerScreen extends Component {
 		this.setState({ college: college });
 		// do any fetch api requests here & setState
 	}
+*/
+
+componentDidMount() {
+	const college = this.props.location.state.college;
+	const studentsWhoApplied = this.props.location.state.studentsWhoApplied;
+	this.setState({college: college});
+	this.setState({studentsWhoApplied: studentsWhoApplied});
+	console.log(this.state.college);
+	console.log(this.state.studentsWhoApplied);
+
+	// do any fetch api requests here & setState
+}
 
 	goGraph = () => {
 		const { id } = this.props.match.params;
@@ -130,7 +143,9 @@ export class ApplicationTrackerScreen extends Component {
 			var instances = M.FormSelect.init(elems, options);
 		});
 
-		const college = this.state.college;
+		//const college = this.state.college;
+		const college = this.props.location.state.college;
+		const studentsWhoApplied = this.props.location.state.studentsWhoApplied;
 
 		let theme = {
 			math: {
@@ -157,10 +172,13 @@ export class ApplicationTrackerScreen extends Component {
 					<div id='studentListBanner'>
 						<div></div>
 						<span className='collegeTitleText'> Application Tracker:</span>
-						<span className='collegeTitleText'>{college.name}</span>
+						<span className='collegeTitleText'>{college.collegeName}</span>
 					</div>
 					<div id='studentList'>
-						<StudentList college={college}></StudentList>
+						<StudentList
+							college={college}
+							students={studentsWhoApplied}>
+						</StudentList>
 					</div>
 				</div>
 				<div className='trackerFiltersContainer'>

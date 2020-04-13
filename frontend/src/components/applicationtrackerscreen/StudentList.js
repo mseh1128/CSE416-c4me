@@ -7,8 +7,10 @@ class StudentList extends React.Component {
 	render() {
 		return (
 			<div className='student-list section'>
-				{data.students.map((student) => {
-					const { key } = student.key;
+				{this.props.students.map((student) => {
+					let key = {userID: -1, college: this.props.collegeName}
+					const { userID } = student.userID;
+					key.userID = userID;
 					return <Student college={this.props.college} key={key} student={student} />;
 				})}
 			</div>
