@@ -9,7 +9,7 @@ const queryInstantiateStudent = 'INSERT INTO student (userID) VALUES (?)';
 const queryInstantiateProfile = 'INSERT INTO profile (userID) VALUES (?)';
 const jwt = require('jsonwebtoken');
 
-module.exports = function(app, connection) {
+module.exports = function (app, connection) {
   app.post('/loginUser', (req, res) => {
     const { username, password } = req.body;
     connection.query(
@@ -29,7 +29,7 @@ module.exports = function(app, connection) {
         // const token = jwt.sign(payload, process.env.SECRET_OR_KEY);
         // need to change secret to environment var
         const token = jwt.sign(results[0].userID, 'jwt_secret_key');
-        return res.send(token);
+        return res.send({ jwtToken: token, isAdmin: results[0].isAdmin });
       }
     );
   });
@@ -60,7 +60,7 @@ module.exports = function(app, connection) {
               try {
                 const result = await Promise.all([
                   connection.query(queryInstantiateStudent, [insertId]),
-                  connection.query(queryInstantiateProfile, [insertId])
+                  connection.query(queryInstantiateProfile, [insertId]),
                 ]);
                 return res.sendStatus(200);
               } catch (err) {
