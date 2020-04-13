@@ -46,28 +46,31 @@ export class LoginScreen extends Component {
       console.log(data);
       localStorage.setItem('user-id-jwt', jwtToken);
       if (isAdmin) {
+        this.props.setIsAdmin(true);
         this.props.history.push('/admin');
       } else {
+        this.props.setIsAdmin(false);
         this.props.history.push('/home');
       }
     } catch (err) {
-      const {
-        response: { data, status },
-      } = err;
-      const userFoundMessage = 'User not found!';
-      if (status === 400 && data === userFoundMessage) {
-        this.setState({
-          hideErrorMessage: false,
-          errorTextContent: userFoundMessage,
-        });
-      } else {
-        console.log(err);
-        const unknownErrorText = `An unknown error with error code ${status} occurred`;
-        this.setState({
-          hideErrorMessage: false,
-          errorTextContent: unknownErrorText,
-        });
-      }
+      console.log(err);
+      // const {
+      //   response: { data, status },
+      // } = err;
+      // const userFoundMessage = 'User not found!';
+      // if (status === 400 && data === userFoundMessage) {
+      //   this.setState({
+      //     hideErrorMessage: false,
+      //     errorTextContent: userFoundMessage,
+      //   });
+      // } else {
+      //   console.log(err);
+      //   const unknownErrorText = `An unknown error with error code ${status} occurred`;
+      //   this.setState({
+      //     hideErrorMessage: false,
+      //     errorTextContent: unknownErrorText,
+      //   });
+      // }
     }
   };
 

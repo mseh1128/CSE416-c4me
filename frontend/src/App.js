@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,11 +19,19 @@ import authorizeComponent from './components/authentication/AuthComponent.js';
 import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
   return (
     <BrowserRouter>
-      <Navbar></Navbar>
+      <Navbar {...{ isAdmin, setIsAdmin }} />
       <Switch>
-        <Route path="/" exact component={LoginScreen} />
+        <Route
+          path="/"
+          exact
+          render={(routeProps) => (
+            <LoginScreen {...{ setIsAdmin, ...routeProps }} />
+          )}
+        />
         <Route path="/register" component={RegisterScreen} />
 
         <Route

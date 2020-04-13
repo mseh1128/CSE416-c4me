@@ -3,40 +3,42 @@ import axios from 'axios';
 import { withRouter, Redirect } from 'react-router-dom';
 import { getJwt } from '../../helpers';
 
-const authorizeComponent = WrappedComponent => {
+const authorizeComponent = (WrappedComponent) => {
   class AuthComponent extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        user: undefined
+        user: undefined,
       };
     }
     componentDidMount() {
       this.getUser();
     }
+
     getUser() {
       const jwt = getJwt();
       console.log(jwt);
       if (!jwt) {
         this.setState({
-          user: null
+          user: null,
         });
         return;
       }
       axios
         .get('/getUser', { headers: { Authorization: `Bearer ${getJwt()}` } })
-        .then(res => {
+        .then((res) => {
           this.setState({
-            user: res.data
+            user: res.data,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.setState({
-            user: null
+            user: null,
           });
         });
     }
+
     render() {
       const { user } = this.state;
       if (user === null) {
