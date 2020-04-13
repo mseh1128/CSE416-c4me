@@ -1,6 +1,8 @@
 const fs = require('fs');
+const path = require('path');
+
 const collegeNames = fs
-  .readFileSync('./colleges.txt')
+  .readFileSync(path.resolve(__dirname, './colleges.txt'))
   .toString()
   .replace(/\r\n/g, '\n')
   .split('\n');

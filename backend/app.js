@@ -62,6 +62,7 @@ require('./routes/student-functions.js')(app, connection);
 require('./routes/college-functions.js')(app, connection);
 require('./routes/student-acceptance-claims.js')(app, connection);
 require('./routes/user-validation.js')(app, connection);
+require('./routes/admin-functions.js')(app, connection);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

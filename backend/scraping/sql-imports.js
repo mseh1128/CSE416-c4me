@@ -1,4 +1,7 @@
-const scrapeCollegeScorecard = require('./CollegeScorecard/college-scorecard');
+const {
+  scrapeCollegeScorecard,
+  scrapeCollegeScorecardFromCSV,
+} = require('./CollegeScorecard/college-scorecard');
 const scrapeCollegeData = require('./college-data');
 const scrapeCollegeRanking = require('./college-ranking');
 const mysql = require('mysql');
@@ -53,18 +56,12 @@ const collegeRankingToSQL = async () => {
       const rank = collegeRanking[college];
       promises.push(connection.query(queryUpdateRank, [rank, college]));
     }
-    // return Promise.all(promises);
+    return Promise.all(promises);
   } catch (err) {
     console.log('ERROR OCCURRED');
     throw err;
   }
 };
-
-// collegeRankingToSQL()
-//   .then((res) =>
-//     console.log('All college ranking data was succesfully saved to DB!')
-//   )
-//   .catch((err) => console.log(err));
 
 const collegeDataToSQL = async () => {
   try {
@@ -114,8 +111,8 @@ const collegeDataToSQL = async () => {
             const majorPromises = majors.map((major) =>
               connection.query(queryInsertMajor, [college, major])
             );
-
             await Promise.all(majorPromises);
+            console.log('THIS FINISHED');
             resolve();
           } catch (err) {
             console.log('ERROR OCCURRED');
@@ -191,24 +188,58 @@ const collegeScorecardStreamToSQL = async () => {
   }
 };
 
-collegeScorecardStreamToSQL()
-  .then((res) =>
-    console.log('All college scorecard data was succesfully saved to DB!')
-  )
-  .catch((err) => console.log(err));
+const collegeScorecardCSVToSQL = async () => {
+  // scrapes directly from huge college scorecard file site (stream) so will take a long time
+  try {
+    const collegeScorecardData = await scrapeCollegeScorecardFromCSV();
+    // console.log(type(collegeScorecardData));
+    const promises = [];
 
-// collegeDataToSQL()
-//   .then((res) => {
-//     console.log('All college data was succesfully pushed!');
-//     collegeScorecardStreamToSQL();
-//   })
-//   .then((res) =>
-//     console.log('All college scorecard data was succesfully saved to DB!')
-//   )
-//   .catch((err) => console.log(err));
+    for (const college in collegeScorecardData) {
+      const {
+        city,
+        state,
+        admissionRatePercent,
+        institutionType,
+        medianCompletedStudentDebt,
+        size,
+      } = collegeScorecardData[college];
 
-// collegeScorecardStreamToSQL()
-//   .then((res) =>
-//     console.log('All college scorecard data was succesfully saved to DB!')
-//   )
-//   .catch((err) => console.log(err));
+      // need to eventually put this in college-scorecard file
+      const region = mapStateToRegion(state);
+
+      promises.push(
+        connection.query(queryInsertCollegeScorecard, [
+          college,
+          city,
+          state,
+          admissionRatePercent,
+          institutionType,
+          medianCompletedStudentDebt,
+          size,
+          region,
+          city,
+          state,
+          admissionRatePercent,
+          institutionType,
+          medianCompletedStudentDebt,
+          size,
+          region,
+        ])
+      );
+    }
+    return Promise.all(promises);
+    // return new Promise((resolve) => resolve('hi'));
+    // console.log(promiseResult);
+    // console.log(promiseResult);
+  } catch (err) {
+    console.log('Error occurred when scraping college scorecard');
+    // console.log(err);
+    throw err;
+  }
+};
+
+exports.collegeRankingToSQL = collegeRankingToSQL;
+exports.collegeDataToSQL = collegeDataToSQL;
+exports.collegeScorecardStreamToSQL = collegeScorecardStreamToSQL;
+exports.collegeScorecardCSVToSQL = collegeScorecardCSVToSQL;

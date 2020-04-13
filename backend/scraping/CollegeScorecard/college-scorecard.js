@@ -1,4 +1,6 @@
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const csv = require('csv-parser');
 const {
   collegeNames,
@@ -116,4 +118,63 @@ const scrapeCollegeScorecard = async () => {
   }
 };
 
-module.exports = scrapeCollegeScorecard;
+const scrapeCollegeScorecardFromCSV = async () => {
+  try {
+    const results = {};
+    const mappedNames = convertNamesForCollegeScorecard(collegeNames);
+    // key = college name, value = alt college name
+    const collegeNameSet = new Set(Object.keys(mappedNames));
+
+    // practically the exact same as the method above
+    // should modularize this in the future!
+    const readStream = fs
+      .createReadStream(
+        path.resolve(__dirname, 'Most-Recent-Cohorts-All-Data-Elements.csv')
+      )
+      .pipe(csv());
+
+    return new Promise((resolve, reject) => {
+      readStream
+        .on('data', (data) => {
+          const { INSTNM, ALIAS } = data;
+          // splits on comma & pipe
+          if (
+            collegeNameSet.has(INSTNM) ||
+            (ALIAS != null &&
+              ALIAS.split(/[|,]+/).some((e) => collegeNameSet.has(e)))
+          ) {
+            collegeNameSet.delete(INSTNM);
+            const sanitizedCollege = convertCSToDB(data);
+            const nameInDB = mappedNames[INSTNM];
+            results[nameInDB] = sanitizedCollege;
+            console.log(collegeNameSet.size + ' colleges left!');
+            // console.log(results);
+            if (collegeNameSet.size === 0) {
+              console.log('All colleges found!');
+              resolve(results);
+              readStream.destroy(new Error('All colleges found!'));
+            }
+          }
+        })
+        .on('end', () => {
+          console.log(collegeNameSet.size + ' colleges not found!');
+          console.log(collegeNameSet);
+          reject('Not all colleges found!');
+        })
+        .on('error', (e) => {
+          // error occurs b/c closing stream prematurely
+          // so may attemp to push after EOF
+          reject('Stream ended prematurely!');
+          console.log(e);
+        });
+    });
+  } catch (err) {
+    console.log(err);
+    console.log('An error has occurred!');
+  }
+};
+
+module.exports = {
+  scrapeCollegeScorecard: scrapeCollegeScorecard,
+  scrapeCollegeScorecardFromCSV: scrapeCollegeScorecardFromCSV,
+};
