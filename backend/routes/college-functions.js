@@ -1,6 +1,15 @@
 const mysql = require('mysql');
 const express = require('path');
 
+const sliderConfig = require('./constants');
+const {
+  admissionRate,
+  costOfAttendance,
+  rank,
+  size,
+  avgSAT,
+  avgACT,
+} = sliderConfig;
 //the tables really do have 12 variables,
 //and I would really like to add them all at once
 //because this is meant to be a complete thing.
@@ -14,11 +23,11 @@ const queryGetAllColleges = 'SELECT * FROM college';
 const queryGetStudentCollegeDecs =
   'SELECT * FROM college_declaration WHERE userID=?';
 
-const queryMajor = 'majors LIKE "%?%"';
-const queryTwoMajors = '(majors LIKE "%?%" OR majors LIKE "%?%")';
-const queryMajorLax = '(majors LIKE "%?%" OR majors IS NULL)';
-const queryTwoMajorsLax =
-  '((majors LIKE "%?%" OR majors LIKE "%?%") OR majors IS NULL)';
+// const queryMajor = 'majors LIKE "%?%"';
+// const queryTwoMajors = '(majors LIKE "%?%" OR majors LIKE "%?%")';
+// const queryMajorLax = '(majors LIKE "%?%" OR majors IS NULL)';
+// const queryTwoMajorsLax =
+//   '((majors LIKE "%?%" OR majors LIKE "%?%") OR majors IS NULL)';
 
 module.exports = function (app, connection) {
   app.post('/insertCollege', (req, res) => {
@@ -99,330 +108,212 @@ module.exports = function (app, connection) {
     );
   });
 
+  const checkActiveFilter = (lowerBound, upperBound, slider) => {
+    console.log(slider);
+    const { min, max } = slider;
+    if (lowerBound > min || upperBound < max) return true;
+    return false;
+  };
+
   //lb = lower bound, hb = higher bound
-  app.get('/getStrictFilteredColleges', (req, res) => {
-    console.log(req.query);
-    const filters = req.query;
+  app.get('/getFilteredColleges', (req, res) => {
+    let { filters } = req.query;
+    filters = JSON.parse(filters);
+    // since we have sliders need to check if sliders have been moved to determine if filter active
+    const {
+      admissionRateValues,
+      costOfAttendanceValues,
+      avgMathScore,
+      avgEBRWScore,
+      avgACTScore,
+      location,
+      major1,
+      major2,
+      strict,
+      name,
+    } = filters;
 
-    const sevenFilters = ['', '', '', '', '', '', ''];
-    const seventeenInputs = [
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-    ];
+    const admissionRateFilterStatus = checkActiveFilter(
+      admissionRateValues[0],
+      admissionRateValues[1],
+      admissionRate
+    );
+    const costOfAttendanceFilterStatus = checkActiveFilter(
+      costOfAttendanceValues[0],
+      costOfAttendanceValues[1],
+      costOfAttendance
+    );
+    const rankFilterStatus = checkActiveFilter(
+      filters.rank[0],
+      filters.rank[1],
+      rank
+    );
+    const sizeFilterStatus = checkActiveFilter(
+      filters.size[0],
+      filters.size[1],
+      size
+    );
+    const avgSATMathFilterStatus = checkActiveFilter(
+      avgMathScore[0],
+      avgMathScore[1],
+      avgSAT
+    );
+    const avgSATEBRWFilterStatus = checkActiveFilter(
+      avgEBRWScore[0],
+      avgEBRWScore[1],
+      avgSAT
+    );
+    const avgACTFilterStatus = checkActiveFilter(
+      avgACTScore[0],
+      avgACTScore[1],
+      avgACT
+    );
+    const locationFilterStatus = location ? true : false;
+    const majorOneFilterStatus = major1 ? true : false;
+    const majorTwoFilterStatus = major2 ? true : false;
+    const nameFilterStatus = name ? true : false;
 
-    function fillInInputs(
-      lb,
-      hb,
-      sfIndex,
-      query,
-      queryLessThan,
-      queryGreaterThan
-    ) {
-      if (lb && hb) {
-        sevenFilters[sfIndex] = query;
-        seventeenInputs[2 * sfIndex] = Number(lb);
-        seventeenInputs[2 * sfIndex + 1] = Number(hb);
-      } else if (lb) {
-        sevenFilters[sfIndex] = queryGreaterThan;
-        seventeenInputs[2 * sfIndex] = Number(lb);
-      } else if (hb) {
-        sevenFilters[sfIndex] = queryLessThan;
-        seventeenInputs[2 * sfIndex + 1] = Number(hb);
+    console.log(admissionRateFilterStatus);
+    console.log(costOfAttendanceFilterStatus);
+    console.log(rankFilterStatus);
+    console.log(sizeFilterStatus);
+    console.log(avgSATMathFilterStatus);
+    console.log(avgSATEBRWFilterStatus);
+    console.log(avgACTFilterStatus);
+    console.log(majorOneFilterStatus);
+    console.log(majorTwoFilterStatus);
+    console.log(nameFilterStatus);
+
+    let baseSearchQuery = 'SELECT * FROM college WHERE ';
+    let baseQueryModified = false;
+
+    if (admissionRateFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(admissionRatePercent between ${
+        admissionRateValues[0] / 100
+      } and ${admissionRateValues[1] / 100}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (admissionRatePercent IS NULL)) ';
       } else {
-        //Nothing should happen here.
+        baseSearchQuery += ') ';
       }
     }
 
-    fillInInputs(
-      filters.admissionRateLB,
-      filters.admissionRateUB,
-      0,
-      queryAdmissionRate,
-      queryAdmissionRateLessThan,
-      queryAdmissionRateGreaterThan
-    );
-    //console.log("when no one reads it?")
-    fillInInputs(
-      filters.costLB,
-      filters.costUB,
-      1,
-      queryCost,
-      queryCostLessThan,
-      queryCostGreaterThan
-    );
-    fillInInputs(
-      filters.rankLB,
-      filters.rankUB,
-      2,
-      queryRank,
-      queryRankLessThan,
-      queryRankGreaterThan
-    );
-    fillInInputs(
-      filters.sizetLB,
-      filters.sizeUB,
-      3,
-      querySize,
-      querySizeLessThan,
-      querySizeGreaterThan
-    );
-    fillInInputs(
-      filters.mathLB,
-      filters.mathUB,
-      4,
-      querySATMath,
-      querySATMathLessThan,
-      querySATMathGreaterThan
-    );
-    fillInInputs(
-      filters.ebrwLB,
-      filters.ebrwUB,
-      5,
-      querySATEBRW,
-      querySATEBRWLessThan,
-      querySATEBRWGreaterThan
-    );
-    fillInInputs(
-      filters.actLB,
-      filters.actUB,
-      6,
-      queryACTComp,
-      queryACTCompLessThan,
-      queryACTCompGreaterThan
-    );
-
-    const emptyFilterTest = sevenFilters.filter((element) => element); //filters out seraches that have not been used.
-    if (emptyFilterTest === []) {
-      res.sendStatus(500).json('You did not send anything');
-    }
-    let finalQueryString =
-      queryGetFilteredColleges + emptyFilterTest.join(queryAnd);
-
-    //this part takes the location.
-    if (filters.location) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
+    if (costOfAttendanceFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(outOfStateAttendanceCost between ${costOfAttendanceValues[0]} and ${costOfAttendanceValues[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (outOfStateAttendanceCost IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
       }
-      finalQueryString += queryLocation;
-      seventeenInputs[14] = filters.location;
     }
 
-    //this last part takes care of the majors, which are not numbers and can't be subject to the easy comparison fillInInputs does.
-    //a person can handle two majors, which are weird
-    if (filters.major1 && filters.major2) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
+    if (rankFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(ranking between ${filters.rank[0]} and ${filters.rank[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (ranking IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
       }
-      finalQueryString += queryTwoMajors;
-      seventeenInputs[15] = filters.major1;
-      seventeenInputs[16] = filters.major2;
-    } else if (filters.major1 || filters.major2) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
+    }
+
+    if (sizeFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(size between ${filters.size[0]} and ${filters.size[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (size IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
       }
-      finalQueryString += queryMajor;
-      seventeenInputs[15] = filters.major1;
-      seventeenInputs[16] = filters.major2;
-    } else {
-      //nothing is supposed to change if a person does not specify majors
-    }
-    let finalInputs = seventeenInputs.filter((element) => element);
-
-    if (finalQueryString === queryGetFilteredColleges) {
-      finalQueryString = queryGetAllColleges;
     }
 
+    if (avgSATMathFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(SATMathScore between ${avgMathScore[0]} and ${avgMathScore[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (SATMathScore IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
+      }
+    }
 
+    if (avgSATEBRWFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(SATEBRWScore between ${avgEBRWScore[0]} and ${avgEBRWScore[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (SATEBRWScore IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
+      }
+    }
 
-    connection.query(finalQueryString, finalInputs, (err, results, fields) => {
+    if (avgACTFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(ACTScore between ${avgACTScore[0]} and ${avgACTScore[1]}`;
+      if (!strict) {
+        baseSearchQuery += ' OR (ACTScore IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
+      }
+    }
+    if (locationFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(region=\'${location}\'`;
+      if (!strict) {
+        baseSearchQuery += ' OR (region IS NULL)) ';
+      } else {
+        baseSearchQuery += ') ';
+      }
+    }
+
+    // if (majorOneFilterStatus) {
+    //   if (baseQueryModified) baseSearchQuery += 'and ';
+    //   baseQueryModified = true;
+    //   baseSearchQuery += `(region=\'${location}\'`;
+    //   if (!strict) {
+    //     baseSearchQuery += ' OR region IS NULL) ';
+    //   } else {
+    //     baseSearchQuery += ') ';
+    //   }
+    // }
+
+    if (nameFilterStatus)
+      baseSearchQuery += `and (collegeName LIKE \'%${name}%\') `;
+
+    console.log(major1);
+    console.log(major2);
+
+    if (!baseQueryModified) {
+      // if base query not modified gets rid of WHERE
+      baseSearchQuery = 'SELECT * FROM college';
+    }
+
+    console.log(baseSearchQuery);
+
+    connection.query(baseSearchQuery, (err, results, fields) => {
       if (err) {
         console.log(err);
         return res.sendStatus(500).json('Fetching college data went wrong');
       }
-
-      console.log(results);
-      console.log(finalQueryString);
-      console.log(finalInputs);
-      res.json(results);
+      console.log('reached here');
+      // console.log(results);
+      res.send(results);
     });
-  });
+    console.log('reached outside');
+    // still need to implement major for sorting!
+    // if (majorOneFilterStatus) baseSearchQuery += `and region=${major1}`;
+    // if (majorTwoFilterStatus) baseSearchQuery += `and region=${major2}`;
 
-  app.get('/getLaxFilteredColleges', (req, res) => {
-    //console.log("What good is love and peace on earth");
-    console.log(req.query);
-    //console.log("when its exclusive?");
-    const filters = req.query;
-    //console.log("What truth is there in the written word");
-
-    const sevenFilters = ['', '', '', '', '', '', ''];
-    const seventeenInputs = [
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-    ];
-
-    function fillInInputs(
-      lb,
-      hb,
-      sfIndex,
-      query,
-      queryLessThan,
-      queryGreaterThan
-    ) {
-      if (lb && hb) {
-        sevenFilters[sfIndex] = query;
-        seventeenInputs[2 * sfIndex] = Number(lb);
-        seventeenInputs[2 * sfIndex + 1] = Number(hb);
-      } else if (lb) {
-        sevenFilters[sfIndex] = queryGreaterThan;
-        seventeenInputs[2 * sfIndex] = Number(lb);
-      } else if (hb) {
-        sevenFilters[sfIndex] = queryLessThan;
-        seventeenInputs[2 * sfIndex + 1] = Number(hb);
-      } else {
-        //Nothing should happen here.
-      }
-    }
-
-    fillInInputs(
-      filters.admissionRateLB,
-      filters.admissionRateUB,
-      0,
-      queryAdmissionRateLax,
-      queryAdmissionRateLessThanLax,
-      queryAdmissionRateGreaterThanLax
-    );
-    //console.log("when no one reads it?")
-    fillInInputs(
-      filters.costLB,
-      filters.costUB,
-      1,
-      queryCostLax,
-      queryCostLessThanLax,
-      queryCostGreaterThanLax
-    );
-    fillInInputs(
-      filters.rankLB,
-      filters.rankUB,
-      2,
-      queryRankLax,
-      queryRankLessThanLax,
-      queryRankGreaterThanLax
-    );
-    fillInInputs(
-      filters.sizeLB,
-      filters.sizeUB,
-      3,
-      querySizeLax,
-      querySizeLessThanLax,
-      querySizeGreaterThanLax
-    );
-    fillInInputs(
-      filters.mathLB,
-      filters.mathUB,
-      4,
-      querySATMathLax,
-      querySATMathLessThanLax,
-      querySATMathGreaterThanLax
-    );
-    fillInInputs(
-      filters.ebrwLB,
-      filters.ebrwUB,
-      5,
-      querySATEBRWLax,
-      querySATEBRWLessThanLax,
-      querySATEBRWGreaterThanLax
-    );
-    fillInInputs(
-      filters.actLB,
-      filters.actUB,
-      6,
-      queryACTCompLax,
-      queryACTCompLessThanLax,
-      queryACTCompGreaterThanLax
-    );
-
-    const emptyFilterTest = sevenFilters.filter((element) => element); //filters out seraches that have not been used.
-    if (emptyFilterTest === []) {
-      res.sendStatus(500).json('You did not send anything');
-    }
-    let finalQueryString =
-      queryGetFilteredColleges + emptyFilterTest.join(queryAnd);
-
-    //this part takes the location.
-    if (filters.location) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
-      }
-      finalQueryString += queryLocationLax;
-      seventeenInputs[14] = filters.location;
-    }
-
-    //this last part takes care of the majors, which are not numbers and can't be subject to the easy comparison fillInInputs does.
-    //a person can handle two majors, which are weird
-    if (filters.major1 && filters.major2) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
-      }
-      finalQueryString += queryTwoMajorsLax;
-      seventeenInputs[15] = filters.major1;
-      seventeenInputs[16] = filters.major2;
-    } else if (filters.major1 || filters.major2) {
-      if (finalQueryString !== queryGetFilteredColleges) {
-        finalQueryString += queryAnd;
-      }
-      finalQueryString += queryMajorLax;
-      seventeenInputs[15] = filters.major1;
-      seventeenInputs[16] = filters.major2;
-    } else {
-      //nothing is supposed to change if a person does not specify majors
-    }
-    let finalInputs = seventeenInputs.filter((element) => element);
-
-    if (finalQueryString === queryGetFilteredColleges) {
-      finalQueryString = queryGetAllColleges;
-    }
-
-    console.log(finalQueryString);
-    console.log(finalInputs);
-
-    connection.query(finalQueryString, finalInputs, (err, results, fields) => {
-      if (err) {
-        console.log(err);
-        return res.sendStatus(500).json('Fetching college data went wrong');
-      }
-
-      console.log(results);
-      res.json(results);
-    });
+    // res.status(200).send('HELLO');
   });
 };

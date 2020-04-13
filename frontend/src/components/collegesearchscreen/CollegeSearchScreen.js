@@ -14,31 +14,15 @@ import axios from 'axios';
 import FilteredCollegesList from './FilteredCollegesList.js';
 import MajorFiltersList from './MajorFiltersList';
 
-import data from '../test/TestCollegeData.json';
-
-const admissionRateStep = 0.1;
-const admissionRateMin = 0;
-const admissionRateMax = 100;
-
-const costOfAttendanceStep = 0.1;
-const costOfAttendanceMin = 0;
-const costOfAttendanceMax = 500000;
-
-const rankStep = 1;
-const rankMin = 1;
-const rankMax = 1000;
-
-const sizeStep = 1;
-const sizeMin = 1;
-const sizeMax = 20000;
-
-const avgSATStep = 1;
-const avgSATMin = 200;
-const avgSATMax = 800;
-
-const avgACTStep = 1;
-const avgACTMin = 1;
-const avgACTMax = 36;
+import { sliderConfig } from '../../helpers/constants';
+const {
+  admissionRate,
+  costOfAttendance,
+  rank,
+  size,
+  avgSAT,
+  avgACT,
+} = sliderConfig;
 
 export class CollegeSearchScreen extends Component {
   state = {
@@ -48,6 +32,7 @@ export class CollegeSearchScreen extends Component {
     currentSortType: 'nameDn',
     currentSortIncreasing: false,
     colleges: [],
+    componentFinishedLoad: false,
     filters: {
       admissionRateValues: [0, 100],
       costOfAttendanceValues: [0, 500000],
@@ -69,68 +54,23 @@ export class CollegeSearchScreen extends Component {
       const allColleges = await axios.get('/getAllColleges');
       const { data } = allColleges;
       // by default shows all colleges
-      this.setState({ colleges: data });
+      this.setState({ colleges: data, componentFinishedLoad: true });
     } catch (err) {
       console.log(err);
       console.log('Error occurred, could not retrieve all colleges');
     }
   };
 
-  goCollegeSearch = async () => {
-    console.log('college search');
-
-    const filters = this.state.filters;
+  searchForColleges = async () => {
+    const { filters } = this.state;
 
     try {
-      let response = '';
-      if (filters.strict === true) {
-        response = await axios.get('/getStrictFilteredColleges', {
-          params: {
-            strict: filters.strict,
-            name: filters.name,
-            admissionRateLB: filters.admissionRateLB,
-            admissionRateUB: filters.admissionRateUB,
-            costLB: filters.costLB,
-            costUB: filters.costUB,
-            rankLB: filters.rankLB,
-            rankUB: filters.rankUB,
-            sizeLB: filters.sizeLB,
-            sizeUB: filters.sizeUB,
-            ebrwLB: filters.ebrwLB,
-            ebrwUB: filters.ebrwUB,
-            actLB: filters.actLB,
-            actUB: filters.actUB,
-            location: filters.location,
-            major1: filters.major1,
-            major2: filters.major2,
-          },
-        });
-      } else {
-        response = await axios.get('/getLaxFilteredColleges', {
-          params: {
-            strict: filters.strict,
-            name: filters.name,
-            admissionRateLB: filters.admissionRateLB,
-            admissionRateUB: filters.admissionRateUB,
-            costLB: filters.costLB,
-            costUB: filters.costUB,
-            rankLB: filters.rankLB,
-            rankUB: filters.rankUB,
-            sizeLB: filters.sizeLB,
-            sizeUB: filters.sizeUB,
-            mathLB: filters.mathLB,
-            mathUB: filters.mathUB,
-            ebrwLB: filters.ebrwLB,
-            ebrwUB: filters.ebrwUB,
-            actLB: filters.actLB,
-            actUB: filters.actUB,
-            location: filters.location,
-            major1: filters.major1,
-            major2: filters.major2,
-          },
-        });
-      }
-      console.log(response);
+      const response = await axios.get('/getFilteredColleges', {
+        params: {
+          filters,
+        },
+      });
+      // console.log(response);
       this.setState({ colleges: response.data });
     } catch (err) {
       const {
@@ -187,9 +127,18 @@ export class CollegeSearchScreen extends Component {
   deleteMajor = (key) => {
     let newList = this.state.majorList.filter((item) => item.key !== key);
     this.setState({ majorList: newList });
+    //update filters
+    let newFilters = this.state.filters;
+    if (newList[0] !== undefined) {
+      newFilters.major1 = newList[0].name;
+    } else newFilters.major1 = '';
+    if (newList[1] !== undefined) {
+      newFilters.major2 = newList[1].name;
+    } else newFilters.major2 = '';
+    this.setState({ filters: newFilters });
   };
 
-  //deteradmissionRateMines which sorting symbol is shown
+  //deteradmissionRate.mines which sorting symbol is shown
   getHidden = (type) => {
     if (this.state.currentSortType === type) return false;
     else return true;
@@ -318,7 +267,10 @@ export class CollegeSearchScreen extends Component {
       var instances = M.FormSelect.init(elems, options);
     });
 
-    if (this.state.colleges === undefined || this.state.colleges.length == 0) {
+    if (
+      this.state.colleges === undefined ||
+      (this.state.colleges.length == 0 && !this.state.componentFinishedLoad)
+    ) {
       return <div>Loading...</div>;
     }
     console.log(this.state.colleges);
@@ -423,9 +375,9 @@ export class CollegeSearchScreen extends Component {
             >
               <Range
                 values={this.state.filters.admissionRateValues}
-                step={admissionRateStep}
-                min={admissionRateMin}
-                max={admissionRateMax}
+                step={admissionRate.step}
+                min={admissionRate.min}
+                max={admissionRate.max}
                 onChange={(values) =>
                   this.setState((prevState) => ({
                     filters: {
@@ -454,8 +406,8 @@ export class CollegeSearchScreen extends Component {
                         background: getTrackBackground({
                           values: this.state.filters.admissionRateValues,
                           colors: ['#ccc', '#548BF4', '#ccc'],
-                          min: admissionRateMin,
-                          max: admissionRateMax,
+                          min: admissionRate.min,
+                          max: admissionRate.max,
                         }),
                         alignSelf: 'center',
                       }}
@@ -570,9 +522,9 @@ export class CollegeSearchScreen extends Component {
             >
               <Range
                 values={this.state.filters.costOfAttendanceValues}
-                step={costOfAttendanceStep}
-                min={costOfAttendanceMin}
-                max={costOfAttendanceMax}
+                step={costOfAttendance.step}
+                min={costOfAttendance.min}
+                max={costOfAttendance.max}
                 onChange={(values) =>
                   this.setState((prevState) => ({
                     filters: {
@@ -601,8 +553,8 @@ export class CollegeSearchScreen extends Component {
                         background: getTrackBackground({
                           values: this.state.filters.costOfAttendanceValues,
                           colors: ['#ccc', '#548BF4', '#ccc'],
-                          min: costOfAttendanceMin,
-                          max: costOfAttendanceMax,
+                          min: costOfAttendance.min,
+                          max: costOfAttendance.max,
                         }),
                         alignSelf: 'center',
                       }}
@@ -716,9 +668,9 @@ export class CollegeSearchScreen extends Component {
               >
                 <Range
                   values={this.state.filters.rank}
-                  step={rankStep}
-                  min={rankMin}
-                  max={rankMax}
+                  step={rank.step}
+                  min={rank.min}
+                  max={rank.max}
                   onChange={(values) =>
                     this.setState((prevState) => ({
                       filters: {
@@ -747,8 +699,8 @@ export class CollegeSearchScreen extends Component {
                           background: getTrackBackground({
                             values: this.state.filters.rank,
                             colors: ['#ccc', '#548BF4', '#ccc'],
-                            min: rankMin,
-                            max: rankMax,
+                            min: rank.min,
+                            max: rank.max,
                           }),
                           alignSelf: 'center',
                         }}
@@ -859,9 +811,9 @@ export class CollegeSearchScreen extends Component {
               >
                 <Range
                   values={this.state.filters.size}
-                  step={sizeStep}
-                  min={sizeMin}
-                  max={sizeMax}
+                  step={size.step}
+                  min={size.min}
+                  max={size.max}
                   onChange={(values) =>
                     this.setState((prevState) => ({
                       filters: {
@@ -890,8 +842,8 @@ export class CollegeSearchScreen extends Component {
                           background: getTrackBackground({
                             values: this.state.filters.size,
                             colors: ['#ccc', '#548BF4', '#ccc'],
-                            min: sizeMin,
-                            max: sizeMax,
+                            min: size.min,
+                            max: size.max,
                           }),
                           alignSelf: 'center',
                         }}
@@ -1002,9 +954,9 @@ export class CollegeSearchScreen extends Component {
               >
                 <Range
                   values={this.state.filters.avgMathScore}
-                  step={avgSATStep}
-                  min={avgSATMin}
-                  max={avgSATMax}
+                  step={avgSAT.step}
+                  min={avgSAT.min}
+                  max={avgSAT.max}
                   onChange={(values) =>
                     this.setState((prevState) => ({
                       filters: {
@@ -1033,8 +985,8 @@ export class CollegeSearchScreen extends Component {
                           background: getTrackBackground({
                             values: this.state.filters.avgMathScore,
                             colors: ['#ccc', '#548BF4', '#ccc'],
-                            min: avgSATMin,
-                            max: avgSATMax,
+                            min: avgSAT.min,
+                            max: avgSAT.max,
                           }),
                           alignSelf: 'center',
                         }}
@@ -1147,9 +1099,9 @@ export class CollegeSearchScreen extends Component {
               >
                 <Range
                   values={this.state.filters.avgEBRWScore}
-                  step={avgSATStep}
-                  min={avgSATMin}
-                  max={avgSATMax}
+                  step={avgSAT.step}
+                  min={avgSAT.min}
+                  max={avgSAT.max}
                   onChange={(values) =>
                     this.setState((prevState) => ({
                       filters: {
@@ -1178,8 +1130,8 @@ export class CollegeSearchScreen extends Component {
                           background: getTrackBackground({
                             values: this.state.filters.avgEBRWScore,
                             colors: ['#ccc', '#548BF4', '#ccc'],
-                            min: avgSATMin,
-                            max: avgSATMax,
+                            min: avgSAT.min,
+                            max: avgSAT.max,
                           }),
                           alignSelf: 'center',
                         }}
@@ -1293,9 +1245,9 @@ export class CollegeSearchScreen extends Component {
                 >
                   <Range
                     values={this.state.filters.avgACTScore}
-                    step={avgACTStep}
-                    min={avgACTMin}
-                    max={avgACTMax}
+                    step={avgACT.step}
+                    min={avgACT.min}
+                    max={avgACT.max}
                     onChange={(values) =>
                       this.setState((prevState) => ({
                         filters: {
@@ -1324,8 +1276,8 @@ export class CollegeSearchScreen extends Component {
                             background: getTrackBackground({
                               values: this.state.filters.avgACTScore,
                               colors: ['#ccc', '#548BF4', '#ccc'],
-                              min: avgACTMin,
-                              max: avgACTMax,
+                              min: avgACT.min,
+                              max: avgACT.max,
                             }),
                             alignSelf: 'center',
                           }}
@@ -1468,15 +1420,15 @@ export class CollegeSearchScreen extends Component {
           <div>
             <button
               className="searchCollegeBtn"
-              onClick={this.goCollegeSearch}
+              onClick={this.searchForColleges}
               colleges={this.state.colleges}
             >
               {' '}
-              Search Again{' '}
+              Search For College{' '}
             </button>
             <button
               className="searchCollegeBtn"
-              onClick={this.goCollegeReccomendation}
+              onClick={this.goCollegeRecommendation}
             >
               {' '}
               Recommend Me Colleges{' '}
