@@ -47,7 +47,7 @@ export class ViewProfileScreen extends Component {
 		AP_Eco_Bio: data.students[0].AP_Eco_Bio,
 		AP_Mol_Bio: data.students[0].AP_Mol_Bio,
 		AP_Chemistry: data.students[0].AP_Chemistry,
-		AP_Physics: data.students[0].AP_Physics
+		AP_Physics: data.students[0].AP_Physics,
 	};
 
 	goHome = () => {
@@ -61,7 +61,7 @@ export class ViewProfileScreen extends Component {
 	//these parts are certainly not going to be like this
 	//but they are quick and dirty ways to change the thing.
 
-	changeNonAcademicInfo = async attribute => {
+	changeNonAcademicInfo = async (attribute) => {
 		let info = document.getElementById(attribute).value;
 		let response = await fetch('/updateStudentInfo', {
 			method: 'POST',
@@ -69,12 +69,12 @@ export class ViewProfileScreen extends Component {
 			body: JSON.stringify({
 				category: attribute,
 				value: info,
-				userID: data.students[0].userID
-			})
+				userID: data.students[0].userID,
+			}),
 		});
 	};
 
-	changeAcademicInfo = async attribute => {
+	changeAcademicInfo = async (attribute) => {
 		let info = document.getAttributeById(attribute).value;
 		let infoAsNumber = Number(info);
 
@@ -84,8 +84,8 @@ export class ViewProfileScreen extends Component {
 			body: JSON.stringify({
 				category: attribute,
 				value: info,
-				userID: data.students[0].userID
-			})
+				userID: data.students[0].userID,
+			}),
 		});
 	};
 
@@ -95,81 +95,81 @@ export class ViewProfileScreen extends Component {
 		} else return score;
 	}
 
-	handleChange = e => {
+	handleChange = (e) => {
 		const { target } = e;
-		this.setState(state => ({
+		this.setState((state) => ({
 			...state,
-			[target.id]: target.value
+			[target.id]: target.value,
 		}));
 	};
 
 	//ensures that only numbers can be entered for certain inputs
-	handleChangeNumber = e => {
+	handleChangeNumber = (e) => {
 		const { target } = e;
 		if (/^\d+$/.test(target.value) || target.value === '') {
-			this.setState(state => ({
+			this.setState((state) => ({
 				...state,
-				[target.id]: target.value
+				[target.id]: target.value,
 			}));
 		}
 	};
 
 	//ensures that only the correct range of numbers and entered
-	handleChangeSAT = e => {
+	handleChangeSAT = (e) => {
 		const { target } = e;
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			if (target.value > 800) {
-				this.setState(state => ({
+				this.setState((state) => ({
 					...state,
-					[target.id]: 800
+					[target.id]: 800,
 				}));
 				return;
 			} else if (target.value > 100) {
-				this.setState(state => ({
+				this.setState((state) => ({
 					...state,
-					[target.id]: target.value - (target.value % 10)
+					[target.id]: target.value - (target.value % 10),
 				}));
 				return;
 			}
-			this.setState(state => ({
+			this.setState((state) => ({
 				...state,
-				[target.id]: target.value
+				[target.id]: target.value,
 			}));
 		}
 	};
 
 	//ensures that only the correct range of numbers and entered
-	handleChangeAP = e => {
+	handleChangeAP = (e) => {
 		const { target } = e;
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			if (target.value > 5) {
-				this.setState(state => ({
+				this.setState((state) => ({
 					...state,
-					[target.id]: 5
+					[target.id]: 5,
 				}));
 				return;
 			}
-			this.setState(state => ({
+			this.setState((state) => ({
 				...state,
-				[target.id]: target.value
+				[target.id]: target.value,
 			}));
 		}
 	};
 
 	//ensures that only the correct range of numbers and entered
-	handleChangeACT = e => {
+	handleChangeACT = (e) => {
 		const { target } = e;
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			if (target.value > 36) {
-				this.setState(state => ({
+				this.setState((state) => ({
 					...state,
-					[target.id]: 36
+					[target.id]: 36,
 				}));
 				return;
 			}
-			this.setState(state => ({
+			this.setState((state) => ({
 				...state,
-				[target.id]: target.value
+				[target.id]: target.value,
 			}));
 		}
 	};
@@ -179,7 +179,7 @@ export class ViewProfileScreen extends Component {
 		var options = {};
 		var instance = M.Tabs.init(elem, options);
 
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var elems = document.querySelectorAll('select');
 			var instances = M.FormSelect.init(elems, options);
 		});
@@ -197,10 +197,7 @@ export class ViewProfileScreen extends Component {
 							<Home id='profileButtonSymbols' />{' '}
 						</button>
 						<div />
-						<button
-							className='profileButton'
-							onClick={this.startEdit.bind(this)}
-						>
+						<button className='profileButton' onClick={this.startEdit.bind(this)}>
 							{' '}
 							<Edit id='profileButtonSymbols' />{' '}
 						</button>

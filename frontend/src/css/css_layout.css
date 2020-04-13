@@ -320,6 +320,12 @@ form h5 {
 	grid-template-rows: repeat(100, 320px);
 }
 
+.college-list-view {
+	display: grid;
+	grid-template-columns: 555px;
+	grid-template-rows: repeat(100, 320px);
+}
+
 .collegeCard {
 	background-color: aquamarine;
 	margin-left: 20px;
@@ -416,7 +422,7 @@ form h5 {
 
 .collegeBoxCostAndBar {
 	display: grid;
-	grid-template-columns: 135px 15px 250px 20px;
+	grid-template-columns: 135px 15px 250px 30px;
 }
 
 .collegeBoxDebtAndACT {
@@ -520,6 +526,11 @@ form h5 {
 	margin-left: 20px;
 	position: relative;
 	color: black;
+}
+
+#collegeRec {
+	position: relative;
+	margin-left: 20px;
 }
 
 .collegeAdmission {

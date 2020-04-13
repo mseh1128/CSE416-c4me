@@ -286,10 +286,12 @@ module.exports = function (app, connection) {
     //     baseSearchQuery += ') ';
     //   }
     // }
-
-    if (nameFilterStatus)
-      baseSearchQuery += `and (collegeName LIKE \'%${name}%\') `;
-
+    if (nameFilterStatus) {
+      if (baseQueryModified) baseSearchQuery += 'and ';
+      baseQueryModified = true;
+      baseSearchQuery += `(collegeName LIKE \'%${name}%\')`;
+      // ignoring strict for searching by name for obv reasons
+    }
     console.log(major1);
     console.log(major2);
 
