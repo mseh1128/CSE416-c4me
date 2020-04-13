@@ -21,7 +21,7 @@ export class LoginScreen extends Component {
     userID: '',
     password: '',
     hideErrorMessage: true,
-    errorTextContent: null
+    errorTextContent: null,
   };
 
   checkCredentials = async () => {
@@ -29,37 +29,43 @@ export class LoginScreen extends Component {
     if (password.length === 0 || userID.length === 0) {
       this.setState({
         hideErrorMessage: false,
-        errorTextContent: nothingWasEntered
+        errorTextContent: nothingWasEntered,
       });
       return;
     }
     try {
       const response = await axios.post('/loginUser', {
         username: userID,
-        password: password
+        password: password,
       });
       const { data, status } = response;
       if (status !== 200) {
         console.log(`Status code of ${status} given`);
       }
-      localStorage.setItem('user-id-jwt', data);
-      this.props.history.push('/home');
+      const { jwtToken, isAdmin } = data;
+      console.log(data);
+      localStorage.setItem('user-id-jwt', jwtToken);
+      if (isAdmin) {
+        this.props.history.push('/admin');
+      } else {
+        this.props.history.push('/home');
+      }
     } catch (err) {
       const {
-        response: { data, status }
+        response: { data, status },
       } = err;
       const userFoundMessage = 'User not found!';
       if (status === 400 && data === userFoundMessage) {
         this.setState({
           hideErrorMessage: false,
-          errorTextContent: userFoundMessage
+          errorTextContent: userFoundMessage,
         });
       } else {
         console.log(err);
         const unknownErrorText = `An unknown error with error code ${status} occurred`;
         this.setState({
           hideErrorMessage: false,
-          errorTextContent: unknownErrorText
+          errorTextContent: unknownErrorText,
         });
       }
     }
@@ -73,12 +79,12 @@ export class LoginScreen extends Component {
     this.props.history.push('/home');
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { target } = e;
 
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      [target.id]: target.value
+      [target.id]: target.value,
     }));
   };
 

@@ -4,10 +4,13 @@ const {
   collegeScorecardCSVToSQL,
 } = require('../scraping/sql-imports.js');
 
+const deleteAllStudentProfilesQuery =
+  'DELETE u FROM User u, Student S WHERE S.userID = u.userID;';
+
 // console.log(collegeRankingToSQL);
 
 module.exports = function (app, connection) {
-  app.get('/scrapeCollegeRankings', async (req, res) => {
+  app.post('/scrapeCollegeRankings', async (req, res) => {
     try {
       await collegeRankingToSQL();
       return res.send(
@@ -19,7 +22,7 @@ module.exports = function (app, connection) {
     }
   });
 
-  app.get('/scrapeCollegeData', async (req, res) => {
+  app.post('/scrapeCollegeData', async (req, res) => {
     try {
       await collegeDataToSQL();
       return res.send('College data was succesfully scraped & saved to DB!');
@@ -29,13 +32,26 @@ module.exports = function (app, connection) {
     }
   });
 
-  app.get('/importCollegeScorecard', async (req, res) => {
+  app.post('/importCollegeScorecard', async (req, res) => {
     try {
       await collegeScorecardCSVToSQL();
       return res.send(
         'College scorecard was succesfully scraped & saved to DB!'
       );
     } catch (err) {
+      console.log(err);
+      return res.sendStatus(500).json('error occurred!');
+    }
+  });
+
+  app.delete('/deleteStudentProfiles', async (req, res) => {
+    try {
+      await connection.query(
+        'DELETE u FROM User u, Student S WHERE S.userID = u.userID;'
+      );
+      return res.send('All student profiles were deleted successfully!');
+    } catch (err) {
+      console.log(err);
       console.log(err);
       return res.sendStatus(500).json('error occurred!');
     }
