@@ -13,14 +13,14 @@ class Student extends React.Component {
 
 	getName = () => {
 		if (this.props.student.name.length > 20) {
-			let tempName = this.props.student.name.substring(0, 20) + '...';
+		 	let tempName = this.props.student.name.substring(0, 20) + '...';
 			return tempName;
 		} else return this.props.student.name;
 	};
 
 	getMajors = () => {
-		const m1 = this.props.student.major_1;
-		const m2 = this.props.student.major_2;
+		const m1 = this.props.student.major1;
+		const m2 = this.props.student.major2;
 		if (m1 != '' && m2 != '') return m1 + ' | ' + m2;
 		else if (m1 != '' && m2 === '') return m1;
 		else if (m2 != '' && m1 === '') return m2;
@@ -75,49 +75,49 @@ class Student extends React.Component {
 		};
 
 		return (
-			<Link to={'/applicationTracker/' + this.props.college.key + '/view/' + student.key}>
+			<Link to={'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.key}>
 				<div className='studentCard'>
 					<div className='studentBoxTitleAndStatus'>
 						<div className='studentTitle'> {this.getName()} </div>
-						<div className='studentStatus'> {student.status} </div>
+						<div className='studentStatus'> {student.acceptanceStatus} </div>
 					</div>
-					<div className='studentLocation'> {student.high_school_name} </div>
+					<div className='studentLocation'> {student.highSchoolName} </div>
 					<div className='studentMajors'>{this.getMajors()}</div>
 					<div className='studentMath1'>
 						{'SAT Math Score: '}
-						<span className='studentMath2'>{student.SAT_Math}</span>
+						<span className='studentMath2'>{student.SATMath}</span>
 					</div>
 					<div className='studentMathScore'>
 						<span className='studentText'>0</span>
 						<Progress
 							className='mathBar'
-							percent={this.getPercent('math', student.SAT_Math)}
+							percent={this.getPercent('math', student.SATMath)}
 							status='math'
 							theme={theme}
 						/>
 					</div>
 					<div className='studentEBRW1'>
 						{'SAT EBRW Score: '}
-						<span className='studentEBRW2'>{student.SAT_EBRW}</span>
+						<span className='studentEBRW2'>{student.SATEBRW}</span>
 					</div>
 					<div className='studentEBRWScore'>
 						<span className='studentText'>0</span>
 						<Progress
 							className='ebrwBar'
-							percent={this.getPercent('ebrw', student.SAT_EBRW)}
+							percent={this.getPercent('ebrw', student.SATEBRW)}
 							status='EBRW'
 							theme={theme}
 						/>
 					</div>
 					<div className='studentACT1'>
 						{'ACT Composite Score: '}
-						<span className='studentACT2'>{student.ACT_Composite}</span>
+						<span className='studentACT2'>{student.ACTComp}</span>
 					</div>
 					<div className='studentEBRWScore'>
 						<span className='studentText'>0</span>
 						<Progress
 							className='ACTBar'
-							percent={this.getPercent('act', student.ACT_Composite)}
+							percent={this.getPercent('act', student.ACTComp)}
 							status='ACT'
 							theme={theme}
 						/>

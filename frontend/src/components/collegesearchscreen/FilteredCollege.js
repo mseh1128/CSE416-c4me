@@ -219,7 +219,7 @@ class FilteredCollege extends React.Component {
     return (
       <div
         className="collegeCardSearched"
-        onClick={this.props.goAppTracker.bind(this, college.key)}
+        onClick={this.props.goAppTracker.bind(this, college.collegeName)}
       >
         <div className="collegeBoxTitle">
           <div className="collegeTitle"> {this.getName()} </div>

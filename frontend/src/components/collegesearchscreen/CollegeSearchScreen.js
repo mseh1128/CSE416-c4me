@@ -82,8 +82,43 @@ export class CollegeSearchScreen extends Component {
     }
   };
 
-  goAppTracker = (id) => {
-    this.props.history.push('/applicationTracker/' + id);
+  goAppTracker = async(id) => {
+    let queryStudentsDecisions = ''
+    let queryCollege = ''
+
+    try {
+      queryCollege = await axios.get('/getCollege', {
+        params: {
+          collegeName: id
+        },
+      });
+
+      queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
+        params: {
+          collegeName: id
+        }
+      });
+
+      this.props.history.push({
+        pathname: '/applicationTracker/' + id,
+        state: {
+          college: queryCollege.data,
+          studentsWhoApplied: queryStudentsDecisions.data
+        }
+      });
+
+    } catch (err) {
+      const {
+        response: { data, status },
+      } = err;
+      console.log(err);
+      const unknownErrorText = `An unknown error with error code ${status} occurred`;
+      console.log(unknownErrorText);
+    }
+
+
+
+
   };
 
   makeStrict = () => {
