@@ -139,24 +139,6 @@ export class ViewProfileScreen extends Component {
 	};
 
 	//ensures that only the correct range of numbers and entered
-	handleChangeAP = (e) => {
-		const { target } = e;
-		if (/^\d+$/.test(target.value) || target.value === '') {
-			if (target.value > 5) {
-				this.setState((state) => ({
-					...state,
-					[target.id]: 5,
-				}));
-				return;
-			}
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
-		}
-	};
-
-	//ensures that only the correct range of numbers and entered
 	handleChangeACT = (e) => {
 		const { target } = e;
 		if (/^\d+$/.test(target.value) || target.value === '') {
@@ -367,7 +349,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_US_hist'
 									style={{ left: '164px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_US_hist)}
 								></input>
 							</div>
@@ -391,7 +373,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_World_hist'
 									style={{ left: '127px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_World_hist)}
 								></input>
 							</div>
@@ -415,7 +397,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Math_1'
 									style={{ left: '131px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Math_1)}
 								></input>
 							</div>
@@ -439,7 +421,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Math_2'
 									style={{ left: '108px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Math_2)}
 								></input>
 							</div>
@@ -463,7 +445,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Eco_Bio'
 									style={{ left: '103px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Eco_Bio)}
 								></input>
 							</div>
@@ -487,7 +469,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Mol_Bio'
 									style={{ left: '37px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Mol_Bio)}
 								></input>
 							</div>
@@ -511,7 +493,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Chemistry'
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Chemistry)}
 								></input>
 							</div>
@@ -535,7 +517,7 @@ export class ViewProfileScreen extends Component {
 									id='AP_Physics'
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
+									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.AP_Physics)}
 								></input>
 							</div>
