@@ -78,7 +78,21 @@ export class AdminScreen extends Component {
     }
   };
 
-  importStudentData = () => {};
+  importStudentData = async () => {
+    try {
+      this.setState({ importStudentProfileText: 'Loading...' });
+      const res = await axios.post('/importStudentProfiles');
+      // by default shows all colleges
+      const { data } = res;
+      this.setState({
+        importStudentProfileText: data,
+      });
+    } catch (err) {
+      console.log(err);
+      console.log('Error occurred');
+      this.setState({ importStudentProfileText: 'An error occurred' });
+    }
+  };
 
   review = () => {};
 
@@ -133,7 +147,7 @@ export class AdminScreen extends Component {
             <div>
               <button className="adminBtn" onClick={this.importStudentData}>
                 {' '}
-                Import Student Profile Dataset (Not Implemented Yet){' '}
+                Import Student Profile Dataset{' '}
               </button>
               <span className="adminTxt">{importStudentProfileText}</span>
             </div>
