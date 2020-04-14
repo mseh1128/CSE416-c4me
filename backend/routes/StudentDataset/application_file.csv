@@ -1,0 +1,11 @@
+userid,college,status
+100,Stony Brook University,wait-listed
+100,American University,accepted
+101,Stony Brook University,accepted
+101,American University,denied
+102,Stony Brook University,withrawn
+102,American University,accepted
+103,Barnard University,accepted
+103,Stony Brook University,denied
+104,Barnard University,wait-listed
+105,Stony Brook University,accepted
