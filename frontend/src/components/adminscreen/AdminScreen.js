@@ -78,29 +78,24 @@ export class AdminScreen extends Component {
 		}
 	};
 
-<<<<<<< HEAD
-	importStudentData = () => {};
-=======
-  importStudentData = async () => {
-    try {
-      this.setState({ importStudentProfileText: 'Loading...' });
-      const res = await axios.post('/importStudentProfiles');
-      // by default shows all colleges
-      const { data } = res;
-      this.setState({
-        importStudentProfileText: data,
-      });
-    } catch (err) {
-      console.log(err);
-      console.log('Error occurred');
-      this.setState({ importStudentProfileText: 'An error occurred' });
-    }
-  };
->>>>>>> fed607869c68a134449cf047e75924f842772d68
+	importStudentData = async () => {
+		try {
+			this.setState({ importStudentProfileText: 'Loading...' });
+			const res = await axios.post('/importStudentProfiles');
+			// by default shows all colleges
+			const { data } = res;
+			this.setState({
+				importStudentProfileText: data,
+			});
+		} catch (err) {
+			console.log(err);
+			console.log('Error occurred');
+			this.setState({ importStudentProfileText: 'An error occurred' });
+		}
+	};
 
 	review = () => {};
 
-<<<<<<< HEAD
 	render() {
 		const {
 			scrapeCollegeRankingText,
@@ -165,75 +160,6 @@ export class AdminScreen extends Component {
 			</div>
 		);
 	}
-=======
-  render() {
-    const {
-      scrapeCollegeRankingText,
-      importCollegeScorecardText,
-      scrapeCollegeDataText,
-      deleteAllStudentProfilesText,
-      importStudentProfileText,
-      reviewQuestionableText,
-    } = this.state;
-    return (
-      <div className="admin_screen_container">
-        <div className="adminContainer">
-          <div id="adminBanner">
-            <div></div>
-            <span className="adminTitleText"> Admin functions </span>
-          </div>
-          <div id="adminBtns">
-            <div>
-              <button className="adminBtn" onClick={this.scrapeCollegeRankings}>
-                {' '}
-                Scrape College Rankings{'\n '}
-              </button>
-              <span className="adminTxt">{scrapeCollegeRankingText}</span>
-            </div>
-            <div>
-              <button
-                className="adminBtn"
-                onClick={this.importCollegeScorecard}
-              >
-                {' '}
-                Import College Scorecard data file{' '}
-              </button>
-              <span className="adminTxt">{importCollegeScorecardText}</span>
-            </div>
-            <div>
-              <button className="adminBtn" onClick={this.scrapeCollegeData}>
-                {' '}
-                Scrape CollegeData.com{' '}
-              </button>
-              <span className="adminTxt">{scrapeCollegeDataText}</span>
-            </div>
-            <div>
-              <button className="adminBtn" onClick={this.deleteStudents}>
-                {' '}
-                Delete all Student Profiles{' '}
-              </button>
-              <span className="adminTxt">{deleteAllStudentProfilesText}</span>
-            </div>
-            <div>
-              <button className="adminBtn" onClick={this.importStudentData}>
-                {' '}
-                Import Student Profile Dataset{' '}
-              </button>
-              <span className="adminTxt">{importStudentProfileText}</span>
-            </div>
-            <div>
-              <button className="adminBtn" onClick={this.review}>
-                {' '}
-                Review Questionable acceptance decisions (Not Implemented Yet){' '}
-              </button>
-              <span className="adminTxt">{reviewQuestionableText}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
->>>>>>> fed607869c68a134449cf047e75924f842772d68
 }
 
 export default AdminScreen;
