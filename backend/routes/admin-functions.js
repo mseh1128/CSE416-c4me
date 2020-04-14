@@ -58,7 +58,7 @@ module.exports = function (app, connection) {
     }
   });
 
-  app.get('/importStudentProfiles', async (req, res) => {
+  app.post('/importStudentProfiles', async (req, res) => {
     const readStream = fs
       .createReadStream(
         path.resolve(__dirname, './StudentDataset/student_profile_dataset.csv')
