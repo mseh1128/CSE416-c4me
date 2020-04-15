@@ -40,14 +40,14 @@ export class ViewProfileScreen extends Component {
 		ACT_Science: data.students[0].ACT_Science,
 		ACT_Composite: data.students[0].ACT_Composite,
 		ACT_Literature: data.students[0].ACT_Literature,
-		AP_US_hist: data.students[0].SAT_US_hist,
-		AP_World_hist: data.students[0].SAT_World_hist,
-		AP_Math_1: data.students[0].SAT_Math_1,
-		AP_Math_2: data.students[0].SAT_Math_2,
-		AP_Eco_Bio: data.students[0].SAT_Eco_Bio,
-		AP_Mol_Bio: data.students[0].SAT_Mol_Bio,
-		AP_Chemistry: data.students[0].SAT_Chemistry,
-		AP_Physics: data.students[0].SAT_Physics,
+		SAT_US_hist: data.students[0].SAT_US_hist,
+		SAT_World_hist: data.students[0].SAT_World_hist,
+		SAT_Math_1: data.students[0].SAT_Math_1,
+		SAT_Math_2: data.students[0].SAT_Math_2,
+		SAT_Eco_Bio: data.students[0].SAT_Eco_Bio,
+		SAT_Mol_Bio: data.students[0].SAT_Mol_Bio,
+		SAT_Chemistry: data.students[0].SAT_Chemistry,
+		SAT_Physics: data.students[0].SAT_Physics,
 	};
 
 	goHome = () => {
@@ -316,13 +316,11 @@ export class ViewProfileScreen extends Component {
 								></input>
 							</div>
 						</div>
-						<div>
-							<div id='collegeInfoList'>
-								<div id='generalHSHeader'>
-									<span className='profileHeader'>Your Applications</span>
-								</div>
-								<StudentCollegesList disabled={this.state.disabled} />
+						<div id='collegeInfoList'>
+							<div id='generalCollegeHeader'>
+								<span className='profileHeader'>Your Applications</span>
 							</div>
+							<StudentCollegesList disabled={this.state.disabled} />
 						</div>
 						<div id='educationInfoList'>
 							<div id='generalHSHeader'>
