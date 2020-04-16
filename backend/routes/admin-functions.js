@@ -14,7 +14,7 @@ const insertDatasetToUserQuery =
   'insert ignore into user(username, userPassword, userID) values (?, ?, ?); ';
 
 const insertDatasetToStudentQuery =
-  'insert ignore into student(userID, residenceState, major1, major2, highSchoolName, highSchoolState) values (?, ?, ?, ?, ?, ?); ';
+  'insert ignore into student(userID, residenceState, major1, major2, highSchoolName, highSchoolCity, highSchoolState) values (?, ?, ?, ?, ?, ?, ?); ';
 
 const insertDatasetToProfileQuery =
   'insert ignore into profile(studentID, highSchoolGPA, SATMath, SATEBRW, ACTEng, ACTMath, ACTReading, ACTSci, ACTComp, SATLit, SATUSHist, SATWorldHist, SATMath1, SATMath2, SATEcoBio, SATMolBio, SATChem, SATPhysics, passedAPAmount) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ';
@@ -73,6 +73,7 @@ module.exports = function (app, connection) {
           password,
           residence_state,
           high_school_name,
+          high_school_city,
           high_school_state,
           GPA,
           college_class,
@@ -108,6 +109,7 @@ module.exports = function (app, connection) {
           major_1,
           major_2,
           high_school_name,
+          high_school_city,
           high_school_state,
         ]);
         await connection.query(insertDatasetToProfileQuery, [
