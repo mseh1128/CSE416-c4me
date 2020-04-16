@@ -50,6 +50,67 @@ export class ViewProfileScreen extends Component {
 		AP_Physics: data.students[0].AP_Physics,
 	};
 
+	componentDidMount = async () => {
+		console.log(this.props.user.userID);
+		try {
+			let response = this.theImportantRetrieval();
+			this.setState({
+				userIDInput: response.userID,
+				nameInput: response.name,
+				residence_state: response.residenceState,
+				high_school_name: response.highSchoolName,
+				high_school_city: response.highSchoolCity,
+				high_school_state: response.highSchoolState,
+				GPA: response.highSchoolGPA,
+				college_class: 2024,
+				major1: response.major1,
+				major2: response.major2,
+				SAT_Math: response.SATMath,
+				SAT_EBRW: response.SATEBRW,
+				ACT_English: response.ACTEng,
+				ACT_Math: response.ACTMath,
+				ACT_Reading: response.ACTReading,
+				ACT_Science: response.ACTSci,
+				ACT_Composite: response.ACTComp,
+				ACT_Literature: response.ACTLit,
+				AP_US_hist: response.APUSHist,
+				AP_World_hist: response.APWorldHist,
+				AP_Math_1: response.APMath1,
+				AP_Math_2: response.APMath2,
+				AP_Eco_Bio: response.APEcoBio,
+				AP_Mol_Bio: response.APMolBio,
+				AP_Chemistry: response.APChem,
+				AP_Physics: response.APPhysics,
+			});
+		} catch (err) {
+			const {
+				response: { data, status },
+			} = err;
+			console.log(err);
+			const unknownErrorText = `An unknown error with error code ${status} occurred`;
+			console.log(unknownErrorText);
+		}
+	}
+
+	theImportantRetrieval = async () => {
+		try {
+			const response = await axios.get('/retrieveAStudent', {
+				params: {
+					userID: this.props.user.userID
+				},
+			});
+			return response.data;
+		} catch (err) {
+			const {
+				response: { data, status },
+			} = err;
+			console.log(err);
+			const unknownErrorText = `An unknown error with error code ${status} occurred`;
+			console.log(unknownErrorText);
+			return
+		}
+	}
+
 	goHome = () => {
 		this.props.history.push('/home');
 	};
@@ -184,7 +245,7 @@ export class ViewProfileScreen extends Component {
 			var instances = M.FormSelect.init(elems, options);
 		});
 
-		const student = data.student;
+		let usersInfo = this.theImportantRetrieval();
 
 		return (
 			<div className='profile_screen_container'>

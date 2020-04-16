@@ -8,7 +8,7 @@ const queryChangeQuestionability =
   'UPDATE college_declaration SET questionable=? where userID=?';
 const queryGetDecision =
   'select * from college_declaration inner join student on college_declaration.studentID=student.userID inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where collegeName=? and questionable=0;';
-const queryDeleteEveryAcceptance = 'TRUNCATE college_declaration';
+
 
 module.exports = function(app, connection) {
   // app.post('/addCollegeDeclaration', (req, res) => {

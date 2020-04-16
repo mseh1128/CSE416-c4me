@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const express = require('path');
 
-var queryAddStudent = 'INSERT INTO students (userID) VALUES (?)';
+let queryAddStudent = 'INSERT INTO students (userID) VALUES (?)';
 
 //this assumes that the user only changes one thing at a time.
 //also, "profile" means the academic profile of a student user, (SAT score)
@@ -9,13 +9,14 @@ var queryAddStudent = 'INSERT INTO students (userID) VALUES (?)';
 //var queryUpdateStudentInfo = "UPDATE students SET ?=? where userID=?";
 //var queryUpdateProfileInfo = "UPDATE profile SET ?=? where userID=?";
 
-var queryUpdateStudentInfo =
+let queryUpdateStudentInfo =
   'UPDATE student SET state=?, highSchoolCity=?, major1=?, major2=?, highSchool=? where userID=?';
-var queryUpdateProfileInfo =
+let queryUpdateProfileInfo =
   'UPDATE profile SET highSchoolGPA=?, SATMath=?, SATEBRW=?, ACTEng=?, ACTMath=?, ACTReading=?, ACTSci=?, ACTComp=?, ACTLit=?, APUSHist=?, APWorldHist=?, APMathI=?, APMathII=?, APEcoBio=?, APMolBio=?, APChem=?, APPhysics=?, passedAPAmount=? where userId=?';
+let queryAllAboutAStudent =
+  'select * from student inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where student.userID=?';
 
-var queryDeleteEveryStudent = 'TRUNCATE student';
-var queryDeleteEveryProfile = 'TRUNCATE profile';
+
 
 module.exports = function(app, connection) {
   app.post('/initializeStudents', (req, res) => {
@@ -111,6 +112,20 @@ module.exports = function(app, connection) {
     );
   });
 
+  app.get('/retrieveAStudent', (req, res) => {
+    console.log(req.query);
+    const userID = req.query.userID;
+    connection.query(queryAllAboutAStudent, [userID], (err, rows, params) => {
+      if (err){
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      console.log(rows[0]);
+      res.send(rows[0])
+    })
+  })
+
   app.post('/deleteStudentsNonAcademicInfo', (req, res) => {
     connection.query(queryDeleteEveryStudent, (err, rows, params) => {
       if (err) {
@@ -118,7 +133,8 @@ module.exports = function(app, connection) {
         res.sendStatus(500);
         return;
       }
-      res.sendStatus(200);
+      res.sendStatus(200).json(rows);
+      return;
     });
   });
 

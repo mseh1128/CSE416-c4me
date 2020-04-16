@@ -29,7 +29,7 @@ module.exports = function (app, connection) {
         // const token = jwt.sign(payload, process.env.SECRET_OR_KEY);
         // need to change secret to environment var
         const token = jwt.sign(results[0].userID, 'jwt_secret_key');
-        return res.send({ jwtToken: token, isAdmin: results[0].isAdmin });
+        return res.send({ jwtToken: token, isAdmin: results[0].isAdmin});
       }
     );
   });
