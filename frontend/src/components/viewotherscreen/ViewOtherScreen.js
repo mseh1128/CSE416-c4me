@@ -36,14 +36,14 @@ export class ViewOtherScreen extends Component {
 		ACT_Science: data.students[0].ACT_Science,
 		ACT_Composite: data.students[0].ACT_Composite,
 		ACT_Literature: data.students[0].ACT_Literature,
-		AP_US_hist: data.students[0].AP_US_hist,
-		AP_World_hist: data.students[0].AP_World_hist,
-		AP_Math_1: data.students[0].AP_Math_1,
-		AP_Math_2: data.students[0].AP_Math_2,
-		AP_Eco_Bio: data.students[0].AP_Eco_Bio,
-		AP_Mol_Bio: data.students[0].AP_Mol_Bio,
-		AP_Chemistry: data.students[0].AP_Chemistry,
-		AP_Physics: data.students[0].AP_Physics,
+		AP_US_hist: data.students[0].SAT_US_hist,
+		AP_World_hist: data.students[0].SAT_World_hist,
+		AP_Math_1: data.students[0].SAT_Math_1,
+		AP_Math_2: data.students[0].SAT_Math_2,
+		AP_Eco_Bio: data.students[0].SAT_Eco_Bio,
+		AP_Mol_Bio: data.students[0].SAT_Mol_Bio,
+		AP_Chemistry: data.students[0].SAT_Chemistry,
+		AP_Physics: data.students[0].SAT_Physics,
 	};
 
 	goBack = () => {
@@ -121,24 +121,6 @@ export class ViewOtherScreen extends Component {
 				this.setState((state) => ({
 					...state,
 					[target.id]: target.value - (target.value % 10),
-				}));
-				return;
-			}
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
-		}
-	};
-
-	//ensures that only the correct range of numbers and entered
-	handleChangeAP = (e) => {
-		const { target } = e;
-		if (/^\d+$/.test(target.value) || target.value === '') {
-			if (target.value > 5) {
-				this.setState((state) => ({
-					...state,
-					[target.id]: 5,
 				}));
 				return;
 			}
@@ -329,7 +311,7 @@ export class ViewOtherScreen extends Component {
 						<div id='educationInfoList'>
 							<div id='generalHSHeader'>
 								<span className='profileHeader'>SAT/ACT Scores</span>
-								<span className='profileHeader'>AP Scores</span>
+								<span className='profileHeader'>SAT Scores</span>
 							</div>
 							<div>
 								<span className='profileText'>SAT Math:</span>
@@ -348,11 +330,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_US_hist'
+									id='SAT_US_hist'
 									style={{ left: '164px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_US_hist)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_US_hist)}
 								></input>
 							</div>
 							<div>
@@ -372,11 +354,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_World_hist'
+									id='SAT_World_hist'
 									style={{ left: '127px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_World_hist)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_World_hist)}
 								></input>
 							</div>
 							<div>
@@ -396,11 +378,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Math_1'
+									id='SAT_Math_1'
 									style={{ left: '131px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Math_1)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Math_1)}
 								></input>
 							</div>
 							<div>
@@ -420,11 +402,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Math_2'
+									id='SAT_Math_2'
 									style={{ left: '108px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Math_2)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Math_2)}
 								></input>
 							</div>
 							<div>
@@ -444,11 +426,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Eco_Bio'
+									id='SAT_Eco_Bio'
 									style={{ left: '103px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Eco_Bio)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Eco_Bio)}
 								></input>
 							</div>
 							<div>
@@ -468,11 +450,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Mol_Bio'
+									id='SAT_Mol_Bio'
 									style={{ left: '37px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Mol_Bio)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Mol_Bio)}
 								></input>
 							</div>
 							<div>
@@ -492,11 +474,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Chemistry'
+									id='SAT_Chemistry'
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Chemistry)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Chemistry)}
 								></input>
 							</div>
 							<div>
@@ -516,11 +498,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='AP_Physics'
+									id='SAT_Physics'
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeAP}
-									value={this.getScore(this.state.AP_Physics)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Physics)}
 								></input>
 							</div>
 						</div>

@@ -16,6 +16,7 @@ import 'react-dropdown/style.css';
 class StudentCollege extends React.Component {
 	state = {
 		status: this.props.college.status,
+		isQuestionable: true,
 	};
 
 	//cuts a name short if the name of the college is too long for the card
@@ -103,88 +104,94 @@ class StudentCollege extends React.Component {
 		const defaultOption = dropdownOptions[0];
 
 		return (
-			<div className='collegeCard'>
-				<div className='collegeBoxTitleAndStatus'>
-					<div className='collegeTitle'> {this.getName()} </div>
-					<Dropdown
-						disabled={this.props.disabled}
-						options={dropdownOptions}
-						onChange={this._onSelect}
-						value={this.getStatus()}
-						placeholder='Select an option'
+			<div className='collegeContainer'>
+				<div className='collegeCard'>
+					<div className='collegeBoxTitleAndStatus'>
+						<div className='collegeTitle'> {this.getName()} </div>
+						<Dropdown
+							disabled={this.props.disabled}
+							options={dropdownOptions}
+							onChange={this._onSelect}
+							value={this.getStatus()}
+							placeholder='Select an option'
+						/>
+					</div>
+					<div className='collegeLocation'> {college.location} </div>
+					<div className='collegeType'>
+						{' '}
+						{college.type +
+							' | ' +
+							college.admission_rate +
+							'% Acceptance Rate | ' +
+							college.completion_rate +
+							'% Completion Rate | Rank: ' +
+							college.ranking}{' '}
+					</div>
+					<div className='collegeBoxSizeAndMath'>
+						<div className='collegeSize1'>{'Size:'}</div>
+						<div className='collegeMath1'>
+							{'Average SAT Math: '}
+							<span className='collegeMath2'>{college.avg_SAT_Math}</span>
+						</div>
+					</div>
+					<div className='collegeBoxSizeAndBar'>
+						<div className='collegeSize2'> {college.size} </div>
+						<span className='collegeText'>0</span>
+						<Progress
+							className='mathBar'
+							percent={this.getPercent('math', college.avg_SAT_Math)}
+							status='math'
+							theme={theme}
+						/>
+					</div>
+					<div className='collegeBoxCostAndEnglish'>
+						<div className='collegeCost1'> {'Avg Price:'} </div>
+						<div className='collegeEnglish1'>
+							{'Average SAT EBRW: '}
+							<span className='collegeEnglish2'>{college.avg_EBRW}</span>
+						</div>
+					</div>
+					<div className='collegeBoxCostAndBar'>
+						<div className='collegeCost2'> {'$' + college.cost} </div>
+						<span className='collegeText'>0</span>
+						<Progress
+							className='ebrwBar'
+							percent={this.getPercent('ebrw', college.avg_EBRW)}
+							status='EBRW'
+							theme={theme}
+						/>
+					</div>
+					<div className='collegeBoxDebtAndACT'>
+						<div className='collegeDebt1'> {'Avg Debt:'} </div>
+						<div className='collegeACT1'>
+							{'Average ACT: '}
+							<span className='collegeACT2'>{college.avg_ACT}</span>
+						</div>
+					</div>
+					<div className='collegeBoxDebtAndBar'>
+						<div className='collegeDebt2'> {'$' + college.debt} </div>
+						<span className='collegeText'>0</span>
+						<Progress
+							className='ACTBar'
+							percent={this.getPercent('act', college.avg_ACT)}
+							status='ACT'
+							theme={theme}
+						/>
+					</div>
+					<Progress
+						style={{ left: '410px' }}
+						type='circle'
+						width={120}
+						symbolClassName='reccomendBar'
+						percent={this.getPercent('rec', college.reccomendScore)}
+						status='rec'
+						theme={theme}
 					/>
 				</div>
-				<div className='collegeLocation'> {college.location} </div>
-				<div className='collegeType'>
+				<span id='questionableStatus' hidden={!this.state.isQuestionable}>
 					{' '}
-					{college.type +
-						' | ' +
-						college.admission_rate +
-						'% Acceptance Rate | ' +
-						college.completion_rate +
-						'% Completion Rate | Rank: ' +
-						college.ranking}{' '}
-				</div>
-				<div className='collegeBoxSizeAndMath'>
-					<div className='collegeSize1'>{'Size:'}</div>
-					<div className='collegeMath1'>
-						{'Average SAT Math: '}
-						<span className='collegeMath2'>{college.avg_SAT_Math}</span>
-					</div>
-				</div>
-				<div className='collegeBoxSizeAndBar'>
-					<div className='collegeSize2'> {college.size} </div>
-					<span className='collegeText'>0</span>
-					<Progress
-						className='mathBar'
-						percent={this.getPercent('math', college.avg_SAT_Math)}
-						status='math'
-						theme={theme}
-					/>
-				</div>
-				<div className='collegeBoxCostAndEnglish'>
-					<div className='collegeCost1'> {'Avg Price:'} </div>
-					<div className='collegeEnglish1'>
-						{'Average SAT EBRW: '}
-						<span className='collegeEnglish2'>{college.avg_EBRW}</span>
-					</div>
-				</div>
-				<div className='collegeBoxCostAndBar'>
-					<div className='collegeCost2'> {'$' + college.cost} </div>
-					<span className='collegeText'>0</span>
-					<Progress
-						className='ebrwBar'
-						percent={this.getPercent('ebrw', college.avg_EBRW)}
-						status='EBRW'
-						theme={theme}
-					/>
-				</div>
-				<div className='collegeBoxDebtAndACT'>
-					<div className='collegeDebt1'> {'Avg Debt:'} </div>
-					<div className='collegeACT1'>
-						{'Average ACT: '}
-						<span className='collegeACT2'>{college.avg_ACT}</span>
-					</div>
-				</div>
-				<div className='collegeBoxDebtAndBar'>
-					<div className='collegeDebt2'> {'$' + college.debt} </div>
-					<span className='collegeText'>0</span>
-					<Progress
-						className='ACTBar'
-						percent={this.getPercent('act', college.avg_ACT)}
-						status='ACT'
-						theme={theme}
-					/>
-				</div>
-				<Progress
-					style={{ left: '410px' }}
-					type='circle'
-					width={120}
-					symbolClassName='reccomendBar'
-					percent={this.getPercent('rec', college.reccomendScore)}
-					status='rec'
-					theme={theme}
-				/>
+					! Under review !{' '}
+				</span>
 			</div>
 		);
 	}

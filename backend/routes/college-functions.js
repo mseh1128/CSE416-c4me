@@ -88,7 +88,7 @@ module.exports = function (app, connection) {
         res.sendStatus(500);
         return;
       }
-      console.log(results)
+      console.log(results);
       res.send(results[0]);
     });
   });
@@ -185,7 +185,7 @@ module.exports = function (app, connection) {
     console.log(majorTwoFilterStatus);
     console.log(nameFilterStatus);
 
-    let baseSearchQuery = 'SELECT * FROM college WHERE ';
+    let baseSearchQuery = 'SELECT * FROM college c WHERE ';
     let baseQueryModified = false;
 
     if (admissionRateFilterStatus) {
@@ -290,11 +290,41 @@ module.exports = function (app, connection) {
     if (nameFilterStatus) {
       if (baseQueryModified) baseSearchQuery += 'and ';
       baseQueryModified = true;
-      baseSearchQuery += `(collegeName LIKE \'%${name}%\')`;
+      baseSearchQuery += `(collegeName LIKE \'%${name}%\') `;
       // ignoring strict for searching by name for obv reasons
     }
-    console.log(major1);
-    console.log(major2);
+
+    // console.log(major1);
+    // console.log(major2);
+    // if (majorOneFilterStatus && majorTwoFilterStatus) {
+    //   if (baseQueryModified) baseSearchQuery += 'and ';
+    //   baseQueryModified = true;
+    //   baseSearchQuery += `((c.collegeName=m.collegeName) and ((m.major LIKE \'%${major1}%\') OR (m.major LIKE \'%${major2}%\')`;
+    //   if (!strict) {
+    //     baseSearchQuery += ' OR (m.major IS NULL))) ';
+    //   } else {
+    //     baseSearchQuery += ')) ';
+    //   }
+    //   // ignoring strict for searching by name for obv reasons
+    // } else if (majorOneFilterStatus) {
+    //   if (baseQueryModified) baseSearchQuery += 'and ';
+    //   baseQueryModified = true;
+    //   baseSearchQuery += `((c.collegeName=m.collegeName) and ((m.major LIKE \'%${major1}%\')`;
+    //   if (!strict) {
+    //     baseSearchQuery += ' OR (m.major IS NULL))) ';
+    //   } else {
+    //     baseSearchQuery += ')) ';
+    //   }
+    // } else if (majorTwoFilterStatus) {
+    //   if (baseQueryModified) baseSearchQuery += 'and ';
+    //   baseQueryModified = true;
+    //   baseSearchQuery += `((c.collegeName=m.collegeName) and ((m.major LIKE \'%${major2}%\')`;
+    //   if (!strict) {
+    //     baseSearchQuery += ' OR (m.major IS NULL))) ';
+    //   } else {
+    //     baseSearchQuery += ')) ';
+    //   }
+    // }
 
     if (!baseQueryModified) {
       // if base query not modified gets rid of WHERE
