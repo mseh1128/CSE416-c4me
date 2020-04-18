@@ -15,6 +15,7 @@
     "react-dom": "^16.13.1",
     "react-dropdown": "^1.7.0",
     "react-materialize": "^3.8.3",
+    "react-promise": "^3.0.2",
     "react-range": "^1.5.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",

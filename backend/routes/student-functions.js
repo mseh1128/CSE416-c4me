@@ -122,7 +122,7 @@ module.exports = function(app, connection) {
         return;
       }
       console.log(rows[0]);
-      res.send(rows[0])
+      res.send(rows[0]);
     })
   })
 
