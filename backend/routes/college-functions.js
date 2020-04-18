@@ -104,7 +104,7 @@ module.exports = function (app, connection) {
           res.sendStatus(500);
           return;
         }
-        res.send(results);
+        res.send(results[0]);
       }
     );
   });
