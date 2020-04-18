@@ -105,7 +105,7 @@ export class LoginScreen extends Component {
           <span className="loginText"> Login </span>
           <div id="userID" className="input-field">
             <label htmlFor="userID" style={{ left: '20px' }}>
-              UserID
+              Username
             </label>
             <input
               className="active"
