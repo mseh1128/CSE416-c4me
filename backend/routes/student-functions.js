@@ -1,135 +1,79 @@
-const mysql = require('mysql');
-const express = require('path');
+const getStudentInfo =
+  'select u.username, u.name, p.passedAPAmount, p.highSchoolGPA, p.SATMath, p.SATEBRW, p.ACTEng, p.ACTMath, p.ACTReading, p.ACTSci, p.ACTComp, p.SATLit, p.SATUSHist, p.SATWorldHist, p.SATMath1, p.SATMath2, p.SATEcoBio, p.SATMolBio, p.SATChem, p.SATPhysics, residenceState, s.highSchoolCity, s.major1, s.major2, s.highSchoolName, s.highSchoolState, s.collegeClass from user u, profile p, student s where u.userID=s.userID and p.studentID = s.userID and s.userID=?;';
 
-var queryAddStudent = 'INSERT INTO students (userID) VALUES (?)';
+const updateUserInfo = 'UPDATE user SET username = ?, name=? WHERE userID = ?';
+const updateStudentInfo =
+  'UPDATE student SET residenceState = ?, highSchoolCity = ?, major1 = ?, major2 = ?, highSchoolName = ?, highSchoolState = ?, collegeClass = ? WHERE userID = ?';
+const updateProfileInfo =
+  'UPDATE profile SET highSchoolGPA = ?, SATMath = ?, SATEBRW = ?, ACTEng = ?, ACTMath = ?, ACTReading = ?, ACTSci = ?, ACTComp = ?, SATLit = ?, SATUSHist = ?, SATWorldHist = ?, SATMath1 = ?, SATMath2 = ?, SATEcoBio = ?, SATMolBio = ?, SATChem = ?, SATPhysics = ?, passedAPAmount = ? WHERE studentID = ?';
 
-//this assumes that the user only changes one thing at a time.
-//also, "profile" means the academic profile of a student user, (SAT score)
-//and "student" stores non-academic data of a student user (majors, high school)
-//var queryUpdateStudentInfo = "UPDATE students SET ?=? where userID=?";
-//var queryUpdateProfileInfo = "UPDATE profile SET ?=? where userID=?";
+module.exports = function (app, connection) {
+  app.get('/getStudentInfo', (req, res) => {
+    console.log(req.query);
+    const { userID } = req.query;
+    // inclues student & profile info for student
 
-var queryUpdateStudentInfo =
-  'UPDATE student SET state=?, highSchoolCity=?, major1=?, major2=?, highSchool=? where userID=?';
-var queryUpdateProfileInfo =
-  'UPDATE profile SET highSchoolGPA=?, SATMath=?, SATEBRW=?, ACTEng=?, ACTMath=?, ACTReading=?, ACTSci=?, ACTComp=?, ACTLit=?, APUSHist=?, APWorldHist=?, APMathI=?, APMathII=?, APEcoBio=?, APMolBio=?, APChem=?, APPhysics=?, passedAPAmount=? where userId=?';
-
-var queryDeleteEveryStudent = 'TRUNCATE student';
-var queryDeleteEveryProfile = 'TRUNCATE profile';
-
-module.exports = function(app, connection) {
-  app.post('/initializeStudents', (req, res) => {
-    let body = JSON.parse(req.body);
-    let id = body.id;
-
-    connection.query(queryAddStudent, [id], (err, rows, params) => {
+    connection.query(getStudentInfo, [userID], (err, results, fields) => {
       if (err) {
         console.log(err);
-        res.sendStatus(500);
-        return;
+        return res.sendStatus(500).json('error occurred!');
       }
-      res.sendStatus(200);
+      console.log(results);
+      res.send(results);
     });
   });
 
   app.post('/updateStudentInfo', (req, res) => {
-    console.log(req.body);
-    let state = req.body.state;
-    let highSchoolCity = req.body.highSchoolCity;
-    let major1 = req.body.major1;
-    let major2 = req.body.major2;
-    let highSchool = req.body.highSchool;
-    let id = req.body.id;
+    const { state, userID } = req.body;
+    console.log(state);
+    console.log(userID);
+    // res.send(state);
+    // try {
+    Promise.all([
+      connection.query(updateUserInfo, [state.username, state.name, userID]),
 
-    connection.query(
-      queryUpdateStudentInfo,
-      [state, highSchoolCity, major1, major2, highSchool, id],
-      (err, rows, params) => {
-        //console.log("state: " + state + "; highSchoolCity: " + highSchoolCity + "; first major: " + major1 + "; second major: " + major2 + "; id: " + id)
-        if (err) {
-          console.log(err);
-          res.sendStatus(500);
-          return;
-        }
-        res.sendStatus(200);
-      }
-    );
-  });
+      connection.query(updateStudentInfo, [
+        state.residenceState,
+        state.highSchoolCity,
+        state.major1,
+        state.major2,
+        state.highSchoolName,
+        state.highSchoolState,
+        state.collegeClass,
+        userID,
+      ]),
 
-  app.post('/updateProfileInfo', (req, res) => {
-    let gpa = req.body.gpa;
-    let satMath = req.body.satMath;
-    let satEBRW = req.body.satEBRW;
-    let actEng = req.body.actEng;
-    let actMath = req.body.actMath;
-    let actReading = req.body.actReading;
-    let actSci = req.body.actSci;
-    let actComp = req.body.actComp;
-    let actLit = req.body.actLit;
-    let apUSHist = req.body.apUSHist;
-    let apWorldHist = req.body.apWorldHist;
-    let apMath1 = req.body.apMath1;
-    let apMath2 = req.body.apMath2;
-    let apEcoBio = req.body.apEcoBio;
-    let apMolBio = req.body.apMolBio;
-    let apChem = req.body.apChem;
-    let apPhysics = req.body.apPhysics;
-    let apPassed = req.body.apPassed;
-    let id = req.body.id;
-
-    connection.query(
-      queryUpdateProfileInfo,
-      [
-        gpa,
-        satMath,
-        satEBRW,
-        actEng,
-        actMath,
-        actReading,
-        actSci,
-        actComp,
-        actLit,
-        apUSHist,
-        apWorldHist,
-        apMath1,
-        apMath2,
-        apEcoBio,
-        apMolBio,
-        apChem,
-        apPhysics,
-        apPassed,
-        id
-      ],
-      (err, rows, params) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(500);
-          return;
-        }
-        res.sendStatus(200);
-      }
-    );
-  });
-
-  app.post('/deleteStudentsNonAcademicInfo', (req, res) => {
-    connection.query(queryDeleteEveryStudent, (err, rows, params) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-        return;
-      }
-      res.sendStatus(200);
-    });
-  });
-
-  app.post('/deleteStudentsAcademicInfo', (req, res) => {
-    connection.query(queryDeleteEveryProfile, (err, rows, params) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-        return;
-      }
-      res.sendStatus(200);
-    });
+      connection.query(updateProfileInfo, [
+        state.highSchoolGPA,
+        state.SATMath,
+        state.SATEBRW,
+        state.ACTEng,
+        state.ACTMath,
+        state.ACTReading,
+        state.ACTSci,
+        state.ACTComp,
+        state.SATLit,
+        state.SATUSHist,
+        state.SATWorldHist,
+        state.SATMath1,
+        state.SATMath2,
+        state.SATEcoBio,
+        state.SATMolBio,
+        state.SATChem,
+        state.SATPhysics,
+        state.passedAPAmount,
+        userID,
+      ]),
+    ])
+      .then((result) => {
+        console.log('in here result page');
+        return res.send('Everything updated properly');
+      })
+      .catch((err) => {
+        // mysql overriding this for some annoying reason!
+        console.log('in here error page');
+        console.log('error occurred');
+        return res.sendStatus(500).json('error occurred!');
+      });
   });
 };
