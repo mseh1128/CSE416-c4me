@@ -54,6 +54,50 @@ export class CollegeSearchScreen extends Component {
 		}
 	};
 
+	reccomendColleges = async () => {
+		const { user } = this.props;
+		const { username, name, userID } = user;
+
+		try {
+			const studentProfileData = await axios.get('/getStudentInfo', {
+				params: { userID },
+			});
+
+			const studentProfile = studentProfileData.data[0];
+			console.log(studentProfile);
+
+			let recColleges = this.state.colleges.filter(function (e) {
+				let score = 100;
+				let mathScore = Math.abs(studentProfile.SATMath - e.SATMathScore) / 4;
+				score = score - mathScore;
+
+				let ebrwScore = Math.abs(studentProfile.SATEBRW - e.SATEBRWScore) / 4;
+				score = score - ebrwScore;
+
+				let actScore = Math.abs(studentProfile.ACTComp - e.ACTScore) * 3;
+				score = score - actScore;
+
+				if (studentProfile.residenceState !== e.state) {
+					score = score - 5;
+				}
+				console.log(score);
+
+				e.recScore = score;
+
+				return score > 75;
+			});
+
+			console.log(recColleges);
+
+			//sort here
+
+			this.setState({ colleges: recColleges });
+		} catch (err) {
+			console.log(err);
+			console.log('Error occurred, could not get student info');
+		}
+	};
+
 	searchForColleges = async () => {
 		const { filters } = this.state;
 
@@ -1367,7 +1411,7 @@ export class CollegeSearchScreen extends Component {
 							{' '}
 							Search For College{' '}
 						</button>
-						<button className='searchCollegeBtn' onClick={this.goCollegeRecommendation}>
+						<button className='searchCollegeBtn' onClick={this.reccomendColleges}>
 							{' '}
 							Recommend Me Colleges{' '}
 						</button>

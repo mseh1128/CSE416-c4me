@@ -19,632 +19,157 @@ import StudentCollegesList from './StudentCollegesList.js';
 import axios from 'axios';
 
 export class ViewProfileScreen extends Component {
-<<<<<<< HEAD
-  //current way state obtains data is temporary to assist frontend development
-  state = {
-    disabled: true,
-    username: '',
-    name: '',
-    residenceState: '',
-    highSchoolName: '',
-    highSchoolCity: '',
-    highSchoolState: '',
-    highSchoolGPA: '',
-    collegeClass: '',
-    major1: '',
-    major2: '',
-    SATMath: '',
-    SATEBRW: '',
-    ACTEng: '',
-    ACTMath: '',
-    ACTReading: '',
-    ACTSci: '',
-    ACTComp: '',
-    SATLit: '',
-    SATUSHist: '',
-    SATWorldHist: '',
-    SATMath1: '',
-    SATMath2: '',
-    SATEcoBio: '',
-    SATMolBio: '',
-    SATChem: '',
-    SATPhysics: '',
-    passedAPAmount: '',
-  };
-=======
 	//current way state obtains data is temporary to assist frontend development
 	state = {
 		disabled: true,
-		userIDInput: '',
-		nameInput: '',
-		residence_state: '',
-		high_school_name: '',
-		high_school_city: '',
-		high_school_state: '',
-		GPA: '',
-		college_class: '',
+		username: '',
+		name: '',
+		residenceState: '',
+		highSchoolName: '',
+		highSchoolCity: '',
+		highSchoolState: '',
+		highSchoolGPA: '',
+		collegeClass: '',
 		major1: '',
 		major2: '',
-		SAT_Math: '',
-		SAT_EBRW: '',
-		ACT_English: '',
-		ACT_Math: '',
-		ACT_Reading: '',
-		ACT_Science: '',
-		ACT_Composite: '',
-		SAT_Literature: '',
-		SAT_US_hist: '',
-		SAT_World_hist: '',
-		SAT_Math_1: '',
-		SAT_Math_2: '',
-		SAT_Eco_Bio: '',
-		SAT_Mol_Bio: '',
-		SAT_Chemistry: '',
-		SAT_Physics: '',
-		numOfAP: '',
+		SATMath: '',
+		SATEBRW: '',
+		ACTEng: '',
+		ACTMath: '',
+		ACTReading: '',
+		ACTSci: '',
+		ACTComp: '',
+		SATLit: '',
+		SATUSHist: '',
+		SATWorldHist: '',
+		SATMath1: '',
+		SATMath2: '',
+		SATEcoBio: '',
+		SATMolBio: '',
+		SATChem: '',
+		SATPhysics: '',
+		passedAPAmount: '',
+	};
+
+	goHome = () => {
+		this.props.history.push('/home');
+	};
+
+	startEdit = () => {
+		this.setState({ disabled: false });
+	};
+
+	saveChanges = async () => {
+		try {
+			const studentProfile = await axios.post('/updateStudentInfo', {
+				state: this.state,
+				userID: this.props.user.userID,
+			});
+			console.log(studentProfile);
+		} catch (err) {
+			console.log(err);
+			console.log('Error occurred, could not retrieve all colleges');
+		}
 	};
 
 	componentDidMount = async () => {
+		const { user } = this.props;
+		const { username, name, userID } = user;
+
 		try {
-			const response = await axios.get('/retrieveAStudent', {
-				params: {
-					userID: this.props.user.userID,
-				},
+			const studentProfileData = await axios.get('/getStudentInfo', {
+				params: { userID },
 			});
-			console.log(this.props.user);
-			console.log(response.data);
-			this.setState({
-				userIDInput: this.props.user.userID,
-				nameInput: this.props.user.name,
-				residence_state: response.data.residenceState,
-				high_school_name: response.data.highSchoolName,
-				high_school_city: response.data.highSchoolCity,
-				high_school_state: response.data.highSchoolState,
-				GPA: response.data.highSchoolGPA,
-				college_class: response.data.classOf,
-				major1: response.data.major1,
-				major2: response.data.major2,
-				SAT_Math: response.data.SATMath,
-				SAT_EBRW: response.data.SATEBRW,
-				SAT_Literature: response.data.SATLit,
-				ACT_English: response.data.ACTEng,
-				ACT_Math: response.data.ACTMath,
-				ACT_Reading: response.data.ACTReading,
-				ACT_Science: response.data.ACTSci,
-				ACT_Composite: response.data.ACTComp,
-				SAT_US_hist: response.data.SATUSHist,
-				SAT_World_hist: response.data.SATWorldHist,
-				SAT_Math_1: response.data.SATMath1,
-				SAT_Math_2: response.data.SATMath2,
-				SAT_Eco_Bio: response.data.SATEcoBio,
-				SAT_Mol_Bio: response.data.SATMolBio,
-				SAT_Chemistry: response.data.SATChem,
-				SAT_Physics: response.data.SATPhysics,
-				numOfAP: response.data.passedAPAmount,
-			});
+
+			const studentProfile = studentProfileData.data[0];
+			console.log(studentProfile);
+			this.setState({ ...this.state, ...studentProfile });
 		} catch (err) {
-			const {
-				response: { data, status },
-			} = err;
 			console.log(err);
-			const unknownErrorText = `An unknown error with error code ${status} occurred`;
-			console.log(unknownErrorText);
-			return;
+			console.log('Error occurred, could not get student info');
 		}
 	};
->>>>>>> 46dd0bfe8e5d9f92840c57ce823eb9fe1a54355b
 
-  goHome = () => {
-    this.props.history.push('/home');
-  };
+	handleChange = (e) => {
+		const { target } = e;
+		console.log(target);
 
-  startEdit = () => {
-    this.setState({ disabled: false });
-  };
+		if (target.id === 'nameInput') {
+			this.setState((state) => ({
+				...state,
+				name: target.value,
+			}));
+		} else {
+			this.setState((state) => ({
+				...state,
+				[target.id]: target.value,
+			}));
+		}
+	};
 
-  saveChanges = async () => {
-    try {
-      const studentProfile = await axios.post('/updateStudentInfo', {
-        state: this.state,
-        userID: this.props.user.userID,
-      });
-      console.log(studentProfile);
-    } catch (err) {
-      console.log(err);
-      console.log('Error occurred, could not retrieve all colleges');
-    }
-  };
+	//ensures that only numbers can be entered for certain inputs
+	handleChangeNumber = (e) => {
+		const { target } = e;
+		if (/^\d+$/.test(target.value) || target.value === '') {
+			this.setState((state) => ({
+				...state,
+				[target.id]: target.value,
+			}));
+		}
+	};
 
-  componentDidMount = async () => {
-    const { user } = this.props;
-    const { username, name, userID } = user;
+	//ensures that only the correct range of numbers and entered
+	handleChangeSAT = (e) => {
+		const { target } = e;
+		if (/^\d+$/.test(target.value) || target.value === '') {
+			if (target.value > 800) {
+				this.setState((state) => ({
+					...state,
+					[target.id]: 800,
+				}));
+				return;
+			} else if (target.value > 100) {
+				this.setState((state) => ({
+					...state,
+					[target.id]: target.value - (target.value % 10),
+				}));
+				return;
+			}
+			this.setState((state) => ({
+				...state,
+				[target.id]: target.value,
+			}));
+		}
+	};
 
-    try {
-      const studentProfileData = await axios.get('/getStudentInfo', {
-        params: { userID },
-      });
+	//ensures that only the correct range of numbers and entered
+	handleChangeACT = (e) => {
+		const { target } = e;
+		if (/^\d+$/.test(target.value) || target.value === '') {
+			if (target.value > 36) {
+				this.setState((state) => ({
+					...state,
+					[target.id]: 36,
+				}));
+				return;
+			}
+			this.setState((state) => ({
+				...state,
+				[target.id]: target.value,
+			}));
+		}
+	};
 
-      const studentProfile = studentProfileData.data[0];
-      console.log(studentProfile);
-      this.setState({ ...this.state, ...studentProfile });
-    } catch (err) {
-      console.log(err);
-      console.log('Error occurred, could not get student info');
-    }
-  };
+	render() {
+		var elem = document.querySelector('.tabs');
+		var options = {};
+		var instance = M.Tabs.init(elem, options);
 
-<<<<<<< HEAD
-  handleChange = (e) => {
-    const { target } = e;
-    console.log(target);
-=======
-	getScore(score) {
-		if (score === -1 || score === '') {
-			return 'Not taken';
-		} else return score;
-	}
->>>>>>> 46dd0bfe8e5d9f92840c57ce823eb9fe1a54355b
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('select');
+			var instances = M.FormSelect.init(elems, options);
+		});
 
-    if (target.id === 'nameInput') {
-      this.setState((state) => ({
-        ...state,
-        name: target.value,
-      }));
-    } else {
-      this.setState((state) => ({
-        ...state,
-        [target.id]: target.value,
-      }));
-    }
-  };
-
-  //ensures that only numbers can be entered for certain inputs
-  handleChangeNumber = (e) => {
-    const { target } = e;
-    if (/^\d+$/.test(target.value) || target.value === '') {
-      this.setState((state) => ({
-        ...state,
-        [target.id]: target.value,
-      }));
-    }
-  };
-
-  //ensures that only the correct range of numbers and entered
-  handleChangeSAT = (e) => {
-    const { target } = e;
-    if (/^\d+$/.test(target.value) || target.value === '') {
-      if (target.value > 800) {
-        this.setState((state) => ({
-          ...state,
-          [target.id]: 800,
-        }));
-        return;
-      } else if (target.value > 100) {
-        this.setState((state) => ({
-          ...state,
-          [target.id]: target.value - (target.value % 10),
-        }));
-        return;
-      }
-      this.setState((state) => ({
-        ...state,
-        [target.id]: target.value,
-      }));
-    }
-  };
-
-  //ensures that only the correct range of numbers and entered
-  handleChangeACT = (e) => {
-    const { target } = e;
-    if (/^\d+$/.test(target.value) || target.value === '') {
-      if (target.value > 36) {
-        this.setState((state) => ({
-          ...state,
-          [target.id]: 36,
-        }));
-        return;
-      }
-      this.setState((state) => ({
-        ...state,
-        [target.id]: target.value,
-      }));
-    }
-  };
-
-  render() {
-    var elem = document.querySelector('.tabs');
-    var options = {};
-    var instance = M.Tabs.init(elem, options);
-
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('select');
-      var instances = M.FormSelect.init(elems, options);
-    });
-
-<<<<<<< HEAD
-    return (
-      <div className="profile_screen_container">
-        <div className="profileContainer">
-          <div id="profileBanner">
-            <div />
-            <span className="collegeTitleText"> Your Profile </span>
-            <button className="profileButton" onClick={this.goHome}>
-              {' '}
-              <Home id="profileButtonSymbols" />{' '}
-            </button>
-            <div />
-            <button
-              className="profileButton"
-              onClick={this.startEdit.bind(this)}
-            >
-              {' '}
-              <Edit id="profileButtonSymbols" />{' '}
-            </button>
-            <div />
-            <button
-              className="profileButton"
-              onClick={this.saveChanges.bind(this)}
-            >
-              {' '}
-              <Save id="profileButtonSymbols" />{' '}
-            </button>
-          </div>
-          <div id="profileList">
-            <div id="generalInfoList">
-              <div id="generalHSHeader">
-                <span className="profileHeader">General Information</span>
-                <span className="profileHeader">General Education</span>
-              </div>
-              <div>
-                <span className="profileText">Username:</span>
-                <input
-                  type="textfield"
-                  id="username"
-                  className="profilePrompt"
-                  style={{ left: '43px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.username}
-                  on_input
-                ></input>
-                <span className="profileText" style={{ left: '92px' }}>
-                  HS Name:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="highSchoolName"
-                  style={{ left: '116px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.highSchoolName}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">Name:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="nameInput"
-                  style={{ left: '76px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.name}
-                ></input>
-                <span className="profileText" style={{ left: '125px' }}>
-                  HS City:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="highSchoolCity"
-                  style={{ left: '161px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.highSchoolCity}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">Residence State:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="residenceState"
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.residenceState}
-                ></input>
-                <span className="profileText" style={{ left: '49px' }}>
-                  HS State:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="highSchoolState"
-                  style={{ left: '80px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.highSchoolState}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">Desired major:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="major1"
-                  style={{ left: '11px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.major1}
-                ></input>
-                <span className="profileText" style={{ left: '58px' }}>
-                  GPA:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="highSchoolGPA"
-                  style={{ left: '121px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.highSchoolGPA}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">Second major:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="major2"
-                  style={{ left: '14px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChange}
-                  value={this.state.major2}
-                ></input>
-                <span className="profileText" style={{ left: '61px' }}>
-                  Grad Year:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="collegeClass"
-                  style={{ left: '80px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
-                  value={this.state.collegeClass}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText" style={{ left: '395px' }}>
-                  AP's Passed:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  style={{ left: '405px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeNumber}
-                  value={this.state.passedAPAmount}
-                ></input>
-              </div>
-            </div>
-
-            <div id="collegeInfoList">
-              <div id="generalCollegeHeader">
-                <span className="profileHeader">Your Applications</span>
-              </div>
-              <StudentCollegesList disabled={this.state.disabled} />
-            </div>
-            <div id="educationInfoList">
-              <div id="generalHSHeader">
-                <span className="profileHeader">SAT/ACT Scores</span>
-                <span className="profileHeader">SAT Scores</span>
-              </div>
-              <div>
-                <span className="profileText">SAT Math:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATMath"
-                  style={{ left: '41px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATMath}
-                ></input>
-                <span className="profileText" style={{ left: '91px' }}>
-                  US:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATUSHist"
-                  style={{ left: '164px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATUSHist}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">SAT EBRW:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATEBRW"
-                  style={{ left: '29px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATEBRW}
-                ></input>
-                <span className="profileText" style={{ left: '80px' }}>
-                  World:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATWorldHist"
-                  style={{ left: '127px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATWorldHist}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">ACT Math:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="ACTMath"
-                  style={{ left: '36px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeACT}
-                  value={this.state.ACTMath}
-                ></input>
-                <span className="profileText" style={{ left: '87px' }}>
-                  Math I:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATMath1"
-                  style={{ left: '131px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATMath1}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">ACT English:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="ACTEng"
-                  style={{ left: '20px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeACT}
-                  value={this.state.ACTEng}
-                ></input>
-                <span className="profileText" style={{ left: '71px' }}>
-                  Math II:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATMath2"
-                  style={{ left: '108px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATMath2}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">ACT Reading:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="ACTReading"
-                  style={{ left: '14px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeACT}
-                  value={this.state.ACTReading}
-                ></input>
-                <span className="profileText" style={{ left: '65px' }}>
-                  Eco Bio:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATEcoBio"
-                  style={{ left: '103px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATEcoBio}
-                ></input>
-              </div>
-
-              <div>
-                <span className="profileText">ACT Science:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="ACTSci"
-                  style={{ left: '21px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeACT}
-                  value={this.state.ACTSci}
-                ></input>
-                <span className="profileText" style={{ left: '72px' }}>
-                  Chemistry:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATChem"
-                  style={{ left: '88px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATChem}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText">ACT Composite:</span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="ACTComp"
-                  style={{ left: '-4px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeACT}
-                  value={this.state.ACTComp}
-                ></input>
-                <span className="profileText" style={{ left: '48px' }}>
-                  Physics:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATPhysics"
-                  style={{ left: '87px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATPhysics}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText" style={{ left: '400px' }}>
-                  Molecular Bio:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATMolBio"
-                  style={{ left: '388px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATMolBio}
-                ></input>
-              </div>
-              <div>
-                <span className="profileText" style={{ left: '400px' }}>
-                  Literature:
-                </span>
-                <input
-                  type="textfield"
-                  className="profilePrompt"
-                  id="SATLit"
-                  style={{ left: '417px' }}
-                  disabled={this.state.disabled}
-                  onChange={this.handleChangeSAT}
-                  value={this.state.SATLit}
-                ></input>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-=======
 		return (
 			<div className='profile_screen_container'>
 				<div className='profileContainer'>
@@ -661,7 +186,7 @@ export class ViewProfileScreen extends Component {
 							<Edit id='profileButtonSymbols' />{' '}
 						</button>
 						<div />
-						<button className='profileButton'>
+						<button className='profileButton' onClick={this.saveChanges.bind(this)}>
 							{' '}
 							<Save id='profileButtonSymbols' />{' '}
 						</button>
@@ -673,6 +198,31 @@ export class ViewProfileScreen extends Component {
 								<span className='profileHeader'>General Education</span>
 							</div>
 							<div>
+								<span className='profileText'>Username:</span>
+								<input
+									type='textfield'
+									id='username'
+									className='profilePrompt'
+									style={{ left: '43px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.username}
+									on_input
+								></input>
+								<span className='profileText' style={{ left: '92px' }}>
+									HS Name:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='highSchoolName'
+									style={{ left: '116px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.highSchoolName}
+								></input>
+							</div>
+							<div>
 								<span className='profileText'>Name:</span>
 								<input
 									type='textfield'
@@ -681,43 +231,19 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '76px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.nameInput}
+									value={this.state.name}
 								></input>
-								<span className='profileText' style={{ left: '124px' }}>
-									HS Name:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='high_school_name'
-									style={{ left: '149px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.high_school_name}
-								></input>
-							</div>
-							<div>
-								<span className='profileText'>Second major:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='major2'
-									style={{ left: '14px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.major2}
-								></input>
-								<span className='profileText' style={{ left: '63px' }}>
+								<span className='profileText' style={{ left: '125px' }}>
 									HS City:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='high_school_city'
-									style={{ left: '100px' }}
+									id='highSchoolCity'
+									style={{ left: '161px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.high_school_city}
+									value={this.state.highSchoolCity}
 								></input>
 							</div>
 							<div>
@@ -725,10 +251,10 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='residence_state'
+									id='residenceState'
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.residence_state}
+									value={this.state.residenceState}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									HS State:
@@ -736,11 +262,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='high_school_state'
+									id='highSchoolState'
 									style={{ left: '80px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.high_school_state}
+									value={this.state.highSchoolState}
 								></input>
 							</div>
 							<div>
@@ -760,39 +286,52 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='GPA'
+									id='highSchoolGPA'
 									style={{ left: '121px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.GPA}
+									value={this.state.highSchoolGPA}
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>Grad Year:</span>
+								<span className='profileText'>Second major:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='college_class'
-									style={{ left: '41px' }}
+									id='major2'
+									style={{ left: '14px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.major2}
+								></input>
+								<span className='profileText' style={{ left: '61px' }}>
+									Grad Year:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='collegeClass'
+									style={{ left: '80px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.college_class}
+									value={this.state.collegeClass}
 								></input>
-								<span className='profileText' style={{ left: '87px' }}>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '395px' }}>
 									AP's Passed:
 								</span>
 								<input
 									type='textfield'
-									id='numOfAP'
 									className='profilePrompt'
-									style={{ left: '94px' }}
+									style={{ left: '405px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.numOfAP}
-									on_input
+									value={this.state.passedAPAmount}
 								></input>
 							</div>
 						</div>
+
 						<div id='collegeInfoList'>
 							<div id='generalCollegeHeader'>
 								<span className='profileHeader'>Your Applications</span>
@@ -809,11 +348,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Math'
+									id='SATMath'
 									style={{ left: '41px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math)}
+									value={this.state.SATMath}
 								></input>
 								<span className='profileText' style={{ left: '91px' }}>
 									US:
@@ -821,11 +360,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_US_hist'
+									id='SATUSHist'
 									style={{ left: '164px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_US_hist)}
+									value={this.state.SATUSHist}
 								></input>
 							</div>
 							<div>
@@ -833,11 +372,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_EBRW'
+									id='SATEBRW'
 									style={{ left: '29px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_EBRW)}
+									value={this.state.SATEBRW}
 								></input>
 								<span className='profileText' style={{ left: '80px' }}>
 									World:
@@ -845,83 +384,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_World_hist'
+									id='SATWorldHist'
 									style={{ left: '127px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_World_hist)}
-								></input>
-							</div>
-							<div>
-								<span className='profileText'>SAT Literature:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='SAT_Literature'
-									style={{ left: '3px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Literature)}
-								></input>
-								<span className='profileText' style={{ left: '54px' }}>
-									Math I:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='SAT_Math_1'
-									style={{ left: '96px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math_1)}
-								></input>
-							</div>
-							<div>
-								<span className='profileText'>ACT English:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='ACT_English'
-									style={{ left: '20px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_English)}
-								></input>
-								<span className='profileText' style={{ left: '71px' }}>
-									Math II:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='SAT_Math_2'
-									style={{ left: '108px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math_2)}
-								></input>
-							</div>
-							<div>
-								<span className='profileText'>ACT Reading:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='ACT_Reading'
-									style={{ left: '14px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Reading)}
-								></input>
-								<span className='profileText' style={{ left: '65px' }}>
-									Eco Bio:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='SAT_Eco_Bio'
-									style={{ left: '103px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Eco_Bio)}
+									value={this.state.SATWorldHist}
 								></input>
 							</div>
 							<div>
@@ -929,35 +396,84 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Math'
+									id='ACTMath'
 									style={{ left: '36px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Math)}
+									value={this.state.ACTMath}
 								></input>
-								<span className='profileText' style={{ left: '86px' }}>
-									Molecular Bio:
+								<span className='profileText' style={{ left: '87px' }}>
+									Math I:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Mol_Bio'
-									style={{ left: '75px' }}
+									id='SATMath1'
+									style={{ left: '131px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Mol_Bio)}
+									value={this.state.SATMath1}
 								></input>
 							</div>
+							<div>
+								<span className='profileText'>ACT English:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='ACTEng'
+									style={{ left: '20px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeACT}
+									value={this.state.ACTEng}
+								></input>
+								<span className='profileText' style={{ left: '71px' }}>
+									Math II:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATMath2'
+									style={{ left: '108px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.state.SATMath2}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>ACT Reading:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='ACTReading'
+									style={{ left: '14px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeACT}
+									value={this.state.ACTReading}
+								></input>
+								<span className='profileText' style={{ left: '65px' }}>
+									Eco Bio:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATEcoBio'
+									style={{ left: '103px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.state.SATEcoBio}
+								></input>
+							</div>
+
 							<div>
 								<span className='profileText'>ACT Science:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Science'
+									id='ACTSci'
 									style={{ left: '21px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Science)}
+									value={this.state.ACTSci}
 								></input>
 								<span className='profileText' style={{ left: '72px' }}>
 									Chemistry:
@@ -965,11 +481,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Chemistry'
+									id='SATChem'
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Chemistry)}
+									value={this.state.SATChem}
 								></input>
 							</div>
 							<div>
@@ -977,11 +493,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Composite'
+									id='ACTComp'
 									style={{ left: '-4px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Composite)}
+									value={this.state.ACTComp}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
 									Physics:
@@ -989,11 +505,39 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Physics'
+									id='SATPhysics'
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Physics)}
+									value={this.state.SATPhysics}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '400px' }}>
+									Molecular Bio:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATMolBio'
+									style={{ left: '388px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.state.SATMolBio}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '400px' }}>
+									Literature:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATLit'
+									style={{ left: '417px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.state.SATLit}
 								></input>
 							</div>
 						</div>
@@ -1002,7 +546,6 @@ export class ViewProfileScreen extends Component {
 			</div>
 		);
 	}
->>>>>>> 46dd0bfe8e5d9f92840c57ce823eb9fe1a54355b
 }
 
 export default ViewProfileScreen;
