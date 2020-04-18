@@ -39,7 +39,7 @@ export class ViewProfileScreen extends Component {
 		ACT_Reading: '',
 		ACT_Science: '',
 		ACT_Composite: '',
-		ACT_Literature: '',
+		SAT_Literature: '',
 		SAT_US_hist: '',
 		SAT_World_hist: '',
 		SAT_Math_1: '',
@@ -48,6 +48,7 @@ export class ViewProfileScreen extends Component {
 		SAT_Mol_Bio: '',
 		SAT_Chemistry: '',
 		SAT_Physics: '',
+		numOfAP: '',
 	};
 
 	componentDidMount = async () => {
@@ -72,6 +73,7 @@ export class ViewProfileScreen extends Component {
 				major2: response.data.major2,
 				SAT_Math: response.data.SATMath,
 				SAT_EBRW: response.data.SATEBRW,
+				SAT_Literature: response.data.SATLit,
 				ACT_English: response.data.ACTEng,
 				ACT_Math: response.data.ACTMath,
 				ACT_Reading: response.data.ACTReading,
@@ -85,6 +87,7 @@ export class ViewProfileScreen extends Component {
 				SAT_Mol_Bio: response.data.SATMolBio,
 				SAT_Chemistry: response.data.SATChem,
 				SAT_Physics: response.data.SATPhysics,
+				numOfAP: response.data.passedAPAmount,
 			});
 		} catch (err) {
 			const {
@@ -241,31 +244,6 @@ export class ViewProfileScreen extends Component {
 								<span className='profileHeader'>General Education</span>
 							</div>
 							<div>
-								<span className='profileText'>User ID:</span>
-								<input
-									type='textfield'
-									id='userIDInput'
-									className='profilePrompt'
-									style={{ left: '60px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.userIDInput}
-									on_input
-								></input>
-								<span className='profileText' style={{ left: '110px' }}>
-									HS Name:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='high_school_name'
-									style={{ left: '134px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.high_school_name}
-								></input>
-							</div>
-							<div>
 								<span className='profileText'>Name:</span>
 								<input
 									type='textfield'
@@ -276,14 +254,38 @@ export class ViewProfileScreen extends Component {
 									onChange={this.handleChange}
 									value={this.state.nameInput}
 								></input>
-								<span className='profileText' style={{ left: '125px' }}>
+								<span className='profileText' style={{ left: '124px' }}>
+									HS Name:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='high_school_name'
+									style={{ left: '149px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.high_school_name}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Second major:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='major2'
+									style={{ left: '14px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.major2}
+								></input>
+								<span className='profileText' style={{ left: '63px' }}>
 									HS City:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
 									id='high_school_city'
-									style={{ left: '161px' }}
+									style={{ left: '100px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
 									value={this.state.high_school_city}
@@ -337,27 +339,28 @@ export class ViewProfileScreen extends Component {
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>Second major:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='major2'
-									style={{ left: '14px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.major2}
-								></input>
-								<span className='profileText' style={{ left: '61px' }}>
-									Class:
-								</span>
+								<span className='profileText'>Grad Year:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
 									id='college_class'
-									style={{ left: '120px' }}
+									style={{ left: '41px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
 									value={this.state.college_class}
+								></input>
+								<span className='profileText' style={{ left: '87px' }}>
+									AP's Passed:
+								</span>
+								<input
+									type='textfield'
+									id='numOfAP'
+									className='profilePrompt'
+									style={{ left: '94px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeNumber}
+									value={this.state.numOfAP}
+									on_input
 								></input>
 							</div>
 						</div>
@@ -421,24 +424,24 @@ export class ViewProfileScreen extends Component {
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>ACT Math:</span>
+								<span className='profileText'>SAT Literature:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Math'
-									style={{ left: '36px' }}
+									id='SAT_Literature'
+									style={{ left: '3px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Math)}
+									onChange={this.handleChangeSAT}
+									value={this.getScore(this.state.SAT_Literature)}
 								></input>
-								<span className='profileText' style={{ left: '87px' }}>
+								<span className='profileText' style={{ left: '54px' }}>
 									Math I:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
 									id='SAT_Math_1'
-									style={{ left: '131px' }}
+									style={{ left: '96px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.SAT_Math_1)}
@@ -493,24 +496,24 @@ export class ViewProfileScreen extends Component {
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>ACT Literature:</span>
+								<span className='profileText'>ACT Math:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Literature'
-									style={{ left: '-1px' }}
+									id='ACT_Math'
+									style={{ left: '36px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Literature)}
+									value={this.getScore(this.state.ACT_Math)}
 								></input>
-								<span className='profileText' style={{ left: '49px' }}>
+								<span className='profileText' style={{ left: '86px' }}>
 									Molecular Bio:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
 									id='SAT_Mol_Bio'
-									style={{ left: '37px' }}
+									style={{ left: '75px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
 									value={this.getScore(this.state.SAT_Mol_Bio)}
