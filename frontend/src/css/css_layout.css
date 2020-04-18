@@ -591,6 +591,7 @@ form h5 {
 	font-size: large;
 	display: grid;
 	grid-template-columns: 43px 0px 0px;
+	user-select: none;
 }
 
 .sortARBtn {
@@ -598,6 +599,7 @@ form h5 {
 	font-size: large;
 	display: grid;
 	grid-template-columns: 116px 0px 0px;
+	user-select: none;
 }
 
 .sortCostBtn {
@@ -605,6 +607,7 @@ form h5 {
 	font-size: large;
 	display: grid;
 	grid-template-columns: 33px 0px 0px;
+	user-select: none;
 }
 
 .sortRankBtn {
@@ -612,6 +615,7 @@ form h5 {
 	font-size: large;
 	display: grid;
 	grid-template-columns: 39px 0px 0px;
+	user-select: none;
 }
 
 .sortNameBtn:hover,

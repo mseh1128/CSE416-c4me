@@ -22,106 +22,70 @@ export class ViewProfileScreen extends Component {
 	//current way state obtains data is temporary to assist frontend development
 	state = {
 		disabled: true,
-		userIDInput: data.students[0].userID,
-		nameInput: data.students[0].name,
-		residence_state: data.students[0].residence_state,
-		high_school_name: data.students[0].high_school_name,
-		high_school_city: data.students[0].high_school_city,
-		high_school_state: data.students[0].high_school_state,
-		GPA: data.students[0].GPA,
-		college_class: data.students[0].college_class,
-		major1: data.students[0].major_1,
-		major2: data.students[0].major_2,
-		SAT_Math: data.students[0].SAT_Math,
-		SAT_EBRW: data.students[0].SAT_EBRW,
-		ACT_English: data.students[0].ACT_English,
-		ACT_Math: data.students[0].ACT_Math,
-		ACT_Reading: data.students[0].ACT_Reading,
-		ACT_Science: data.students[0].ACT_Science,
-		ACT_Composite: data.students[0].ACT_Composite,
-		ACT_Literature: data.students[0].ACT_Literature,
-		SAT_US_hist: data.students[0].SAT_US_hist,
-		SAT_World_hist: data.students[0].SAT_World_hist,
-		SAT_Math_1: data.students[0].SAT_Math_1,
-		SAT_Math_2: data.students[0].SAT_Math_2,
-		SAT_Eco_Bio: data.students[0].SAT_Eco_Bio,
-		SAT_Mol_Bio: data.students[0].SAT_Mol_Bio,
-		SAT_Chemistry: data.students[0].SAT_Chemistry,
-		SAT_Physics: data.students[0].SAT_Physics,
+		userIDInput: '',
+		nameInput: '',
+		residence_state: '',
+		high_school_name: '',
+		high_school_city: '',
+		high_school_state: '',
+		GPA: '',
+		college_class: '',
+		major1: '',
+		major2: '',
+		SAT_Math: '',
+		SAT_EBRW: '',
+		ACT_English: '',
+		ACT_Math: '',
+		ACT_Reading: '',
+		ACT_Science: '',
+		ACT_Composite: '',
+		ACT_Literature: '',
+		SAT_US_hist: '',
+		SAT_World_hist: '',
+		SAT_Math_1: '',
+		SAT_Math_2: '',
+		SAT_Eco_Bio: '',
+		SAT_Mol_Bio: '',
+		SAT_Chemistry: '',
+		SAT_Physics: '',
 	};
 
-
 	componentDidMount = async () => {
-		console.log(this.props.user.userID);
-		this.setState({
-			userIDInput: this.props.user.userID,
-			nameInput: this.props.user.name,
-			residence_state: this.props.user.residenceState,
-			high_school_name: this.props.user.highSchoolName,
-			high_school_city: this.props.user.highSchoolCity,
-			high_school_state: this.props.user.highSchoolState,
-			GPA: this.props.user.highSchoolGPA,
-			college_class: this.props.user.classOf,
-			major1: this.props.user.major1,
-			major2: this.props.user.major2,
-			SAT_Math: this.props.user.SATMath,
-			SAT_EBRW: this.props.user.SATEBRW,
-			ACT_English: this.props.user.ACTEng,
-			ACT_Math: this.props.user.ACTMath,
-			ACT_Reading: this.props.user.ACTReading,
-			ACT_Science: this.props.user.ACTSci,
-			ACT_Composite: this.props.user.ACTComp,
-			ACT_Literature: this.props.user.ACTLit,
-			AP_US_hist: this.props.user.APUSHist,
-			AP_World_hist: this.props.user.APWorldHist,
-			AP_Math_1: this.props.user.APMath1,
-			AP_Math_2: this.props.user.APMath2,
-			AP_Eco_Bio: this.props.user.APEcoBio,
-			AP_Mol_Bio: this.props.user.APMolBio,
-			AP_Chemistry: this.props.user.APChem,
-			AP_Physics: this.props.user.APPhysics,
-		});
-	}
-
-	theImportantRetrieval = async () => {
-		/*
-		return new Promise((resolve, reject) => {
-
-		});
-		*/
-
 		try {
 			const response = await axios.get('/retrieveAStudent', {
 				params: {
-					userID: this.props.user.userID
+					userID: this.props.user.userID,
 				},
 			});
 			console.log(this.props.user);
-			this.props.user.residenceState = response.data.residenceState;
-			this.props.user.major1 = response.data.major1;
-			this.props.user.major2 = response.data.major2;
-			this.props.user.highSchoolName = response.data.highSchoolName;
-			this.props.user.highSchoolCity = response.data.highSchoolCity;
-			this.props.user.highSchoolState = response.data.highSchoolState;
-			this.props.user.highSchoolGPA = response.data.highSchoolGPA;
-			this.props.user.classOf = 2024;
-			this.props.user.SATMath = response.data.SATMath;
-			this.props.user.SATEBRW = response.data.SATEBRW;
-			this.props.user.ACTMath = response.data.ACTMath;
-			this.props.user.ACTEng = response.data.ACTEng;
-			this.props.user.ACTReading = response.data.ACTReading;
-			this.props.user.ACTLit = response.data.ACTLit;
-			this.props.user.ACTSci = response.data.ACTSci;
-			this.props.user.ACTComp = response.data.ACTComp;
-			this.props.user.SATUSHist = response.data.SATUSHist;
-			this.props.user.SATWorldHist = response.data.SATWorldHist;
-			this.props.user.SATMath1 = response.data.SATMath1;
-			this.props.user.SATMath2 = response.data.SATMath2;
-			this.props.user.SATEcoBio = response.data.SATEcoBio;
-			this.props.user.SATMolBio = response.data.SATMolBio;
-			this.props.user.SATChem = response.data.SATChem;
-			this.props.user.SATPhysics = response.data.SATPhysics;
-			console.log(this.props.user);
+			console.log(response.data);
+			this.setState({
+				userIDInput: this.props.user.userID,
+				nameInput: this.props.user.name,
+				residence_state: response.data.residenceState,
+				high_school_name: response.data.highSchoolName,
+				high_school_city: response.data.highSchoolCity,
+				high_school_state: response.data.highSchoolState,
+				GPA: response.data.highSchoolGPA,
+				college_class: response.data.classOf,
+				major1: response.data.major1,
+				major2: response.data.major2,
+				SAT_Math: response.data.SATMath,
+				SAT_EBRW: response.data.SATEBRW,
+				ACT_English: response.data.ACTEng,
+				ACT_Math: response.data.ACTMath,
+				ACT_Reading: response.data.ACTReading,
+				ACT_Science: response.data.ACTSci,
+				ACT_Composite: response.data.ACTComp,
+				SAT_US_hist: response.data.SATUSHist,
+				SAT_World_hist: response.data.SATWorldHist,
+				SAT_Math_1: response.data.SATMath1,
+				SAT_Math_2: response.data.SATMath2,
+				SAT_Eco_Bio: response.data.SATEcoBio,
+				SAT_Mol_Bio: response.data.SATMolBio,
+				SAT_Chemistry: response.data.SATChem,
+				SAT_Physics: response.data.SATPhysics,
+			});
 		} catch (err) {
 			const {
 				response: { data, status },
@@ -129,10 +93,9 @@ export class ViewProfileScreen extends Component {
 			console.log(err);
 			const unknownErrorText = `An unknown error with error code ${status} occurred`;
 			console.log(unknownErrorText);
-			return
+			return;
 		}
-
-	}
+	};
 
 	goHome = () => {
 		this.props.history.push('/home');
@@ -174,7 +137,7 @@ export class ViewProfileScreen extends Component {
 	};
 
 	getScore(score) {
-		if (score === -1) {
+		if (score === -1 || score === '') {
 			return 'Not taken';
 		} else return score;
 	}
@@ -249,8 +212,6 @@ export class ViewProfileScreen extends Component {
 			var elems = document.querySelectorAll('select');
 			var instances = M.FormSelect.init(elems, options);
 		});
-
-		let studentsInfo = this.theImportantRetrieval();
 
 		return (
 			<div className='profile_screen_container'>
