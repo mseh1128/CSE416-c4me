@@ -72,6 +72,18 @@ export class ViewProfileScreen extends Component {
 		}
 	};
 
+	getScore(score) {
+		if (score === -1 || score === '' || score === null || score === undefined) {
+			return 'Not taken';
+		} else return score;
+	}
+
+	getValue(score) {
+		if (score === -1 || score === '' || score === null || score === undefined) {
+			return '';
+		} else return score;
+	}
+
 	componentDidMount = async () => {
 		const { user } = this.props;
 		const { username, name, userID } = user;
@@ -198,31 +210,6 @@ export class ViewProfileScreen extends Component {
 								<span className='profileHeader'>General Education</span>
 							</div>
 							<div>
-								<span className='profileText'>Username:</span>
-								<input
-									type='textfield'
-									id='username'
-									className='profilePrompt'
-									style={{ left: '43px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.username}
-									on_input
-								></input>
-								<span className='profileText' style={{ left: '92px' }}>
-									HS Name:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='highSchoolName'
-									style={{ left: '116px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.highSchoolName}
-								></input>
-							</div>
-							<div>
 								<span className='profileText'>Name:</span>
 								<input
 									type='textfield'
@@ -231,19 +218,43 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '76px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.name}
+									value={this.state.nameInput}
 								></input>
-								<span className='profileText' style={{ left: '125px' }}>
+								<span className='profileText' style={{ left: '124px' }}>
+									HS Name:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='high_school_name'
+									style={{ left: '149px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.high_school_name}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Second major:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='major2'
+									style={{ left: '14px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.state.major2}
+								></input>
+								<span className='profileText' style={{ left: '63px' }}>
 									HS City:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='highSchoolCity'
-									style={{ left: '161px' }}
+									id='high_school_city'
+									style={{ left: '100px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.highSchoolCity}
+									value={this.state.high_school_city}
 								></input>
 							</div>
 							<div>
@@ -251,10 +262,10 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='residenceState'
+									id='residence_state'
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.residenceState}
+									value={this.state.residence_state}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									HS State:
@@ -262,11 +273,11 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='highSchoolState'
+									id='high_school_state'
 									style={{ left: '80px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.highSchoolState}
+									value={this.state.high_school_state}
 								></input>
 							</div>
 							<div>
@@ -286,48 +297,36 @@ export class ViewProfileScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='highSchoolGPA'
+									id='GPA'
 									style={{ left: '121px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.highSchoolGPA}
+									value={this.state.GPA}
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>Second major:</span>
+								<span className='profileText'>Grad Year:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='major2'
-									style={{ left: '14px' }}
-									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.major2}
-								></input>
-								<span className='profileText' style={{ left: '61px' }}>
-									Grad Year:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='collegeClass'
-									style={{ left: '80px' }}
+									id='college_class'
+									style={{ left: '41px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.collegeClass}
+									value={this.state.college_class}
 								></input>
-							</div>
-							<div>
-								<span className='profileText' style={{ left: '395px' }}>
+								<span className='profileText' style={{ left: '87px' }}>
 									AP's Passed:
 								</span>
 								<input
 									type='textfield'
+									id='numOfAP'
 									className='profilePrompt'
-									style={{ left: '405px' }}
+									style={{ left: '94px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.passedAPAmount}
+									value={this.state.numOfAP}
+									on_input
 								></input>
 							</div>
 						</div>
@@ -361,7 +360,7 @@ export class ViewProfileScreen extends Component {
 									type='textfield'
 									className='profilePrompt'
 									id='SATUSHist'
-									style={{ left: '164px' }}
+									style={{ left: '166px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
 									value={this.state.SATUSHist}
@@ -385,7 +384,7 @@ export class ViewProfileScreen extends Component {
 									type='textfield'
 									className='profilePrompt'
 									id='SATWorldHist'
-									style={{ left: '127px' }}
+									style={{ left: '128px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
 									value={this.state.SATWorldHist}
@@ -397,7 +396,7 @@ export class ViewProfileScreen extends Component {
 									type='textfield'
 									className='profilePrompt'
 									id='ACTMath'
-									style={{ left: '36px' }}
+									style={{ left: '37px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
 									value={this.state.ACTMath}
