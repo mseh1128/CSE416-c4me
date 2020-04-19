@@ -79,7 +79,7 @@ export class ViewProfileScreen extends Component {
 	}
 
 	getValue(score) {
-		if (score === -1 || score === '' || score === null || score === undefined) {
+		if (score === -14) {
 			return '';
 		} else return score;
 	}
@@ -218,7 +218,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '76px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.nameInput}
+									value={this.getValue(this.state.name)}
 								></input>
 								<span className='profileText' style={{ left: '124px' }}>
 									HS Name:
@@ -230,7 +230,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '149px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.high_school_name}
+									value={this.getValue(this.state.highSchoolName)}
 								></input>
 							</div>
 							<div>
@@ -242,7 +242,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.major2}
+									value={this.getValue(this.state.major2)}
 								></input>
 								<span className='profileText' style={{ left: '63px' }}>
 									HS City:
@@ -254,7 +254,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '100px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.high_school_city}
+									value={this.getValue(this.state.highSchoolCity)}
 								></input>
 							</div>
 							<div>
@@ -265,7 +265,7 @@ export class ViewProfileScreen extends Component {
 									id='residence_state'
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.residence_state}
+									value={this.getValue(this.state.residenceState)}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									HS State:
@@ -277,7 +277,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '80px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.high_school_state}
+									value={this.getValue(this.state.highSchoolState)}
 								></input>
 							</div>
 							<div>
@@ -289,7 +289,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '11px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.major1}
+									value={this.getValue(this.state.major1)}
 								></input>
 								<span className='profileText' style={{ left: '58px' }}>
 									GPA:
@@ -301,7 +301,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '121px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChange}
-									value={this.state.GPA}
+									value={this.getValue(this.state.highSchoolGPA)}
 								></input>
 							</div>
 							<div>
@@ -313,7 +313,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '41px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.college_class}
+									value={this.getValue(this.state.collegeClass)}
 								></input>
 								<span className='profileText' style={{ left: '87px' }}>
 									AP's Passed:
@@ -325,7 +325,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '94px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeNumber}
-									value={this.state.numOfAP}
+									value={this.getValue(this.state.passedAPAmount)}
 									on_input
 								></input>
 							</div>
@@ -351,7 +351,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '41px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATMath}
+									value={this.getScore(this.state.SATMath)}
 								></input>
 								<span className='profileText' style={{ left: '91px' }}>
 									US:
@@ -363,7 +363,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '166px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATUSHist}
+									value={this.getScore(this.state.SATUSHist)}
 								></input>
 							</div>
 							<div>
@@ -375,7 +375,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '29px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATEBRW}
+									value={this.getScore(this.state.SATEBRW)}
 								></input>
 								<span className='profileText' style={{ left: '80px' }}>
 									World:
@@ -387,7 +387,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '128px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATWorldHist}
+									value={this.getScore(this.state.SATWorldHist)}
 								></input>
 							</div>
 							<div>
@@ -399,7 +399,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '37px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.state.ACTMath}
+									value={this.getScore(this.state.ACTMath)}
 								></input>
 								<span className='profileText' style={{ left: '87px' }}>
 									Math I:
@@ -411,7 +411,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '131px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATMath1}
+									value={this.getScore(this.state.SATMath1)}
 								></input>
 							</div>
 							<div>
@@ -423,7 +423,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '20px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.state.ACTEng}
+									value={this.getScore(this.state.ACTEng)}
 								></input>
 								<span className='profileText' style={{ left: '71px' }}>
 									Math II:
@@ -435,7 +435,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '108px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATMath2}
+									value={this.getScore(this.state.SATMath2)}
 								></input>
 							</div>
 							<div>
@@ -447,7 +447,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.state.ACTReading}
+									value={this.getScore(this.state.ACTReading)}
 								></input>
 								<span className='profileText' style={{ left: '65px' }}>
 									Eco Bio:
@@ -459,7 +459,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '103px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATEcoBio}
+									value={this.getScore(this.state.SATEcoBio)}
 								></input>
 							</div>
 
@@ -472,7 +472,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '21px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.state.ACTSci}
+									value={this.getScore(this.state.ACTSci)}
 								></input>
 								<span className='profileText' style={{ left: '72px' }}>
 									Chemistry:
@@ -484,7 +484,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATChem}
+									value={this.getScore(this.state.SATChem)}
 								></input>
 							</div>
 							<div>
@@ -496,7 +496,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '-4px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeACT}
-									value={this.state.ACTComp}
+									value={this.getScore(this.state.ACTComp)}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
 									Physics:
@@ -508,7 +508,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATPhysics}
+									value={this.getScore(this.state.SATPhysics)}
 								></input>
 							</div>
 							<div>
@@ -522,7 +522,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '388px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATMolBio}
+									value={this.getScore(this.state.SATMolBio)}
 								></input>
 							</div>
 							<div>
@@ -536,7 +536,7 @@ export class ViewProfileScreen extends Component {
 									style={{ left: '417px' }}
 									disabled={this.state.disabled}
 									onChange={this.handleChangeSAT}
-									value={this.state.SATLit}
+									value={this.getScore(this.state.SATLit)}
 								></input>
 							</div>
 						</div>
