@@ -68,6 +68,10 @@ module.exports = function (app, connection) {
     readStream
       .on('data', async (data) => {
         console.log(data);
+        for (const key in data) {
+          // empty string to null
+          if (data[key] === '') data[key] = null;
+        }
         const {
           userid,
           password,

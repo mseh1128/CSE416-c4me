@@ -52,6 +52,8 @@ export class ViewOtherScreen extends Component {
 		const studentName = this.props.location.state.studentName;
 		const college = this.props.location.state.college;
 
+		this.setState({college: college});
+
 		try{
 			//remember, you made a meme here.
 			//before you push, change to a legitimate name
@@ -78,26 +80,28 @@ export class ViewOtherScreen extends Component {
 		}
 	}
 
-	handleChange = (e) => {
-		const { target } = e;
-		console.log(target);
+	goBack = async () => {
+		//const { id } = this.props.match.params;
 
-		if (target.id === 'nameInput') {
-			this.setState((state) => ({
-				...state,
-				name: target.value,
-			}));
-		} else {
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
+		let queryStudentsDecisions = '';
+		const id = this.state.college.collegeName;
+		try {
+			queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
+				params: {
+					collegeName: id
+				},
+			});
+
+			this.props.history.push({
+				pathname: '/applicationTracker/' + id,
+				state: {
+					college: this.state.college,
+					studentsWhoApplied: queryStudentsDecisions.data,
+				},
+			});
+		} catch (err) {
+			console.log(err);
 		}
-	};
-
-	goBack = () => {
-		const { id } = this.props.match.params;
-		this.props.history.push('/applicationTracker/' + id);
 	};
 
 	getScore(score) {
@@ -143,7 +147,6 @@ export class ViewOtherScreen extends Component {
 									style={{ left: '60px' }}
 									disabled={this.state.disabled}
 									value={this.state.username}
-									on_input
 								></input>
 								<span className='profileText' style={{ left: '110px' }}>
 									HS Name:

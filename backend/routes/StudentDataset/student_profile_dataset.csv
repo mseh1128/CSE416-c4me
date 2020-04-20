@@ -1,7 +1,7 @@
 userid,password,residence_state,high_school_name,high_school_city,high_school_state,GPA,college_class,major_1,major_2,SAT_math,SAT_EBRW,ACT_English,ACT_math,ACT_reading,ACT_science,ACT_composite,SAT_literature,SAT_US_hist,SAT_world_hist,SAT_math_1,SAT_math_2,SAT_eco_bio,SAT_mol_bio,SAT_chemistry,SAT_physics,num_AP_passed,username
-100,pw1,NY,East Islip High School,Islip Terrace,NY,3.5,2021,Chemistry,NULL,620,600,27,26,28,25,27,NULL,3,4,3,4,2,NULL,2,NULL,4,Joe
-101,pw2,TX,Miller Place High School,Miller Place,NY,3.7,2022,Biology,Geology,660,630,26,29,29,31,30,4,3,3,NULL,NULL,2,3,NULL,NULL,4,Bob
-102,pw3,NY,East Islip High School,Islip Terrace,NY,3,2024,Computer Science,Applied Mathematics,770,700,24,23,26,24,27,NULL,5,5,3,3,NULL,NULL,NULL,NULL,4,Jane
-103,pw4,FL,Clay High School,Green Cove Springs,FL,2.9,2022,Undecided,NULL,700,690,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,5,3,3,NULL,3,5,Julia
-104,pw5,NY,Miller Place High School,Miller Place,NY,3.3,2021,Literature,NULL,500,690,31,26,32,24,25,5,3,3,NULL,NULL,NULL,NULL,NULL,NULL,3,Hunter
-105,pw6,FL,Clay High School,Green Cove Springs,FL,4,2023,Physics,NULL,750,760,30,28,29,29,30,5,4,4,4,4,NULL,NULL,NULL,3,6,Sarah
+100,pw1,NY,East Islip High School,Islip Terrace,NY,3.5,2021,Chemistry,,620,600,27,26,28,25,27,,3,4,3,4,2,,2,,4,Joe
+101,pw2,TX,Miller Place High School,Miller Place,NY,3.7,2022,Biology,Geology,650,630,26,29,29,31,30,4,3,3,,,2,3,,,4,Bob
+102,pw3,NY,East Islip High School,Islip Terrace,NY,3.31,2024,Computer Science,Applied Mathematics,657,560,24,23,26,24,24,,5,5,3,3,,,,,4,Jane
+103,pw4,FL,Clay High School,Green Cove Springs,FL,3.6,2022,Undecided,,625,590,,,,,,,,,4,5,3,3,,3,5,Julia
+104,pw5,NY,Miller Place High School,Miller Place,NY,3.3,2021,Literature,,500,690,31,26,32,24,25,5,3,3,,,,,,,3,Hunter
+105,pw6,FL,Clay High School,Green Cove Springs,FL,4,2023,Physics,,750,760,30,28,29,29,30,5,4,4,4,4,,,,3,6,Sarah

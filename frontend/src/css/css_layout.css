@@ -631,6 +631,7 @@ form h5 {
   height: 605px;
   top: 20px;
   position: relative;
+  width: 110%;
 }
 
 #profileList {
