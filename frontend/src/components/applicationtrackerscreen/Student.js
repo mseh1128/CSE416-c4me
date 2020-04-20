@@ -75,7 +75,16 @@ class Student extends React.Component {
 		};
 
 		return (
-			<Link to={'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.key}>
+			//<Link to={'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.key}>
+			<Link to={
+				{
+					pathname: '/applicationTracker/' + this.props.college.collegeName + '/view/' + student.name,
+					state: {
+						studentName: student.name,
+						college: this.props.collegeName
+					}
+				}
+			}>
 				<div className='studentCard'>
 					<div className='studentBoxTitleAndStatus'>
 						<div className='studentTitle'> {this.getName()} </div>

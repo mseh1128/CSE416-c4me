@@ -48,7 +48,7 @@ export class ViewProfileScreen extends Component {
 		SATMolBio: '',
 		SATChem: '',
 		SATPhysics: '',
-		passedAPAmount: '',
+		passedAPAmount: ''
 	};
 
 	goHome = () => {

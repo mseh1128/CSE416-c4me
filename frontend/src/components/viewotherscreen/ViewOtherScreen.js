@@ -10,40 +10,89 @@ import PropTypes from 'prop-types';
 
 import StudentCollegesList from './StudentCollegesList.js';
 
-import data from '../test/TestStudentData.json';
+//import data from '../test/TestStudentData.json';
 
 import axios from 'axios';
 
 export class ViewOtherScreen extends Component {
 	//current way state obtains data is temporary to assist frontend development
 	state = {
+		college: '',
 		disabled: true,
-		userIDInput: data.students[0].userID,
-		nameInput: data.students[0].name,
-		residence_state: data.students[0].residence_state,
-		high_school_name: data.students[0].high_school_name,
-		high_school_city: data.students[0].high_school_city,
-		high_school_state: data.students[0].high_school_state,
-		GPA: data.students[0].GPA,
-		college_class: data.students[0].college_class,
-		major1: data.students[0].major_1,
-		major2: data.students[0].major_2,
-		SAT_Math: data.students[0].SAT_Math,
-		SAT_EBRW: data.students[0].SAT_EBRW,
-		ACT_English: data.students[0].ACT_English,
-		ACT_Math: data.students[0].ACT_Math,
-		ACT_Reading: data.students[0].ACT_Reading,
-		ACT_Science: data.students[0].ACT_Science,
-		ACT_Composite: data.students[0].ACT_Composite,
-		ACT_Literature: data.students[0].ACT_Literature,
-		AP_US_hist: data.students[0].SAT_US_hist,
-		AP_World_hist: data.students[0].SAT_World_hist,
-		AP_Math_1: data.students[0].SAT_Math_1,
-		AP_Math_2: data.students[0].SAT_Math_2,
-		AP_Eco_Bio: data.students[0].SAT_Eco_Bio,
-		AP_Mol_Bio: data.students[0].SAT_Mol_Bio,
-		AP_Chemistry: data.students[0].SAT_Chemistry,
-		AP_Physics: data.students[0].SAT_Physics,
+		username: '',
+		name: '',
+		residenceState: '',
+		highSchoolName: '',
+		highSchoolCity: '',
+		highSchoolState: '',
+		highSchoolGPA: '',
+		collegeClass: '',
+		major1: '',
+		major2: '',
+		SATMath: '',
+		SATEBRW: '',
+		ACTEng: '',
+		ACTMath: '',
+		ACTReading: '',
+		ACTSci: '',
+		ACTComp: '',
+		SATLit: '',
+		SATUSHist: '',
+		SATWorldHist: '',
+		SATMath1: '',
+		SATMath2: '',
+		SATEcoBio: '',
+		SATMolBio: '',
+		SATChem: '',
+		SATPhysics: '',
+		passedAPAmount: ''
+	};
+
+	componentDidMount = async () => {
+		const studentName = this.props.location.state.studentName;
+		const college = this.props.location.state.college;
+
+		try{
+			//remember, you made a meme here.
+			//before you push, change to a legitimate name
+			const theVoiceOfLoveTakeYouHigher = await axios.get('/getUserIDThroughOtherInfo', {
+				params:{
+					studentName: studentName
+				}
+			});
+
+			const userID = theVoiceOfLoveTakeYouHigher.data.userID;
+			const studentInfo = await axios.get('/getStudentInfo', {
+				params: {
+					userID: userID
+				}
+			});
+
+			const actualStudentInfo = studentInfo.data[0];
+			console.log(actualStudentInfo);
+			this.setState({ ...this.state, ...actualStudentInfo});
+			console.log(this.state);
+		}	catch (err){
+			console.log(err);
+			console.log('Error occurred, could not fetch other student');
+		}
+	}
+
+	handleChange = (e) => {
+		const { target } = e;
+		console.log(target);
+
+		if (target.id === 'nameInput') {
+			this.setState((state) => ({
+				...state,
+				name: target.value,
+			}));
+		} else {
+			this.setState((state) => ({
+				...state,
+				[target.id]: target.value,
+			}));
+		}
 	};
 
 	goBack = () => {
@@ -51,103 +100,11 @@ export class ViewOtherScreen extends Component {
 		this.props.history.push('/applicationTracker/' + id);
 	};
 
-	//these parts are certainly not going to be like this
-	//but they are quick and dirty ways to change the thing.
-
-	changeNonAcademicInfo = async (attribute) => {
-		let info = document.getElementById(attribute).value;
-		let response = await fetch('/updateStudentInfo', {
-			method: 'POST',
-			headers: { 'Content-Type': 'text/plain' },
-			body: JSON.stringify({
-				category: attribute,
-				value: info,
-				userID: data.students[0].userID,
-			}),
-		});
-	};
-
-	changeAcademicInfo = async (attribute) => {
-		let info = document.getAttributeById(attribute).value;
-		let infoAsNumber = Number(info);
-
-		let response = await fetch('/updateProfileInfo', {
-			method: 'POST',
-			headers: { 'Content-Type': 'text/plain' },
-			body: JSON.stringify({
-				category: attribute,
-				value: info,
-				userID: data.students[0].userID,
-			}),
-		});
-	};
-
 	getScore(score) {
 		if (score === -1) {
 			return 'Not taken';
 		} else return score;
 	}
-
-	handleChange = (e) => {
-		const { target } = e;
-		this.setState((state) => ({
-			...state,
-			[target.id]: target.value,
-		}));
-	};
-
-	//ensures that only numbers can be entered for certain inputs
-	handleChangeNumber = (e) => {
-		const { target } = e;
-		if (/^\d+$/.test(target.value) || target.value === '') {
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
-		}
-	};
-
-	//ensures that only the correct range of numbers and entered
-	handleChangeSAT = (e) => {
-		const { target } = e;
-		if (/^\d+$/.test(target.value) || target.value === '') {
-			if (target.value > 800) {
-				this.setState((state) => ({
-					...state,
-					[target.id]: 800,
-				}));
-				return;
-			} else if (target.value > 100) {
-				this.setState((state) => ({
-					...state,
-					[target.id]: target.value - (target.value % 10),
-				}));
-				return;
-			}
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
-		}
-	};
-
-	//ensures that only the correct range of numbers and entered
-	handleChangeACT = (e) => {
-		const { target } = e;
-		if (/^\d+$/.test(target.value) || target.value === '') {
-			if (target.value > 36) {
-				this.setState((state) => ({
-					...state,
-					[target.id]: 36,
-				}));
-				return;
-			}
-			this.setState((state) => ({
-				...state,
-				[target.id]: target.value,
-			}));
-		}
-	};
 
 	render() {
 		var elem = document.querySelector('.tabs');
@@ -158,8 +115,6 @@ export class ViewOtherScreen extends Component {
 			var elems = document.querySelectorAll('select');
 			var instances = M.FormSelect.init(elems, options);
 		});
-
-		const student = data.student;
 
 		return (
 			<div className='profile_screen_container'>
@@ -187,8 +142,7 @@ export class ViewOtherScreen extends Component {
 									className='profilePrompt'
 									style={{ left: '60px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.userIDInput}
+									value={this.state.username}
 									on_input
 								></input>
 								<span className='profileText' style={{ left: '110px' }}>
@@ -200,8 +154,7 @@ export class ViewOtherScreen extends Component {
 									id='high_school_name'
 									style={{ left: '134px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.high_school_name}
+									value={this.state.highSchoolName}
 								></input>
 							</div>
 							<div>
@@ -212,8 +165,7 @@ export class ViewOtherScreen extends Component {
 									id='nameInput'
 									style={{ left: '76px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.nameInput}
+									value={this.state.name}
 								></input>
 								<span className='profileText' style={{ left: '125px' }}>
 									HS City:
@@ -224,8 +176,7 @@ export class ViewOtherScreen extends Component {
 									id='high_school_city'
 									style={{ left: '161px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.high_school_city}
+									value={this.state.highSchoolCity}
 								></input>
 							</div>
 							<div>
@@ -235,8 +186,7 @@ export class ViewOtherScreen extends Component {
 									className='profilePrompt'
 									id='residence_state'
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.residence_state}
+									value={this.state.residenceState}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									HS State:
@@ -247,8 +197,7 @@ export class ViewOtherScreen extends Component {
 									id='high_school_state'
 									style={{ left: '80px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.high_school_state}
+									value={this.state.highSchoolState}
 								></input>
 							</div>
 							<div>
@@ -259,7 +208,6 @@ export class ViewOtherScreen extends Component {
 									id='major1'
 									style={{ left: '11px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
 									value={this.state.major1}
 								></input>
 								<span className='profileText' style={{ left: '58px' }}>
@@ -271,8 +219,7 @@ export class ViewOtherScreen extends Component {
 									id='GPA'
 									style={{ left: '121px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
-									value={this.state.GPA}
+									value={this.state.highSchoolGPA}
 								></input>
 							</div>
 							<div>
@@ -283,7 +230,6 @@ export class ViewOtherScreen extends Component {
 									id='major2'
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChange}
 									value={this.state.major2}
 								></input>
 								<span className='profileText' style={{ left: '61px' }}>
@@ -295,8 +241,7 @@ export class ViewOtherScreen extends Component {
 									id='college_class'
 									style={{ left: '120px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeNumber}
-									value={this.state.college_class}
+									value={this.state.collegeClass}
 								></input>
 							</div>
 						</div>
@@ -321,8 +266,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Math'
 									style={{ left: '41px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math)}
+									value={this.getScore(this.state.SATMath)}
 								></input>
 								<span className='profileText' style={{ left: '91px' }}>
 									US:
@@ -333,8 +277,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_US_hist'
 									style={{ left: '164px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_US_hist)}
+									value={this.getScore(this.state.SATUSHist)}
 								></input>
 							</div>
 							<div>
@@ -345,8 +288,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_EBRW'
 									style={{ left: '29px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_EBRW)}
+									value={this.getScore(this.state.SATEBRW)}
 								></input>
 								<span className='profileText' style={{ left: '80px' }}>
 									World:
@@ -357,8 +299,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_World_hist'
 									style={{ left: '127px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_World_hist)}
+									value={this.getScore(this.state.SATWorldHist)}
 								></input>
 							</div>
 							<div>
@@ -369,8 +310,7 @@ export class ViewOtherScreen extends Component {
 									id='ACT_Math'
 									style={{ left: '36px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Math)}
+									value={this.getScore(this.state.ACTMath)}
 								></input>
 								<span className='profileText' style={{ left: '87px' }}>
 									Math I:
@@ -381,8 +321,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Math_1'
 									style={{ left: '131px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math_1)}
+									value={this.getScore(this.state.SATMath1)}
 								></input>
 							</div>
 							<div>
@@ -393,8 +332,7 @@ export class ViewOtherScreen extends Component {
 									id='ACT_English'
 									style={{ left: '20px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_English)}
+									value={this.getScore(this.state.ACTEng)}
 								></input>
 								<span className='profileText' style={{ left: '71px' }}>
 									Math II:
@@ -405,8 +343,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Math_2'
 									style={{ left: '108px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Math_2)}
+									value={this.getScore(this.state.SATMath2)}
 								></input>
 							</div>
 							<div>
@@ -417,8 +354,7 @@ export class ViewOtherScreen extends Component {
 									id='ACT_Reading'
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Reading)}
+									value={this.getScore(this.state.ACTReading)}
 								></input>
 								<span className='profileText' style={{ left: '65px' }}>
 									Eco Bio:
@@ -429,20 +365,18 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Eco_Bio'
 									style={{ left: '103px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Eco_Bio)}
+									value={this.getScore(this.state.SATEcoBio)}
 								></input>
 							</div>
 							<div>
-								<span className='profileText'>ACT Literature:</span>
+								<span className='profileText'>SAT Literature:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
 									id='ACT_Literature'
 									style={{ left: '-1px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Literature)}
+									value={this.getScore(this.state.SATLit)}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									Molecular Bio:
@@ -453,8 +387,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Mol_Bio'
 									style={{ left: '37px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Mol_Bio)}
+									value={this.getScore(this.state.SATMolBio)}
 								></input>
 							</div>
 							<div>
@@ -465,8 +398,7 @@ export class ViewOtherScreen extends Component {
 									id='ACT_Science'
 									style={{ left: '21px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Science)}
+									value={this.getScore(this.state.ACTSci)}
 								></input>
 								<span className='profileText' style={{ left: '72px' }}>
 									Chemistry:
@@ -477,8 +409,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Chemistry'
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Chemistry)}
+									value={this.getScore(this.state.SATChem)}
 								></input>
 							</div>
 							<div>
@@ -489,8 +420,7 @@ export class ViewOtherScreen extends Component {
 									id='ACT_Composite'
 									style={{ left: '-4px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeACT}
-									value={this.getScore(this.state.ACT_Composite)}
+									value={this.getScore(this.state.ACTComp)}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
 									Physics:
@@ -501,8 +431,7 @@ export class ViewOtherScreen extends Component {
 									id='SAT_Physics'
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
-									onChange={this.handleChangeSAT}
-									value={this.getScore(this.state.SAT_Physics)}
+									value={this.getScore(this.state.SATPhysics)}
 								></input>
 							</div>
 						</div>

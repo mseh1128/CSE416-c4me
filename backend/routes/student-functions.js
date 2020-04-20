@@ -7,6 +7,8 @@ const updateStudentInfo =
 const updateProfileInfo =
   'UPDATE profile SET highSchoolGPA = ?, SATMath = ?, SATEBRW = ?, ACTEng = ?, ACTMath = ?, ACTReading = ?, ACTSci = ?, ACTComp = ?, SATLit = ?, SATUSHist = ?, SATWorldHist = ?, SATMath1 = ?, SATMath2 = ?, SATEcoBio = ?, SATMolBio = ?, SATChem = ?, SATPhysics = ?, passedAPAmount = ? WHERE studentID = ?';
 
+
+
 module.exports = function (app, connection) {
   app.get('/getStudentInfo', (req, res) => {
     console.log(req.query);

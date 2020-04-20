@@ -9,6 +9,8 @@ const queryChangeQuestionability =
 const queryGetDecision =
   'select * from college_declaration inner join student on college_declaration.studentID=student.userID inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where collegeName=? and questionable=0;';
 
+const queryGetStudentIDFromOtherSources =
+  'select userID from `user` where name=?';
 
 module.exports = function(app, connection) {
   // app.post('/addCollegeDeclaration', (req, res) => {
@@ -65,16 +67,18 @@ module.exports = function(app, connection) {
     });
   });
 
-/*
-  app.post('/deleteEveryCollegeDeclaration', (req, res) => {
-    connection.query(queryChangeQuestionability, (err, rows, params) => {
-      if (err) {
+  app.get('/getUserIDThroughOtherInfo', (req, res) => {
+    const studentName = req.query.studentName;
+    connection.query(queryGetStudentIDFromOtherSources, [studentName], (err, results, params) => {
+      if (err){
         console.log(err);
         res.sendStatus(500);
         return;
       }
-      res.sendStatus(200);
-    });
+
+      console.log(results[0]);
+      res.json(results[0]);
+    })
   });
-*/
+
 };

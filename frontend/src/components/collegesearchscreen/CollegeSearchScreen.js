@@ -54,7 +54,7 @@ export class CollegeSearchScreen extends Component {
 		}
 	};
 
-	reccomendColleges = async () => {
+	recommendColleges = async () => {
 		const { user } = this.props;
 		const { username, name, userID } = user;
 
@@ -144,13 +144,9 @@ export class CollegeSearchScreen extends Component {
 				},
 			});
 		} catch (err) {
-			const {
-				response: { data, status },
-			} = err;
 			console.log(err);
-			const unknownErrorText = `An unknown error with error code ${status} occurred`;
-			console.log(unknownErrorText);
 		}
+
 	};
 
 	makeStrict = () => {
@@ -1411,7 +1407,7 @@ export class CollegeSearchScreen extends Component {
 							{' '}
 							Search For College{' '}
 						</button>
-						<button className='searchCollegeBtn' onClick={this.reccomendColleges}>
+						<button className='searchCollegeBtn' onClick={this.recommendColleges}>
 							{' '}
 							Recommend Me Colleges{' '}
 						</button>

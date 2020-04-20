@@ -13,6 +13,8 @@ import HighSchoolFiltersList from './HighSchoolFiltersList';
 import { Progress } from 'react-sweet-progress';
 import 'react-sweet-progress/lib/style.css';
 
+
+
 export class ApplicationTrackerScreen extends Component {
 	state = {
 		highschool: '',
@@ -56,6 +58,7 @@ export class ApplicationTrackerScreen extends Component {
 
 		// do any fetch api requests here & setState
 	}
+
 
 	goGraph = () => {
 		const { id } = this.props.match.params;
@@ -106,19 +109,11 @@ export class ApplicationTrackerScreen extends Component {
 		console.log(this.state.filters);
 	};
 
-	handleChange = (e) => {
-		const { target } = e;
-		let newFilters = this.state.filters;
-		const id = target.id;
-		newFilters[id] = target.value;
-		if (newFilters[id] === 'on') {
-			newFilters[id] = target.checked;
-		}
-		this.setState({ filters: newFilters });
-		console.log(this.state.filters);
-	};
-
 	getPercent = (type, amount) => {
+		if (amount == -1){
+			return 0;
+		}
+
 		if (type == 'math') {
 			return (amount / 800) * 100;
 		}
