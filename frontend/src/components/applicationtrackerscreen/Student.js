@@ -13,7 +13,7 @@ class Student extends React.Component {
 
 	getName = () => {
 		if (this.props.student.name.length > 20) {
-		 	let tempName = this.props.student.name.substring(0, 20) + '...';
+			let tempName = this.props.student.name.substring(0, 20) + '...';
 			return tempName;
 		} else return this.props.student.name;
 	};
@@ -21,9 +21,9 @@ class Student extends React.Component {
 	getMajors = () => {
 		const m1 = this.props.student.major1;
 		const m2 = this.props.student.major2;
-		if (m1 != '' && m2 != '') return m1 + ' | ' + m2;
-		else if (m1 != '' && m2 === '') return m1;
-		else if (m2 != '' && m1 === '') return m2;
+		if ((m1 != '' || m1 != null) && (m2 != '' || m2 != null)) return m1 + ' | ' + m2;
+		else if ((m1 != '' || m1 != null) && (m2 === '' || m2 === null)) return m1;
+		else if ((m2 != '' || m2 === null) && (m1 === '' || m1 != null)) return m2;
 		else return 'Undecided';
 	};
 
@@ -76,15 +76,16 @@ class Student extends React.Component {
 
 		return (
 			//<Link to={'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.key}>
-			<Link to={
-				{
-					pathname: '/applicationTracker/' + this.props.college.collegeName + '/view/' + student.name,
+			<Link
+				to={{
+					pathname:
+						'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.name,
 					state: {
 						studentName: student.name,
-						college: this.props.collegeName
-					}
-				}
-			}>
+						college: this.props.collegeName,
+					},
+				}}
+			>
 				<div className='studentCard'>
 					<div className='studentBoxTitleAndStatus'>
 						<div className='studentTitle'> {this.getName()} </div>

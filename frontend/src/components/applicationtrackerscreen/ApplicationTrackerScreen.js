@@ -9,11 +9,10 @@ import data from '../test/TestCollegeData.json';
 import StudentList from './StudentList';
 
 import HighSchoolFiltersList from './HighSchoolFiltersList';
+import ApplicationGraph from './ApplicationGraph';
 
 import { Progress } from 'react-sweet-progress';
 import 'react-sweet-progress/lib/style.css';
-
-
 
 export class ApplicationTrackerScreen extends Component {
 	state = {
@@ -34,19 +33,8 @@ export class ApplicationTrackerScreen extends Component {
 			isWithdrawn: false,
 			highschools: [],
 		},
+		onGraph: false,
 	};
-	/*
-	componentDidMount() {
-		const { id } = this.props.match.params;
-		console.log('id (key) is: ');
-		console.log(id);
-
-		const { colleges } = data;
-		const college = colleges ? colleges[id] : null;
-		this.setState({ college: college });
-		// do any fetch api requests here & setState
-	}
-*/
 
 	componentDidMount() {
 		const college = this.props.location.state.college;
@@ -59,10 +47,15 @@ export class ApplicationTrackerScreen extends Component {
 		// do any fetch api requests here & setState
 	}
 
+	switchGraph = () => {
+		let bool = !this.state.onGraph;
+		this.setState({ onGraph: bool });
 
-	goGraph = () => {
-		const { id } = this.props.match.params;
-		this.props.history.push('/applicationTracker/' + id + '/graph');
+		if (bool) {
+			document.getElementById('graphBtn').innerHTML = 'See Students';
+		} else {
+			document.getElementById('graphBtn').innerHTML = 'See Graph';
+		}
 	};
 
 	goCollegeSearch = () => {
@@ -109,8 +102,65 @@ export class ApplicationTrackerScreen extends Component {
 		console.log(this.state.filters);
 	};
 
+	getAvgGPA = () => {
+		let students = this.state.studentsWhoApplied;
+		console.log(students);
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.highSchoolGPA !== null) {
+				sum = sum + student.highSchoolGPA;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
+	getAvgSATMath = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.SATMath !== null) {
+				sum = sum + student.SATMath;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
+	getAvgSATEBRW = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.SATEBRW !== null) {
+				sum = sum + student.SATEBRW;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
+	getAvgACT = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.ACTComp !== null) {
+				sum = sum + student.ACTComp;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
 	getPercent = (type, amount) => {
-		if (amount == -1){
+		if (amount == -1) {
 			return 0;
 		}
 
@@ -163,7 +213,7 @@ export class ApplicationTrackerScreen extends Component {
 
 		return (
 			<div className='tracker_screen_container'>
-				<div className='schoolsContainer'>
+				<div className='schoolsContainer' hidden={this.state.onGraph}>
 					<div id='studentListBanner'>
 						<div></div>
 						<span className='collegeTitleText'> Application Tracker:</span>
@@ -173,13 +223,21 @@ export class ApplicationTrackerScreen extends Component {
 						<StudentList college={college} students={studentsWhoApplied}></StudentList>
 					</div>
 				</div>
+				<div className='graphContainer' hidden={!this.state.onGraph}>
+					<ApplicationGraph college={college} students={studentsWhoApplied} />
+				</div>
 				<div className='trackerFiltersContainer'>
 					<div className='filtersBanner'>
 						<span id='filterHeaderText'>Filters:</span>
 						<form action='#' id='strictBoxLocation'>
 							<p>
 								<label id='strictBox'>
-									<input type='checkbox' id='strict' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='strict'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Strict</span>
 								</label>
 							</p>
@@ -194,6 +252,7 @@ export class ApplicationTrackerScreen extends Component {
 								placeholder='2020'
 								id='collegeClassLB'
 								onChange={this.handleChange}
+								disabled={this.state.onGraph}
 							/>
 							-
 							<input
@@ -202,6 +261,7 @@ export class ApplicationTrackerScreen extends Component {
 								placeholder='2030'
 								id='collegeClassUB'
 								onChange={this.handleChange}
+								disabled={this.state.onGraph}
 							/>
 						</div>
 					</div>
@@ -210,7 +270,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='acceptedBoxLocation'>
 							<p>
 								<label id='acceptedBox'>
-									<input type='checkbox' id='isAccepted' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isAccepted'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Accepted</span>
 								</label>
 							</p>
@@ -218,7 +283,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='pendingBoxLocation'>
 							<p>
 								<label id='pendingBox'>
-									<input type='checkbox' id='isPending' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isPending'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Pending</span>
 								</label>
 							</p>
@@ -226,7 +296,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='wait-listedBoxLocation'>
 							<p>
 								<label id='wait-listedBox'>
-									<input type='checkbox' id='isWaitListed' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isWaitListed'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Wait-listed</span>
 								</label>
 							</p>
@@ -234,7 +309,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='deferredBoxLocation'>
 							<p>
 								<label id='deferredBox'>
-									<input type='checkbox' id='isDeferred' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isDeferred'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Deferred</span>
 								</label>
 							</p>
@@ -242,7 +322,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='deniedBoxLocation'>
 							<p>
 								<label id='deniedBox'>
-									<input type='checkbox' id='isDenied' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isDenied'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Denied</span>
 								</label>
 							</p>
@@ -250,7 +335,12 @@ export class ApplicationTrackerScreen extends Component {
 						<form action='#' id='withdrawnBoxLocation'>
 							<p>
 								<label id='withdrawnBox'>
-									<input type='checkbox' id='isWithdrawn' onChange={this.handleChange} />
+									<input
+										type='checkbox'
+										id='isWithdrawn'
+										onChange={this.handleChange}
+										disabled={this.state.onGraph}
+									/>
 									<span id='strictText'>Withdrawn</span>
 								</label>
 							</p>
@@ -262,6 +352,7 @@ export class ApplicationTrackerScreen extends Component {
 								id='highschool'
 								type='text'
 								onChange={this.updateHighschool.bind(this)}
+								disabled={this.state.onGraph}
 							></input>
 							<label htmlFor='highschool'>Applicants Highschool</label>
 						</div>
@@ -269,6 +360,7 @@ export class ApplicationTrackerScreen extends Component {
 							className='btn-floating btn-large waves-effect waves-light blue'
 							id='enterHighschoolBtn'
 							onClick={this.addHighschool.bind(this.self)}
+							disabled={this.state.onGraph}
 						>
 							<Add></Add>
 						</a>
@@ -291,57 +383,57 @@ export class ApplicationTrackerScreen extends Component {
 						</div>
 						<div className='acceptedGPA1'>
 							{'Average GPA: '}
-							<span className='acceptedGPA2'>{3.6}</span>
+							<span className='acceptedGPA2'>{this.getAvgGPA()}</span>
 						</div>
 						<div className='acceptedGPAScore'>
 							<span className='acceptedText'>0</span>
 							<Progress
 								className='mathBar'
-								percent={this.getPercent('gpa', 3.6)}
+								percent={this.getPercent('gpa', this.getAvgGPA())}
 								status='gpa'
 								theme={theme}
 							/>
 						</div>
 						<div className='acceptedMath1'>
 							{'Average Math SAT Score: '}
-							<span className='acceptedMath2'>{600}</span>
+							<span className='acceptedMath2'>{this.getAvgSATMath()}</span>
 						</div>
 						<div className='acceptedMathScore'>
 							<span className='acceptedText'>0</span>
 							<Progress
 								className='mathBar'
-								percent={this.getPercent('math', 600)}
+								percent={this.getPercent('math', this.getAvgSATMath())}
 								status='math'
 								theme={theme}
 							/>
 						</div>
 						<div className='acceptedEBRW1'>
-							{'Average Math SAT Score: '}
-							<span className='acceptedEBRW2'>{650}</span>
+							{'Average EBRW SAT Score: '}
+							<span className='acceptedEBRW2'>{this.getAvgSATEBRW()}</span>
 						</div>
 						<div className='acceptedEBRWScore'>
 							<span className='acceptedText'>0</span>
 							<Progress
 								className='mathBar'
-								percent={this.getPercent('ebrw', 650)}
+								percent={this.getPercent('ebrw', this.getAvgSATEBRW())}
 								status='EBRW'
 								theme={theme}
 							/>
 						</div>
 						<div className='acceptedACT1'>
-							{'Average Math SAT Score: '}
-							<span className='acceptedACT2'>{30}</span>
+							{'Average ACT Score: '}
+							<span className='acceptedACT2'>{this.getAvgACT()}</span>
 						</div>
 						<div className='acceptedACTScore'>
 							<span className='acceptedText'>0</span>
 							<Progress
 								className='mathBar'
-								percent={this.getPercent('act', 30)}
+								percent={this.getPercent('act', this.getAvgACT())}
 								status='ACT'
 								theme={theme}
 							/>
 						</div>
-						<button id='graphBtn' onClick={this.goGraph}>
+						<button id='graphBtn' onClick={this.switchGraph}>
 							{' '}
 							See Graph{' '}
 						</button>

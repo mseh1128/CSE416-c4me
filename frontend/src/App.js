@@ -9,7 +9,6 @@ import RegisterScreen from './components/registerscreen/RegisterScreen.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen';
-import ApplicationGraphScreen from './components/applicationgraphscreen/ApplicationGraphScreen';
 import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.js';
 import ViewOtherScreen from './components/viewotherscreen/ViewOtherScreen.js';
 import AdminScreen from './components/adminscreen/AdminScreen.js';
@@ -19,55 +18,34 @@ import authorizeComponent from './components/authentication/AuthComponent.js';
 import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(false);
 
-  return (
-    <BrowserRouter>
-      <Navbar {...{ isAdmin, setIsAdmin }} />
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={(routeProps) => (
-            <LoginScreen {...{ setIsAdmin, ...routeProps }} />
-          )}
-        />
-        <Route path="/register" component={RegisterScreen} />
+	return (
+		<BrowserRouter>
+			<Navbar {...{ isAdmin, setIsAdmin }} />
+			<Switch>
+				<Route
+					path='/'
+					exact
+					render={(routeProps) => <LoginScreen {...{ setIsAdmin, ...routeProps }} />}
+				/>
+				<Route path='/register' component={RegisterScreen} />
 
-        <Route
-          path="/applicationTracker/:id/view/:idStudent"
-          component={ViewOtherScreen}
-        />
-        <Route
-          path="/applicationTracker/:id/graph"
-          component={ApplicationGraphScreen}
-        />
-        <Route
-          path="/applicationTracker/:id"
-          component={ApplicationTrackerScreen}
-        />
+				<Route path='/applicationTracker/:id/view/:idStudent' component={ViewOtherScreen} />
+				<Route path='/applicationTracker/:id' component={ApplicationTrackerScreen} />
 
-        <Route
-          path="/home"
-          component={authorizeComponent(CollegeSearchScreen)}
-        />
+				<Route path='/home' component={authorizeComponent(CollegeSearchScreen)} />
 
-        <Route
-          path="/search"
-          component={authorizeComponent(CollegeSearchScreen)}
-        />
+				<Route path='/search' component={authorizeComponent(CollegeSearchScreen)} />
 
-        <Route
-          path="/profile"
-          component={authorizeComponent(ViewProfileScreen)}
-        />
+				<Route path='/profile' component={authorizeComponent(ViewProfileScreen)} />
 
-        <Route path="/admin" component={authorizeComponent(AdminScreen)} />
+				<Route path='/admin' component={authorizeComponent(AdminScreen)} />
 
-        <Route path="/:any" component={LoginScreen} />
-      </Switch>
-    </BrowserRouter>
-  );
+				<Route path='/:any' component={LoginScreen} />
+			</Switch>
+		</BrowserRouter>
+	);
 }
 
 export default App;
