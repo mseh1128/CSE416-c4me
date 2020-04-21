@@ -114,7 +114,7 @@ export class ApplicationTrackerScreen extends Component {
 			}
 		});
 		let avg = sum / num;
-		return Math.floor(avg);
+		return Math.floor(avg * 10) / 10;
 	};
 
 	getAvgSATMath = () => {

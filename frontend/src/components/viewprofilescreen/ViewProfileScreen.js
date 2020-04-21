@@ -72,6 +72,35 @@ export class ViewProfileScreen extends Component {
 		}
 	};
 
+	getComp = () => {
+		let sum = 0;
+		let num = 0;
+
+		if (this.state.ACTEng !== null || this.state.ACTEng !== '') {
+			sum = sum + parseInt(this.state.ACTEng);
+			num = num + 1;
+		}
+		if (this.state.ACTMath !== null || this.state.ACTMath !== '') {
+			sum = sum + parseInt(this.state.ACTMath);
+			num = num + 1;
+		}
+		if (this.state.ACTReading !== null || this.state.ACTReading !== '') {
+			sum = sum + parseInt(this.state.ACTReading);
+			num = num + 1;
+		}
+		if (this.state.ACTSci !== null || this.state.ACTSci !== '') {
+			sum = sum + parseInt(this.state.ACTSci);
+			num = num + 1;
+		}
+
+		if (num !== 4) {
+			return null;
+		}
+
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
 	getValue = (value) => {
 		if (value === -1 || value == null) {
 			return '';
@@ -100,7 +129,7 @@ export class ViewProfileScreen extends Component {
 	handleChange = (e) => {
 		const { target } = e;
 		console.log(target);
-
+		this.setState({ ACTComp: document.getElementById('ACTComp').value });
 		if (target.id === 'nameInput') {
 			this.setState((state) => ({
 				...state,
@@ -117,6 +146,7 @@ export class ViewProfileScreen extends Component {
 	//ensures that only numbers can be entered for certain inputs
 	handleChangeNumber = (e) => {
 		const { target } = e;
+		this.setState({ ACTComp: document.getElementById('ACTComp').value });
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			this.setState((state) => ({
 				...state,
@@ -128,6 +158,7 @@ export class ViewProfileScreen extends Component {
 	//ensures that only the correct range of numbers and entered
 	handleChangeSAT = (e) => {
 		const { target } = e;
+		this.setState({ ACTComp: document.getElementById('ACTComp').value });
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			if (target.value > 800) {
 				this.setState((state) => ({
@@ -158,6 +189,8 @@ export class ViewProfileScreen extends Component {
 					...state,
 					[target.id]: 36,
 				}));
+				this.setState({ ACTComp: document.getElementById('ACTComp').value });
+				console.log(this.state.ACTComp);
 				return;
 			}
 			this.setState((state) => ({
@@ -165,6 +198,7 @@ export class ViewProfileScreen extends Component {
 				[target.id]: target.value,
 			}));
 		}
+		this.setState({ ACTComp: document.getElementById('ACTComp').value });
 	};
 
 	render() {
@@ -501,9 +535,9 @@ export class ViewProfileScreen extends Component {
 									className='profilePrompt'
 									id='ACTComp'
 									style={{ left: '-4px' }}
-									disabled={this.state.disabled}
+									disabled={true}
 									onChange={this.handleChangeACT}
-									value={this.getValue(this.state.ACTComp)}
+									value={this.getComp()}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
 									Physics:

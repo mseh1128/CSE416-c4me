@@ -79,7 +79,7 @@ export class ApplicationGraph extends Component {
 		let avg = sum / num;
 
 		let widthOfGraph = 1010 - 90;
-		let percente = avg / 32;
+		let percente = avg / 36;
 		let width = widthOfGraph * percente + 90;
 
 		console.log(avg);
@@ -277,9 +277,9 @@ export class ApplicationGraph extends Component {
 				if (student.SATMath !== null && student.SATEBRW !== null && student.ACTComp !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * (remainingPercente / 2);
-					totalPercente = totalPercente + (student.ACTComp / 32) * (remainingPercente / 2);
+					totalPercente = totalPercente + (student.ACTComp / 36) * (remainingPercente / 2);
 				} else if (student.ACTComp !== null) {
-					totalPercente = totalPercente + (student.ACTComp / 32) * remainingPercente;
+					totalPercente = totalPercente + (student.ACTComp / 36) * remainingPercente;
 				} else if (student.SATMath !== null && student.SATEBRW !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * remainingPercente;
@@ -349,9 +349,9 @@ export class ApplicationGraph extends Component {
 				if (student.SATMath !== null && student.SATEBRW !== null && student.ACTComp !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * (remainingPercente / 2);
-					totalPercente = totalPercente + (student.ACTComp / 32) * (remainingPercente / 2);
+					totalPercente = totalPercente + (student.ACTComp / 36) * (remainingPercente / 2);
 				} else if (student.ACTComp !== null) {
-					totalPercente = totalPercente + (student.ACTComp / 32) * remainingPercente;
+					totalPercente = totalPercente + (student.ACTComp / 36) * remainingPercente;
 				} else if (student.SATMath !== null && student.SATEBRW !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * remainingPercente;
@@ -421,9 +421,9 @@ export class ApplicationGraph extends Component {
 				if (student.SATMath !== null && student.SATEBRW !== null && student.ACTComp !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * (remainingPercente / 2);
-					totalPercente = totalPercente + (student.ACTComp / 32) * (remainingPercente / 2);
+					totalPercente = totalPercente + (student.ACTComp / 36) * (remainingPercente / 2);
 				} else if (student.ACTComp !== null) {
-					totalPercente = totalPercente + (student.ACTComp / 32) * remainingPercente;
+					totalPercente = totalPercente + (student.ACTComp / 36) * remainingPercente;
 				} else if (student.SATMath !== null && student.SATEBRW !== null) {
 					totalPercente =
 						totalPercente + ((student.SATMath + student.SATEBRW) / 1600) * remainingPercente;
@@ -551,7 +551,7 @@ export class ApplicationGraph extends Component {
 									tickSize: 5,
 									tickPadding: 5,
 									tickRotation: 0,
-									legend: 'SAT  Scores',
+									legend: 'SAT Scores',
 									legendPosition: 'middle',
 									legendOffset: 46,
 								}}
@@ -595,9 +595,9 @@ export class ApplicationGraph extends Component {
 							<ResponsiveScatterPlot
 								data={actData}
 								margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
-								xScale={{ type: 'linear', min: 0, max: 32 }}
+								xScale={{ type: 'linear', min: 0, max: 36 }}
 								xFormat={function (e) {
-									return 'SAT Score: ' + e;
+									return 'ACT Score: ' + e;
 								}}
 								yScale={{ type: 'linear', min: 0, max: 4 }}
 								yFormat={function (e) {
@@ -612,7 +612,7 @@ export class ApplicationGraph extends Component {
 									tickSize: 5,
 									tickPadding: 5,
 									tickRotation: 0,
-									legend: 'SAT  Scores',
+									legend: 'ACT Scores',
 									legendPosition: 'middle',
 									legendOffset: 46,
 								}}
@@ -673,7 +673,7 @@ export class ApplicationGraph extends Component {
 									tickSize: 5,
 									tickPadding: 5,
 									tickRotation: 0,
-									legend: 'SAT  Scores',
+									legend: 'Standardized Test Percentage',
 									legendPosition: 'middle',
 									legendOffset: 46,
 								}}
