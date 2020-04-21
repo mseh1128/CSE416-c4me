@@ -55,7 +55,7 @@ class FilteredCollege extends React.Component {
 			this.props.college.completionRate === null
 		) {
 			return 'Unknown';
-		} else return Math.floor(this.props.college.admissionRatePercent * 100) / 100 + '%';
+		} else return Math.floor(this.props.college.completionRate * 100) / 100 + '%';
 	};
 
 	getRank = () => {
@@ -129,7 +129,7 @@ class FilteredCollege extends React.Component {
 	};
 
 	checkRec = () => {
-		if (this.props.college.recScore === null || this.props.recScore === undefined) {
+		if (this.props.college.recScore === null || this.props.college.recScore === undefined) {
 			return true;
 		} else return false;
 	};
@@ -211,6 +211,7 @@ class FilteredCollege extends React.Component {
 					{this.getCity() + ', ' + this.getState()}
 					<button
 						id='goSimilarBtn'
+						hidden={this.checkRec()}
 						onClick={(e) => {
 							e.stopPropagation();
 							this.props.goSimiarStudents(this.props.college.collegeName);

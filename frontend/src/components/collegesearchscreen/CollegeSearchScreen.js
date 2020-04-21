@@ -80,17 +80,14 @@ export class CollegeSearchScreen extends Component {
 				if (studentProfile.residenceState !== e.state) {
 					score = score - 5;
 				}
-				console.log(score);
 
 				e.recScore = score;
 
-				return score > 75;
+				return score > 0;
 			});
 
-			console.log(recColleges);
-
 			//sort here
-
+			this.setState({ currentSortType: 'recScore' });
 			this.setState({ colleges: recColleges });
 		} catch (err) {
 			console.log(err);
@@ -294,6 +291,8 @@ export class CollegeSearchScreen extends Component {
 			return colleges.sort((a, b) => this.sortingFunction(a.ranking, b.ranking, true));
 		} else if (currentSortType === 'rankUp') {
 			return colleges.sort((a, b) => this.sortingFunction(a.ranking, b.ranking, false));
+		} else if (currentSortType === 'recScore') {
+			return colleges.sort((a, b) => this.sortingFunction(a.recScore, b.recScore, false));
 		} else {
 			console.log('COULD NOT IDENTIFY CURRENT SORT TYPE!');
 		}
