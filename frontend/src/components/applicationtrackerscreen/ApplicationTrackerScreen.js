@@ -371,11 +371,13 @@ export class ApplicationTrackerScreen extends Component {
 							deleteHighschool={this.deleteHighschool}
 						/>
 					</div>
-					<div>
-						<button className='searchCollegeBtn' onClick={this.goCollegeSearch}>
+					<div className='btnContainer'>
+						<div></div>
+						<button className='backSearchBtn' onClick={this.goCollegeSearch}>
 							{' '}
 							Back to college search{' '}
 						</button>
+						<button className='applicantFilterBtn'> Apply filters </button>
 					</div>
 					<div id='trackerStatContainer'>
 						<div className='filtersBanner'>

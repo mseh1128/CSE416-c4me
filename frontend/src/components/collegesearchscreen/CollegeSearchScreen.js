@@ -119,6 +119,10 @@ export class CollegeSearchScreen extends Component {
 		}
 	};
 
+	goSimiarStudents = (name) => {
+		this.props.history.push('/similarStudents/' + name);
+	};
+
 	goAppTracker = async (id) => {
 		let queryStudentsDecisions = '';
 		let queryCollege = '';
@@ -146,7 +150,6 @@ export class CollegeSearchScreen extends Component {
 		} catch (err) {
 			console.log(err);
 		}
-
 	};
 
 	makeStrict = () => {
@@ -364,7 +367,11 @@ export class CollegeSearchScreen extends Component {
 						</span>
 					</div>
 					<div id='collegeList'>
-						<FilteredCollegesList goAppTracker={this.goAppTracker} colleges={sortedColleges} />
+						<FilteredCollegesList
+							goAppTracker={this.goAppTracker}
+							goSimiarStudents={this.goSimiarStudents}
+							colleges={sortedColleges}
+						/>
 					</div>
 				</div>
 				<div className='filtersContainer'>

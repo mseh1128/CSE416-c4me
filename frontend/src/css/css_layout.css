@@ -368,7 +368,23 @@ form h5 {
 	color: black;
 }
 
-.collegeLocation,
+.collegeLocation {
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	top: 10px;
+	position: relative;
+	display: grid;
+	grid-template-columns: 368px 140px;
+}
+
+#goSimilarBtn {
+	font-weight: bold;
+	cursor: pointer;
+	border-color: teal;
+	background-color: cadetblue;
+}
+
 .studentLocation {
 	font-size: medium;
 	color: grey;
@@ -773,6 +789,12 @@ form h5 {
 	font-size: 37px;
 }
 
+#otherProfileBanner {
+	display: grid;
+	grid-template-columns: 100px 1315px 100px;
+	background-color: lightskyblue;
+}
+
 /* 
     login/register screen CSS
 */
@@ -1044,6 +1066,16 @@ form h5 {
 }
 
 #graphBtn:hover {
+	cursor: pointer;
+}
+
+.btnContainer {
+	display: grid;
+	grid-template-columns: 10px 165px 165px;
+}
+
+.backSearchBtn:hover,
+.applicantFilterBtn:hover {
 	cursor: pointer;
 }
 

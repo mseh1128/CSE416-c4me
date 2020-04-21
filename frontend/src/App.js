@@ -7,6 +7,7 @@ import Navbar from './components/navbar/Navbar.js';
 import LoginScreen from './components/loginscreen/LoginScreen.js';
 import RegisterScreen from './components/registerscreen/RegisterScreen.js';
 import StudentScreen from './components/studentscreen/StudentScreen.js';
+import SimilarStudentsScreen from './components/similarstudentsscreen/SimilarStudentsScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen';
 import ViewProfileScreen from './components/viewprofilescreen/ViewProfileScreen.js';
@@ -37,6 +38,8 @@ function App() {
 				<Route path='/home' component={authorizeComponent(CollegeSearchScreen)} />
 
 				<Route path='/search' component={authorizeComponent(CollegeSearchScreen)} />
+
+				<Route path='/similarStudents/:id' component={authorizeComponent(SimilarStudentsScreen)} />
 
 				<Route path='/profile' component={authorizeComponent(ViewProfileScreen)} />
 

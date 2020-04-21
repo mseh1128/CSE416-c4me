@@ -45,40 +45,40 @@ export class ViewOtherScreen extends Component {
 		SATMolBio: '',
 		SATChem: '',
 		SATPhysics: '',
-		passedAPAmount: ''
+		passedAPAmount: '',
 	};
 
 	componentDidMount = async () => {
 		const studentName = this.props.location.state.studentName;
 		const college = this.props.location.state.college;
 
-		this.setState({college: college});
+		this.setState({ college: college });
 
-		try{
+		try {
 			//remember, you made a meme here.
 			//before you push, change to a legitimate name
 			const theVoiceOfLoveTakeYouHigher = await axios.get('/getUserIDThroughOtherInfo', {
-				params:{
-					studentName: studentName
-				}
+				params: {
+					studentName: studentName,
+				},
 			});
 
 			const userID = theVoiceOfLoveTakeYouHigher.data.userID;
 			const studentInfo = await axios.get('/getStudentInfo', {
 				params: {
-					userID: userID
-				}
+					userID: userID,
+				},
 			});
 
 			const actualStudentInfo = studentInfo.data[0];
 			console.log(actualStudentInfo);
-			this.setState({ ...this.state, ...actualStudentInfo});
+			this.setState({ ...this.state, ...actualStudentInfo });
 			console.log(this.state);
-		}	catch (err){
+		} catch (err) {
 			console.log(err);
 			console.log('Error occurred, could not fetch other student');
 		}
-	}
+	};
 
 	goBack = async () => {
 		//const { id } = this.props.match.params;
@@ -88,7 +88,7 @@ export class ViewOtherScreen extends Component {
 		try {
 			queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
 				params: {
-					collegeName: id
+					collegeName: id,
 				},
 			});
 
@@ -123,7 +123,7 @@ export class ViewOtherScreen extends Component {
 		return (
 			<div className='profile_screen_container'>
 				<div className='profileContainer'>
-					<div id='profileBanner'>
+					<div id='otherProfileBanner'>
 						<div />
 						<span className='collegeTitleText'> Student's Profile </span>
 						<button className='profileButton' onClick={this.goBack}>

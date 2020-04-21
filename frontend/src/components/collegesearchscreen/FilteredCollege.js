@@ -206,7 +206,20 @@ class FilteredCollege extends React.Component {
 						Apply
 					</button>
 				</div>
-				<div className='collegeLocation'> {this.getCity() + ', ' + this.getState()} </div>
+				<div className='collegeLocation'>
+					{' '}
+					{this.getCity() + ', ' + this.getState()}
+					<button
+						id='goSimilarBtn'
+						onClick={(e) => {
+							e.stopPropagation();
+							this.props.goSimiarStudents(this.props.college.collegeName);
+						}}
+					>
+						{' '}
+						Similar Students{' '}
+					</button>
+				</div>
 				<div className='collegeType'>
 					{' '}
 					{this.getType() +
