@@ -1092,3 +1092,54 @@ form h5 {
 	height: 70px;
 	width: 200px;
 }
+
+/*
+	graph screen
+*/
+#graphContainerSAT {
+	height: 600px;
+}
+
+#graphContainerACT {
+	height: 600px;
+}
+
+#graphContainerStandard {
+	height: 600px;
+}
+
+#graphBtnContainer {
+	background-color: lightskyblue;
+	height: 52px;
+	display: grid;
+	grid-template-columns: 40px 180px 25px 200px 50px 200px 50px 200px;
+}
+
+.graphBtns {
+	font-weight: bold;
+	cursor: pointer;
+	border-color: teal;
+	background-color: cadetblue;
+}
+
+.meanLineGPA {
+	position: relative;
+	color: black;
+	border-style: dashed;
+	height: 1px;
+	width: 923px;
+	margin-left: 90px;
+	border-radius: 1px;
+	border-width: 1px;
+}
+
+.meanLineOther {
+	position: relative;
+	color: black;
+	border-style: dashed;
+	height: 470px;
+	width: 1px;
+	bottom: 543px;
+	border-radius: 1px;
+	border-width: 1px;
+}
