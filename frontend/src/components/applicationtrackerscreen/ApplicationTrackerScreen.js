@@ -14,6 +14,11 @@ import ApplicationGraph from './ApplicationGraph';
 import { Progress } from 'react-sweet-progress';
 import 'react-sweet-progress/lib/style.css';
 
+import { Range, getTrackBackground } from 'react-range';
+
+import { sliderConfig } from '../../helpers/constants';
+const { collegeClass } = sliderConfig;
+
 export class ApplicationTrackerScreen extends Component {
 	state = {
 		highschool: '',
@@ -23,8 +28,7 @@ export class ApplicationTrackerScreen extends Component {
 		studentsWhoApplied: [],
 		filters: {
 			strict: false,
-			collegeClassLB: '',
-			collegeClassUB: '',
+			collegeClassValues: [2016, 2030],
 			isAccepted: false,
 			isPending: false,
 			isWaitListed: false,
@@ -117,12 +121,41 @@ export class ApplicationTrackerScreen extends Component {
 		return Math.floor(avg * 10) / 10;
 	};
 
+	getAvgAcceptedGPA = () => {
+		let students = this.state.studentsWhoApplied;
+		console.log(students);
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.highSchoolGPA !== null && student.acceptanceStatus === 'accepted') {
+				sum = sum + student.highSchoolGPA;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg * 10) / 10;
+	};
+
 	getAvgSATMath = () => {
 		let students = this.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
 			if (student.SATMath !== null) {
+				sum = sum + student.SATMath;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
+	getAvgAcceptedSATMath = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.SATMath !== null && student.acceptanceStatus === 'accepted') {
 				sum = sum + student.SATMath;
 				num = num + 1;
 			}
@@ -145,12 +178,40 @@ export class ApplicationTrackerScreen extends Component {
 		return Math.floor(avg);
 	};
 
+	getAvgAcceptedSATEBRW = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.SATEBRW !== null && student.acceptanceStatus === 'accepted') {
+				sum = sum + student.SATEBRW;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
 	getAvgACT = () => {
 		let students = this.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
 			if (student.ACTComp !== null) {
+				sum = sum + student.ACTComp;
+				num = num + 1;
+			}
+		});
+		let avg = sum / num;
+		return Math.floor(avg);
+	};
+
+	getAvgAcceptedACT = () => {
+		let students = this.state.studentsWhoApplied;
+		let sum = 0;
+		let num = 0;
+		students.forEach((student) => {
+			if (student.ACTComp !== null && student.acceptanceStatus === 'accepted') {
 				sum = sum + student.ACTComp;
 				num = num + 1;
 			}
@@ -245,23 +306,141 @@ export class ApplicationTrackerScreen extends Component {
 					</div>
 					<div className='collegeClassFilter'>
 						<span id='filtersText'>College Class</span>
-						<div>
-							<input
-								type='textfield'
-								className='collegeClass'
-								placeholder='2020'
-								id='collegeClassLB'
-								onChange={this.handleChange}
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								flexWrap: 'wrap',
+							}}
+						>
+							<Range
 								disabled={this.state.onGraph}
-							/>
-							-
-							<input
-								type='textfield'
-								className='collegeClass'
-								placeholder='2030'
-								id='collegeClassUB'
-								onChange={this.handleChange}
-								disabled={this.state.onGraph}
+								values={this.state.filters.collegeClassValues}
+								step={collegeClass.step}
+								min={collegeClass.min}
+								max={collegeClass.max}
+								onChange={(values) =>
+									this.setState((prevState) => ({
+										filters: {
+											...prevState.filters,
+											collegeClassValues: values,
+										},
+									}))
+								}
+								renderTrack={({ props, children }) => (
+									<div
+										onMouseDown={props.onMouseDown}
+										onTouchStart={props.onTouchStart}
+										style={{
+											...props.style,
+											height: '36px',
+											display: 'flex',
+											width: '60%',
+										}}
+									>
+										<div
+											ref={props.ref}
+											style={{
+												height: '5px',
+												width: '100%',
+												borderRadius: '4px',
+												background: getTrackBackground({
+													values: this.state.filters.collegeClassValues,
+													colors: ['#ccc', '#548BF4', '#ccc'],
+													min: collegeClass.min,
+													max: collegeClass.max,
+												}),
+												alignSelf: 'center',
+											}}
+										>
+											{children}
+										</div>
+									</div>
+								)}
+								renderThumb={({ index, props, isDragged }) => {
+									if (index === 0) {
+										return (
+											<div
+												{...props}
+												style={{
+													...props.style,
+													height: '30px',
+													width: '30px',
+													borderRadius: '4px',
+													backgroundColor: '#FFF',
+													display: 'flex',
+													justifyContent: 'center',
+													alignItems: 'center',
+													boxShadow: '0px 2px 6px #AAA',
+												}}
+											>
+												<div
+													style={{
+														position: 'absolute',
+														top: '3px',
+														left: '-40px',
+														color: '#fff',
+														fontWeight: 'bold',
+														fontSize: '14px',
+														fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
+														padding: '4px',
+														borderRadius: '4px',
+														backgroundColor: '#548BF4',
+													}}
+												>
+													{this.state.filters.collegeClassValues[index].toFixed(1)}
+												</div>
+												<div
+													style={{
+														height: '16px',
+														width: '5px',
+														backgroundColor: isDragged ? '#548BF4' : '#CCC',
+													}}
+												/>
+											</div>
+										);
+									}
+									return (
+										<div
+											{...props}
+											style={{
+												...props.style,
+												height: '30px',
+												width: '30px',
+												borderRadius: '4px',
+												backgroundColor: '#FFF',
+												display: 'flex',
+												justifyContent: 'center',
+												alignItems: 'center',
+												boxShadow: '0px 2px 6px #AAA',
+											}}
+										>
+											<div
+												style={{
+													position: 'absolute',
+													top: '3px',
+													right: '-50px',
+													color: '#fff',
+													fontWeight: 'bold',
+													fontSize: '14px',
+													fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
+													padding: '4px',
+													borderRadius: '4px',
+													backgroundColor: '#548BF4',
+												}}
+											>
+												{this.state.filters.collegeClassValues[index].toFixed(index)}
+											</div>
+											<div
+												style={{
+													height: '16px',
+													width: '5px',
+													backgroundColor: isDragged ? '#548BF4' : '#CCC',
+												}}
+											/>
+										</div>
+									);
+								}}
 							/>
 						</div>
 					</div>
@@ -381,7 +560,7 @@ export class ApplicationTrackerScreen extends Component {
 					</div>
 					<div id='trackerStatContainer'>
 						<div className='filtersBanner'>
-							<span id='filterStatsText'>Stats of accepted students</span>
+							<span id='filterStatsText'>Stats of all students</span>
 						</div>
 						<div className='acceptedGPA1'>
 							{'Average GPA: '}
@@ -431,6 +610,61 @@ export class ApplicationTrackerScreen extends Component {
 							<Progress
 								className='mathBar'
 								percent={this.getPercent('act', this.getAvgACT())}
+								status='ACT'
+								theme={theme}
+							/>
+						</div>
+						<div className='filtersBanner'>
+							<span id='filterStatsText'>Stats of accepted students</span>
+						</div>
+						<div className='acceptedGPA1'>
+							{'Average GPA: '}
+							<span className='acceptedGPA2'>{this.getAvgAcceptedGPA()}</span>
+						</div>
+						<div className='acceptedGPAScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('gpa', this.getAvgAcceptedGPA())}
+								status='gpa'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedMath1'>
+							{'Average Math SAT Score: '}
+							<span className='acceptedMath2'>{this.getAvgAcceptedSATMath()}</span>
+						</div>
+						<div className='acceptedMathScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('math', this.getAvgAcceptedSATMath())}
+								status='math'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedEBRW1'>
+							{'Average EBRW SAT Score: '}
+							<span className='acceptedEBRW2'>{this.getAvgAcceptedSATEBRW()}</span>
+						</div>
+						<div className='acceptedEBRWScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('ebrw', this.getAvgAcceptedSATEBRW())}
+								status='EBRW'
+								theme={theme}
+							/>
+						</div>
+						<div className='acceptedACT1'>
+							{'Average ACT Score: '}
+							<span className='acceptedACT2'>{this.getAvgAcceptedACT()}</span>
+						</div>
+						<div className='acceptedACTScore'>
+							<span className='acceptedText'>0</span>
+							<Progress
+								className='mathBar'
+								percent={this.getPercent('act', this.getAvgAcceptedACT())}
 								status='ACT'
 								theme={theme}
 							/>

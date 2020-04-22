@@ -1017,7 +1017,9 @@ form h5 {
 #trackerStatContainer {
 	bottom: 50px;
 	display: grid;
-	grid-template-rows: 0px 10px 35px 10px 35px 10px 35px 10px;
+	grid-template-rows: 0px 10px 35px 10px 35px 10px 35px 10px 86px 0px 10px 35px 10px 35px 10px 35px 10px;
+	background-color: white;
+	height: 460px;
 }
 
 #filterStatsText {
@@ -1061,7 +1063,7 @@ form h5 {
 #graphBtn {
 	position: relative;
 	margin-left: 265px;
-	bottom: 180px;
+	bottom: 410px;
 	height: 183px;
 }
 
