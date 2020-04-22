@@ -22,7 +22,17 @@ const queryGetCollege = 'SELECT * FROM college WHERE collegeName=?';
 const queryGetAllColleges = 'SELECT * FROM college';
 const queryGetStudentCollegeDecs =
   'SELECT * FROM college_declaration WHERE userID=?';
+const queryGetCollegesFromStudentDecs =
+  'SELECT c.*, cd.questionable, cd.acceptanceStatus FROM college c, college_declaration cd WHERE c.collegeName=cd.collegeName AND cd.studentID=?;';
 
+const queryGetStudentProfile =
+  'SELECT p.studentID, p.highSchoolGPA, p.SATMath, p.SATEBRW, p.ACTComp FROM student s, profile p WHERE s.userID=? AND s.userID = p.studentID;';
+const queryGetSimilarStudentProfiles =
+  'SELECT f.studentID FROM profile f WHERE f.studentID<>? AND (f.highSchoolGPA BETWEEN ?-0.2 AND ?+0.2) AND (f.SATMath BETWEEN ?-40 AND ?+40) AND (f.SATEBRW BETWEEN ?-40 AND ?+40) AND (f.ACTComp BETWEEN ?-3 AND ?+3);';
+const queryGetSimilarStudentAcceptanceStatus =
+  'SELECT acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=?';
+const querygetCollegeAvg =
+  'SELECT GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;';
 // const queryMajor = 'majors LIKE "%?%"';
 // const queryTwoMajors = '(majors LIKE "%?%" OR majors LIKE "%?%")';
 // const queryMajorLax = '(majors LIKE "%?%" OR majors IS NULL)';
@@ -30,6 +40,115 @@ const queryGetStudentCollegeDecs =
 //   '((majors LIKE "%?%" OR majors LIKE "%?%") OR majors IS NULL)';
 
 module.exports = function (app, connection) {
+  promisifyQuery = (sql, args) => {
+    return new Promise((resolve, reject) => {
+      connection.query(sql, args, (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  };
+
+  app.post('/computeCollegeRecs', (req, res) => {
+    const { userID, collegeNames } = req.body;
+
+    promisifyQuery(queryGetStudentProfile, [userID])
+      .then((results) => {
+        console.log(results[0]);
+        const {
+          studentID,
+          highSchoolGPA,
+          SATMath,
+          SATEBRW,
+          ACTComp,
+        } = results[0];
+
+        return promisifyQuery(queryGetSimilarStudentProfiles, [
+          studentID,
+          highSchoolGPA,
+          highSchoolGPA,
+          SATMath,
+          SATMath,
+          SATEBRW,
+          SATEBRW,
+          ACTComp,
+          ACTComp,
+        ]);
+      })
+      .then((results) => {
+        const similarStudentIDs = results.map(({ studentID }) => studentID);
+        if (results == 0) {
+          return results;
+          // no similar student profiles
+          // go somewhere else
+        } else {
+          return Promise.all([
+            Promise.all(
+              ['Stony Brook University'].map((collegeName) => {
+                return new Promise((resolve, reject) => {
+                  Promise.all(
+                    similarStudentIDs.map((studentID) => {
+                      // console.log(studentID);
+                      return promisifyQuery(
+                        queryGetSimilarStudentAcceptanceStatus,
+                        [studentID, collegeName]
+                      );
+                    })
+                  )
+                    .then((res) => {
+                      let totalSimilarApplied = 0;
+                      let totalSimilarAccepted = 0;
+                      res.forEach((studentASRow) => {
+                        // console.log(studentASRow);
+                        if (
+                          studentASRow !== undefined &&
+                          studentASRow.length != 0
+                        )
+                          if (!studentASRow) {
+                            console.log('Nothing here so they didnt apply');
+                          } else {
+                            if (
+                              studentASRow[0].acceptanceStatus === 'accepted'
+                            ) {
+                              totalSimilarAccepted++;
+                            }
+                            totalSimilarApplied++;
+                          }
+                      });
+                      // console.log(collegeName);
+                      // console.log(res);
+                      resolve({
+                        collegeName,
+                        totalSimilarAccepted,
+                        totalSimilarApplied,
+                      });
+                    })
+                    .catch((err) => {
+                      // console.log(err);
+                      reject(err);
+                      // return res.sendStatus(500).json('error occurred!');
+                    });
+                });
+              })
+            ),
+            new Promise((resolve, reject) => {
+              return promisifyQuery(queryGetSimilarStudentAcceptanceStatus, [
+                studentID,
+                collegeName,
+              ]);
+            }),
+          ]);
+        }
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(500).json('error occurred!');
+      });
+  });
+
   app.post('/insertCollege', (req, res) => {
     console.log(req.body);
     const body = JSON.parse(req.body);
@@ -74,7 +193,7 @@ module.exports = function (app, connection) {
         console.log(err);
         return res.sendStatus(500).json('error occurred!');
       }
-      console.log(results);
+      // console.log(results);
       res.send(results);
     });
   });
@@ -105,6 +224,22 @@ module.exports = function (app, connection) {
           return;
         }
         res.send(results[0]);
+      }
+    );
+  });
+
+  app.get('/getCollegesFromStudentDecs', (req, res) => {
+    const { userID } = req.query;
+    connection.query(
+      queryGetCollegesFromStudentDecs,
+      [userID],
+      (err, results, fields) => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+          return;
+        }
+        res.send(results);
       }
     );
   });
