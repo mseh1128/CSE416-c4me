@@ -97,8 +97,12 @@ export class ViewProfileScreen extends Component {
         console.log(studentProfile);
         this.setState({ disabled: true });
       } catch (err) {
-        console.log(err);
-        console.log('Error occurred, could not retrieve all colleges');
+        console.log(err.response);
+        if (err.response) {
+          alert(`Error: ${err.response.data.error.sqlMessage}`);
+        } else {
+          alert(`Unknown error occurred`);
+        }
       }
     }
   };

@@ -12,7 +12,7 @@ const queryGetDecision =
 const queryGetStudentIDFromOtherSources =
   'select userID from `user` where name=?';
 
-module.exports = function(app, connection) {
+module.exports = function (app, connection) {
   // app.post('/addCollegeDeclaration', (req, res) => {
   //   const
   //   const body = JSON.parse(req.body);
@@ -26,10 +26,10 @@ module.exports = function(app, connection) {
   //     (err, rows, params) => {
   //       if (err) {
   //         console.log(err);
-  //         res.sendStatus(500);
+  //         res.status(500);
   //         return;
   //       }
-  //       res.sendStatus(200);
+  //       res.status(200);
   //     }
   //   );
   // });
@@ -45,40 +45,47 @@ module.exports = function(app, connection) {
       (err, rows, params) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
+          res.status(500);
           return;
         }
-        res.sendStatus(200);
+        res.status(200);
       }
     );
   });
 
   app.get('/retrieveStudentsDecisions', (req, res) => {
     const collegeName = req.query.collegeName;
-    connection.query(queryGetDecision, [collegeName], (err, results, params) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-        return;
-      }
+    connection.query(
+      queryGetDecision,
+      [collegeName],
+      (err, results, params) => {
+        if (err) {
+          console.log(err);
+          res.status(500);
+          return;
+        }
 
-      console.log(results);
-      res.json(results); //here we want all the people who have been accepted to ...
-    });
+        console.log(results);
+        res.json(results); //here we want all the people who have been accepted to ...
+      }
+    );
   });
 
   app.get('/getUserIDThroughOtherInfo', (req, res) => {
     const studentName = req.query.studentName;
-    connection.query(queryGetStudentIDFromOtherSources, [studentName], (err, results, params) => {
-      if (err){
-        console.log(err);
-        res.sendStatus(500);
-        return;
+    connection.query(
+      queryGetStudentIDFromOtherSources,
+      [studentName],
+      (err, results, params) => {
+        if (err) {
+          console.log(err);
+          res.status(500);
+          return;
+        }
+
+        console.log(results[0]);
+        res.json(results[0]);
       }
-
-      console.log(results[0]);
-      res.json(results[0]);
-    })
+    );
   });
-
 };
