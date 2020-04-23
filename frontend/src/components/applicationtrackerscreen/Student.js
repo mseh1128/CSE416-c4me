@@ -21,9 +21,9 @@ class Student extends React.Component {
 	getMajors = () => {
 		const m1 = this.props.student.major1;
 		const m2 = this.props.student.major2;
-		if ((m1 != '' || m1 != null) && (m2 != '' || m2 != null)) return m1 + ' | ' + m2;
-		else if ((m1 != '' || m1 != null) && (m2 === '' || m2 === null)) return m1;
-		else if ((m2 != '' || m2 === null) && (m1 === '' || m1 != null)) return m2;
+		if (m1 != '' && m1 != null && m2 != '' && m2 != null) return m1 + ' | ' + m2;
+		else if (m1 != '' && m1 != null && (m2 === '' || m2 === null)) return m1;
+		else if (m2 != '' && m2 != null && (m1 === '' || m1 === null)) return m2;
 		else return 'Undecided';
 	};
 
@@ -40,6 +40,16 @@ class Student extends React.Component {
 		if (type == 'rec') {
 			return amount;
 		}
+	};
+
+	getValue = (value) => {
+		if (value === null || value === undefined) return '';
+		else return value;
+	};
+
+	getScore = (value) => {
+		if (value === null || value === undefined) return 'Not Taken';
+		else return value;
 	};
 
 	render() {
@@ -91,11 +101,11 @@ class Student extends React.Component {
 						<div className='studentTitle'> {this.getName()} </div>
 						<div className='studentStatus'> {student.acceptanceStatus} </div>
 					</div>
-					<div className='studentLocation'> {student.highSchoolName} </div>
+					<div className='studentLocation'> {this.getValue(student.highSchoolName)} </div>
 					<div className='studentMajors'>{this.getMajors()}</div>
 					<div className='studentMath1'>
 						{'SAT Math Score: '}
-						<span className='studentMath2'>{student.SATMath}</span>
+						<span className='studentMath2'>{this.getScore(student.SATMath)}</span>
 					</div>
 					<div className='studentMathScore'>
 						<span className='studentText'>0</span>
@@ -108,7 +118,7 @@ class Student extends React.Component {
 					</div>
 					<div className='studentEBRW1'>
 						{'SAT EBRW Score: '}
-						<span className='studentEBRW2'>{student.SATEBRW}</span>
+						<span className='studentEBRW2'>{this.getScore(student.SATEBRW)}</span>
 					</div>
 					<div className='studentEBRWScore'>
 						<span className='studentText'>0</span>
@@ -121,7 +131,7 @@ class Student extends React.Component {
 					</div>
 					<div className='studentACT1'>
 						{'ACT Composite Score: '}
-						<span className='studentACT2'>{student.ACTComp}</span>
+						<span className='studentACT2'>{this.getScore(student.ACTComp)}</span>
 					</div>
 					<div className='studentEBRWScore'>
 						<span className='studentText'>0</span>

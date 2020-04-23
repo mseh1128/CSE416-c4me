@@ -4,8 +4,6 @@ import { Redirect } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import M, { TapTarget } from 'materialize-css';
 import Undo from '@material-ui/icons/Undo';
-import Edit from '@material-ui/icons/Edit';
-import Save from '@material-ui/icons/Save';
 import PropTypes from 'prop-types';
 
 import StudentCollegesList from './StudentCollegesList.js';
@@ -17,7 +15,6 @@ import axios from 'axios';
 export class ViewOtherScreen extends Component {
 	//current way state obtains data is temporary to assist frontend development
 	state = {
-		college: '',
 		disabled: true,
 		username: '',
 		name: '',
@@ -46,6 +43,9 @@ export class ViewOtherScreen extends Component {
 		SATChem: '',
 		SATPhysics: '',
 		passedAPAmount: '',
+		collegesWithDecs: [],
+		finishedLoading: false,
+		college: '',
 	};
 
 	componentDidMount = async () => {
@@ -64,15 +64,24 @@ export class ViewOtherScreen extends Component {
 			});
 
 			const userID = theVoiceOfLoveTakeYouHigher.data.userID;
-			const studentInfo = await axios.get('/getStudentInfo', {
-				params: {
-					userID: userID,
-				},
+			const allData = await Promise.all([
+				axios.get('/getStudentInfo', {
+					params: { userID },
+				}),
+				axios.get('/getCollegesFromStudentDecs', {
+					params: { userID },
+				}),
+			]);
+
+			const studentProfile = allData[0].data[0];
+			const collegesData = allData[1].data;
+			console.log(studentProfile);
+			this.setState({
+				...studentProfile,
+				collegesWithDecs: collegesData,
+				finishedLoading: true,
 			});
 
-			const actualStudentInfo = studentInfo.data[0];
-			console.log(actualStudentInfo);
-			this.setState({ ...this.state, ...actualStudentInfo });
 			console.log(this.state);
 		} catch (err) {
 			console.log(err);
@@ -82,6 +91,7 @@ export class ViewOtherScreen extends Component {
 
 	goBack = async () => {
 		//const { id } = this.props.match.params;
+		console.log(id);
 
 		let queryStudentsDecisions = '';
 		const id = this.state.college.collegeName;
@@ -102,6 +112,13 @@ export class ViewOtherScreen extends Component {
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	getValue = (value) => {
+		if (value === -1 || value == null) {
+			return '';
+		}
+		return value;
 	};
 
 	getScore(score) {
@@ -139,25 +156,27 @@ export class ViewOtherScreen extends Component {
 								<span className='profileHeader'>General Education</span>
 							</div>
 							<div>
-								<span className='profileText'>User ID:</span>
+								<span className='profileText'>Username:</span>
 								<input
 									type='textfield'
-									id='userIDInput'
+									id='username'
 									className='profilePrompt'
-									style={{ left: '60px' }}
+									style={{ left: '43px' }}
 									disabled={this.state.disabled}
-									value={this.state.username}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.username)}
 								></input>
-								<span className='profileText' style={{ left: '110px' }}>
+								<span className='profileText' style={{ left: '92px' }}>
 									HS Name:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='high_school_name'
-									style={{ left: '134px' }}
+									id='highSchoolName'
+									style={{ left: '116px' }}
 									disabled={this.state.disabled}
-									value={this.state.highSchoolName}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolName)}
 								></input>
 							</div>
 							<div>
@@ -168,7 +187,8 @@ export class ViewOtherScreen extends Component {
 									id='nameInput'
 									style={{ left: '76px' }}
 									disabled={this.state.disabled}
-									value={this.state.name}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.name)}
 								></input>
 								<span className='profileText' style={{ left: '125px' }}>
 									HS City:
@@ -176,10 +196,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='high_school_city'
+									id='highSchoolCity'
 									style={{ left: '161px' }}
 									disabled={this.state.disabled}
-									value={this.state.highSchoolCity}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolCity)}
 								></input>
 							</div>
 							<div>
@@ -187,9 +208,10 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='residence_state'
+									id='residenceState'
 									disabled={this.state.disabled}
-									value={this.state.residenceState}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.residenceState)}
 								></input>
 								<span className='profileText' style={{ left: '49px' }}>
 									HS State:
@@ -197,10 +219,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='high_school_state'
+									id='highSchoolState'
 									style={{ left: '80px' }}
 									disabled={this.state.disabled}
-									value={this.state.highSchoolState}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolState)}
 								></input>
 							</div>
 							<div>
@@ -211,7 +234,8 @@ export class ViewOtherScreen extends Component {
 									id='major1'
 									style={{ left: '11px' }}
 									disabled={this.state.disabled}
-									value={this.state.major1}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.major1)}
 								></input>
 								<span className='profileText' style={{ left: '58px' }}>
 									GPA:
@@ -219,10 +243,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='GPA'
+									id='highSchoolGPA'
 									style={{ left: '121px' }}
 									disabled={this.state.disabled}
-									value={this.state.highSchoolGPA}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolGPA)}
 								></input>
 							</div>
 							<div>
@@ -233,28 +258,45 @@ export class ViewOtherScreen extends Component {
 									id='major2'
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
-									value={this.state.major2}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.major2)}
 								></input>
 								<span className='profileText' style={{ left: '61px' }}>
-									Class:
+									Grad Year:
 								</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='college_class'
-									style={{ left: '120px' }}
+									id='collegeClass'
+									style={{ left: '80px' }}
 									disabled={this.state.disabled}
-									value={this.state.collegeClass}
+									onChange={this.handleChangeNumber}
+									value={this.getValue(this.state.collegeClass)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '395px' }}>
+									AP's Passed:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									style={{ left: '405px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeNumber}
+									value={this.getValue(this.state.passedAPAmount)}
 								></input>
 							</div>
 						</div>
-						<div>
-							<div id='collegeInfoList'>
-								<div id='generalHSHeader'>
-									<span className='profileHeader'>Their Applications</span>
-								</div>
-								<StudentCollegesList disabled={this.state.disabled} />
+
+						<div id='collegeInfoList'>
+							<div id='generalCollegeHeader'>
+								<span className='profileHeader'>Your Applications</span>
 							</div>
+							<StudentCollegesList
+								colleges={this.state.collegesWithDecs}
+								disabled={this.state.disabled}
+							/>
 						</div>
 						<div id='educationInfoList'>
 							<div id='generalHSHeader'>
@@ -266,10 +308,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Math'
+									id='SATMath'
 									style={{ left: '41px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATMath)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATMath)}
 								></input>
 								<span className='profileText' style={{ left: '91px' }}>
 									US:
@@ -277,10 +320,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_US_hist'
-									style={{ left: '164px' }}
+									id='SATUSHist'
+									style={{ left: '166px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATUSHist)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATUSHist)}
 								></input>
 							</div>
 							<div>
@@ -288,10 +332,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_EBRW'
+									id='SATEBRW'
 									style={{ left: '29px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATEBRW)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATEBRW)}
 								></input>
 								<span className='profileText' style={{ left: '80px' }}>
 									World:
@@ -299,10 +344,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_World_hist'
-									style={{ left: '127px' }}
+									id='SATWorldHist'
+									style={{ left: '128px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATWorldHist)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATWorldHist)}
 								></input>
 							</div>
 							<div>
@@ -310,10 +356,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Math'
-									style={{ left: '36px' }}
+									id='ACTMath'
+									style={{ left: '37px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.ACTMath)}
+									onChange={this.handleChangeACT}
+									value={this.getValue(this.state.ACTMath)}
 								></input>
 								<span className='profileText' style={{ left: '87px' }}>
 									Math I:
@@ -321,10 +368,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Math_1'
+									id='SATMath1'
 									style={{ left: '131px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATMath1)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATMath1)}
 								></input>
 							</div>
 							<div>
@@ -332,10 +380,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_English'
+									id='ACTEng'
 									style={{ left: '20px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.ACTEng)}
+									onChange={this.handleChangeACT}
+									value={this.getValue(this.state.ACTEng)}
 								></input>
 								<span className='profileText' style={{ left: '71px' }}>
 									Math II:
@@ -343,10 +392,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Math_2'
+									id='SATMath2'
 									style={{ left: '108px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATMath2)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATMath2)}
 								></input>
 							</div>
 							<div>
@@ -354,10 +404,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Reading'
+									id='ACTReading'
 									style={{ left: '14px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.ACTReading)}
+									onChange={this.handleChangeACT}
+									value={this.getValue(this.state.ACTReading)}
 								></input>
 								<span className='profileText' style={{ left: '65px' }}>
 									Eco Bio:
@@ -365,43 +416,24 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Eco_Bio'
+									id='SATEcoBio'
 									style={{ left: '103px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATEcoBio)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATEcoBio)}
 								></input>
 							</div>
-							<div>
-								<span className='profileText'>SAT Literature:</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='ACT_Literature'
-									style={{ left: '-1px' }}
-									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATLit)}
-								></input>
-								<span className='profileText' style={{ left: '49px' }}>
-									Molecular Bio:
-								</span>
-								<input
-									type='textfield'
-									className='profilePrompt'
-									id='SAT_Mol_Bio'
-									style={{ left: '37px' }}
-									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATMolBio)}
-								></input>
-							</div>
+
 							<div>
 								<span className='profileText'>ACT Science:</span>
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Science'
+									id='ACTSci'
 									style={{ left: '21px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.ACTSci)}
+									onChange={this.handleChangeACT}
+									value={this.getValue(this.state.ACTSci)}
 								></input>
 								<span className='profileText' style={{ left: '72px' }}>
 									Chemistry:
@@ -409,10 +441,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Chemistry'
+									id='SATChem'
 									style={{ left: '88px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATChem)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATChem)}
 								></input>
 							</div>
 							<div>
@@ -420,10 +453,11 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='ACT_Composite'
+									id='ACTComp'
 									style={{ left: '-4px' }}
-									disabled={this.state.disabled}
-									value={this.getScore(this.state.ACTComp)}
+									disabled={true}
+									onChange={this.handleChangeACT}
+									value={this.state.ACTComp}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
 									Physics:
@@ -431,10 +465,39 @@ export class ViewOtherScreen extends Component {
 								<input
 									type='textfield'
 									className='profilePrompt'
-									id='SAT_Physics'
+									id='SATPhysics'
 									style={{ left: '87px' }}
 									disabled={this.state.disabled}
-									value={this.getScore(this.state.SATPhysics)}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATPhysics)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '400px' }}>
+									Molecular Bio:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATMolBio'
+									style={{ left: '388px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATMolBio)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '400px' }}>
+									Literature:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='SATLit'
+									style={{ left: '417px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeSAT}
+									value={this.getValue(this.state.SATLit)}
 								></input>
 							</div>
 						</div>
