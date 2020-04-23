@@ -32,7 +32,7 @@ module.exports = function (app, connection) {
       );
     } catch (err) {
       console.log(err);
-      return res.sendStatus(500).json('error occurred!');
+      return res.status(500).json('error occurred!');
     }
   });
 
@@ -42,7 +42,7 @@ module.exports = function (app, connection) {
       return res.send('College data was succesfully scraped & saved to DB!');
     } catch (err) {
       console.log(err);
-      return res.sendStatus(500).json('error occurred!');
+      return res.status(500).json('error occurred!');
     }
   });
 
@@ -54,7 +54,7 @@ module.exports = function (app, connection) {
       );
     } catch (err) {
       console.log(err);
-      return res.sendStatus(500).json('error occurred!');
+      return res.status(500).json('error occurred!');
     }
   });
 
@@ -162,7 +162,7 @@ module.exports = function (app, connection) {
           })
           .on('error', (e) => {
             console.log(err);
-            return res.sendStatus(500).json('error occurred!');
+            return res.status(500).json('error occurred!');
           });
         // return res.send('All student profiles were imported successfully!');
       })
@@ -170,7 +170,7 @@ module.exports = function (app, connection) {
         // error occurs b/c closing stream prematurely
         // so may attemp to push after EOF
         console.log(err);
-        return res.sendStatus(500).json('error occurred!');
+        return res.status(500).json('error occurred!');
       });
     // try {
     //   await connection.query(
@@ -180,7 +180,7 @@ module.exports = function (app, connection) {
     // } catch (err) {
     //   console.log(err);
     //   console.log(err);
-    //   return res.sendStatus(500).json('error occurred!');
+    //   return res.status(500).json('error occurred!');
     // }
   });
 
@@ -191,7 +191,7 @@ module.exports = function (app, connection) {
     } catch (err) {
       console.log(err);
       console.log(err);
-      return res.sendStatus(500).json('error occurred!');
+      return res.status(500).json('error occurred!');
     }
   });
 };

@@ -29,7 +29,7 @@ module.exports = function (app, connection) {
         // const token = jwt.sign(payload, process.env.SECRET_OR_KEY);
         // need to change secret to environment var
         const token = jwt.sign(results[0].userID, 'jwt_secret_key');
-        return res.send({ jwtToken: token, isAdmin: results[0].isAdmin});
+        return res.send({ jwtToken: token, isAdmin: results[0].isAdmin });
       }
     );
   });
@@ -62,7 +62,7 @@ module.exports = function (app, connection) {
                   connection.query(queryInstantiateStudent, [insertId]),
                   connection.query(queryInstantiateProfile, [insertId]),
                 ]);
-                return res.sendStatus(200);
+                return res.status(200);
               } catch (err) {
                 console.log(err);
                 return res.status(500).json('err!');

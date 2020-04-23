@@ -84,6 +84,7 @@ export class ViewProfileScreen extends Component {
 		return copyState;
 	};
 
+<<<<<<< HEAD
 	saveChanges = async () => {
 		if (this.checkForEmptyKeyInputs()) {
 			alert('Username/name cannot be empty');
@@ -102,6 +103,30 @@ export class ViewProfileScreen extends Component {
 			}
 		}
 	};
+=======
+  saveChanges = async () => {
+    if (this.checkForEmptyKeyInputs()) {
+      alert('Username/name cannot be empty');
+    } else {
+      try {
+        const test = this.convertEmptyInputsToNull();
+        const studentProfile = await axios.post('/updateStudentInfo', {
+          state: this.convertEmptyInputsToNull(),
+          userID: this.props.user.userID,
+        });
+        console.log(studentProfile);
+        this.setState({ disabled: true });
+      } catch (err) {
+        console.log(err.response);
+        if (err.response) {
+          alert(`Error: ${err.response.data.error.sqlMessage}`);
+        } else {
+          alert(`Unknown error occurred`);
+        }
+      }
+    }
+  };
+>>>>>>> 0f3821e41a42f1367be961be0e3d46297d3839c6
 
 	getComp = () => {
 		let sum = 0;

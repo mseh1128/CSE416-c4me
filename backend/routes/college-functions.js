@@ -126,7 +126,7 @@ module.exports = function (app, connection) {
                     .catch((err) => {
                       // console.log(err);
                       reject(err);
-                      // return res.sendStatus(500).json('error occurred!');
+                      // return res.status(500).json('error occurred!');
                     });
                 });
               })
@@ -145,7 +145,7 @@ module.exports = function (app, connection) {
       })
       .catch((err) => {
         console.log(err);
-        return res.sendStatus(500).json('error occurred!');
+        return res.status(500).json('error occurred!');
       });
   });
 
@@ -179,10 +179,10 @@ module.exports = function (app, connection) {
       (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
+          res.status(500);
           return;
         }
-        res.sendStatus(200);
+        res.status(200);
       }
     );
   });
@@ -191,7 +191,7 @@ module.exports = function (app, connection) {
     connection.query(queryGetAllColleges, (err, results, fields) => {
       if (err) {
         console.log(err);
-        return res.sendStatus(500).json('error occurred!');
+        return res.status(500).json('error occurred!');
       }
       // console.log(results);
       res.send(results);
@@ -204,7 +204,7 @@ module.exports = function (app, connection) {
     connection.query(queryGetCollege, [collegeName], (err, results, fields) => {
       if (err) {
         console.log(err);
-        res.sendStatus(500);
+        res.status(500);
         return;
       }
       console.log(results);
@@ -220,7 +220,7 @@ module.exports = function (app, connection) {
       (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
+          res.status(500);
           return;
         }
         res.send(results[0]);
@@ -236,7 +236,7 @@ module.exports = function (app, connection) {
       (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
+          res.status(500);
           return;
         }
         res.send(results);
@@ -471,7 +471,7 @@ module.exports = function (app, connection) {
     connection.query(baseSearchQuery, (err, results, fields) => {
       if (err) {
         console.log(err);
-        return res.sendStatus(500).json('Fetching college data went wrong');
+        return res.status(500).json('Fetching college data went wrong');
       }
       console.log('reached here');
       // console.log(results);

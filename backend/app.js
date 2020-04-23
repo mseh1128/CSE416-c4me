@@ -46,7 +46,7 @@ const queryGetUserFromID = 'SELECT * FROM user WHERE userID=?';
 // passport.use(strategy);
 // app.use(passport.initialize());
 
-app.get('/getUser', checkToken, async (req, res) => {
+app.get('/getUser', checkToken, (req, res) => {
   const { userID } = req;
   connection.query(queryGetUserFromID, [userID], (err, results, fields) => {
     if (err) {

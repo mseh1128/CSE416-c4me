@@ -7,22 +7,29 @@ const updateStudentInfo =
 const updateProfileInfo =
   'UPDATE profile SET highSchoolGPA = ?, SATMath = ?, SATEBRW = ?, ACTEng = ?, ACTMath = ?, ACTReading = ?, ACTSci = ?, ACTComp = ?, SATLit = ?, SATUSHist = ?, SATWorldHist = ?, SATMath1 = ?, SATMath2 = ?, SATEcoBio = ?, SATMolBio = ?, SATChem = ?, SATPhysics = ?, passedAPAmount = ? WHERE studentID = ?';
 
-
-
 module.exports = function (app, connection) {
+  promisifyQuery = (sql, args) => {
+    return new Promise((resolve, reject) => {
+      connection.query(sql, args, (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  };
+
   app.get('/getStudentInfo', (req, res) => {
     console.log(req.query);
     const { userID } = req.query;
     // inclues student & profile info for student
-
-    connection.query(getStudentInfo, [userID], (err, results, fields) => {
-      if (err) {
+    promisifyQuery(getStudentInfo, [userID])
+      .then((results) => {
+        console.log(results);
+        res.send(results);
+      })
+      .catch((err) => {
         console.log(err);
-        return res.sendStatus(500).json('error occurred!');
-      }
-      console.log(results);
-      res.send(results);
-    });
+        return res.status(500).json('error occurred!');
+      });
   });
 
   app.post('/updateStudentInfo', (req, res) => {
@@ -32,9 +39,8 @@ module.exports = function (app, connection) {
     // res.send(state);
     // try {
     Promise.all([
-      connection.query(updateUserInfo, [state.username, state.name, userID]),
-
-      connection.query(updateStudentInfo, [
+      promisifyQuery(updateUserInfo, [state.username, state.name, userID]),
+      promisifyQuery(updateStudentInfo, [
         state.residenceState,
         state.highSchoolCity,
         state.major1,
@@ -44,8 +50,7 @@ module.exports = function (app, connection) {
         state.collegeClass,
         userID,
       ]),
-
-      connection.query(updateProfileInfo, [
+      promisifyQuery(updateProfileInfo, [
         state.highSchoolGPA,
         state.SATMath,
         state.SATEBRW,
@@ -75,7 +80,8 @@ module.exports = function (app, connection) {
         // mysql overriding this for some annoying reason!
         console.log('in here error page');
         console.log('error occurred');
-        return res.sendStatus(500).json('error occurred!');
+        console.log(err);
+        return res.status(500).send({ error: err });
       });
   });
 };
