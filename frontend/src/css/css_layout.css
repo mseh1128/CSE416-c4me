@@ -1005,6 +1005,7 @@ form h5 {
 	margin-top: 60px;
 	display: grid;
 	grid-template-columns: 20px 220px;
+	height: 10px;
 }
 
 .studentEBRWScore {
