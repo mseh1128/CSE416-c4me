@@ -30,9 +30,10 @@ const queryGetStudentProfile =
 const queryGetNumOfNonNullFields =
   'SELECT SUM(!ISNULL(highSchoolGPA)+!ISNULL(SATMath)+!ISNULL(SATEBRW)+!ISNULL(ACTComp)) AS numOfNonNullFields FROM profile p WHERE p.studentID=?;';
 const queryGetSimilarStudentProfiles =
-  'SELECT f.studentID FROM profile f WHERE f.studentID<>? AND (f.highSchoolGPA BETWEEN ?-0.2 AND ?+0.2) AND (f.SATMath BETWEEN ?-40 AND ?+40) AND (f.SATEBRW BETWEEN ?-40 AND ?+40) AND (f.ACTComp BETWEEN ?-3 AND ?+3);';
+  'SELECT f.studentID FROM profile f WHERE f.studentID<>? AND (? OR (f.highSchoolGPA BETWEEN ?-0.2 AND ?+0.2)) AND (? OR (f.SATMath BETWEEN ?-40 AND ?+40)) AND (? OR (f.SATEBRW BETWEEN ?-40 AND ?+40)) AND (? OR (f.ACTComp BETWEEN ?-3 AND ?+3));';
+
 const queryGetSimilarStudentAcceptanceStatus =
-  'SELECT acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=?';
+  'SELECT studentID, acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=?';
 const querygetCollegeAvg =
   'SELECT state, GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;';
 // const queryMajor = 'majors LIKE "%?%"';
@@ -139,17 +140,22 @@ module.exports = function (app, connection) {
 
         return promisifyQuery(queryGetSimilarStudentProfiles, [
           studentID,
+          highSchoolGPA === null,
           highSchoolGPA,
           highSchoolGPA,
+          SATMath === null,
           SATMath,
           SATMath,
+          SATEBRW === null,
           SATEBRW,
           SATEBRW,
+          ACTComp === null,
           ACTComp,
           ACTComp,
         ]);
       })
       .then((results) => {
+        // console.log(results);
         const similarStudentIDs = results.map(({ studentID }) => studentID);
         if (results == 0) {
           console.log('results are 0');
@@ -176,6 +182,8 @@ module.exports = function (app, connection) {
                     .then((res) => {
                       let totalSimilarApplied = 0;
                       let totalSimilarAccepted = 0;
+                      const similarStudentIDsApplied = [];
+                      const similarStudentIDsAccepted = [];
                       res.forEach((studentASRow) => {
                         // console.log(studentASRow);
                         if (
@@ -189,8 +197,14 @@ module.exports = function (app, connection) {
                               studentASRow[0].acceptanceStatus === 'accepted'
                             ) {
                               totalSimilarAccepted++;
+                              similarStudentIDsAccepted.push(
+                                studentASRow[0].studentID
+                              );
                             }
                             totalSimilarApplied++;
+                            similarStudentIDsApplied.push(
+                              studentASRow[0].studentID
+                            );
                           }
                       });
                       // console.log(collegeName);
@@ -199,6 +213,8 @@ module.exports = function (app, connection) {
                         collegeName,
                         totalSimilarAccepted,
                         totalSimilarApplied,
+                        similarStudentIDsAccepted,
+                        similarStudentIDsApplied,
                       ]);
                     })
                     .catch((err) => {
@@ -216,6 +232,7 @@ module.exports = function (app, connection) {
       .then((res) => {
         const cNameToRecScore = {};
         if (res[1] === null) {
+          console.log('No student profiles');
           // ie there were no similar profiles
           const avgResArr = res[0];
           const avgRes = {};
@@ -229,18 +246,35 @@ module.exports = function (app, connection) {
             const { totalScoreAsPerc } = avgRes[cName];
             if (totalScoreAsPerc === null) {
               // if no similar profiless & totalScoreAsPerc cannot be computed, set score to NULL!
-              cNameToRecScore[cName] = null;
+              cNameToRecScore[cName] = {
+                recScore: null,
+                similarStudentIDsAccepted: [],
+                similarStudentIDsApplied: [],
+              };
             }
-            cNameToRecScore[cName] = 100 * avgRes[cName].totalScoreAsPerc;
+            cNameToRecScore[cName] = {
+              recScore: 100 * avgRes[cName].totalScoreAsPerc,
+              similarStudentIDsAccepted: [],
+              similarStudentIDsApplied: [],
+            };
           });
         } else {
+          console.log('There are student profiles');
           const similarProfArr = res[0];
           const similarProfRes = {};
           similarProfArr.forEach(
-            ([collegeName, totalSimilarAccepted, totalSimilarApplied]) => {
+            ([
+              collegeName,
+              totalSimilarAccepted,
+              totalSimilarApplied,
+              similarStudentIDsAccepted,
+              similarStudentIDsApplied,
+            ]) => {
               similarProfRes[collegeName] = {
                 totalSimilarAccepted,
                 totalSimilarApplied,
+                similarStudentIDsAccepted,
+                similarStudentIDsApplied,
               };
             }
           );
@@ -260,68 +294,86 @@ module.exports = function (app, connection) {
             const {
               totalSimilarAccepted,
               totalSimilarApplied,
+              similarStudentIDsAccepted,
+              similarStudentIDsApplied,
             } = similarProfRes[cName];
             const { totalScoreAsPerc } = avgRes[cName];
+            const recScoreStats = {};
+            recScoreStats[
+              'similarStudentIDsAccepted'
+            ] = similarStudentIDsAccepted;
+            recScoreStats[
+              'similarStudentIDsApplied'
+            ] = similarStudentIDsApplied;
             if (totalSimilarApplied === 0) {
               // console.log('no similar');
               if (totalScoreAsPerc === null) {
                 // console.log('in tscore cant be computed');
-                cNameToRecScore[cName] = null;
+                recScoreStats['recScore'] = null;
                 // if no applied profs & totalScoreAsPerc cannot be computed, set score to NULL!
               } else {
                 // console.log('in totalscore can be computed onlu');
                 // no applied profs, but totalScoreAsPerc exists
-                cNameToRecScore[cName] = 100 * totalScoreAsPerc;
+                recScoreStats['recScore'] = 100 * totalScoreAsPerc;
               }
             } else if (totalSimilarApplied < 20) {
               if (totalScoreAsPerc === null) {
                 // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
-                cNameToRecScore[cName] =
+                recScoreStats['recScore'] =
                   100 * (totalSimilarAccepted / totalSimilarApplied);
               } else {
-                cNameToRecScore[cName] =
+                recScoreStats['recScore'] =
                   10 * (totalSimilarAccepted / totalSimilarApplied) +
                   90 * totalScoreAsPerc;
               }
             } else if (totalSimilarApplied >= 20 && totalSimilarApplied < 50) {
               if (totalScoreAsPerc === null) {
                 // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
-                cNameToRecScore[cName] =
+
+                recScoreStats['recScore'] =
                   100 * (totalSimilarAccepted / totalSimilarApplied);
               } else {
-                cNameToRecScore[cName] =
+                // cNameToRecScore[cName] = {
+
+                recScoreStats['recScore'] =
                   30 * (totalSimilarAccepted / totalSimilarApplied) +
                   70 * totalScoreAsPerc;
               }
             } else if (totalSimilarApplied >= 50 && totalSimilarApplied < 100) {
               if (totalScoreAsPerc === null) {
                 // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
-                cNameToRecScore[cName] =
+
+                recScoreStats['recScore'] =
                   100 * (totalSimilarAccepted / totalSimilarApplied);
               } else {
-                cNameToRecScore[cName] =
+                // cNameToRecScore[cName] = {
+
+                recScoreStats['recScore'] =
                   50 * (totalSimilarAccepted / totalSimilarApplied) +
                   50 * totalScoreAsPerc;
               }
             } else {
               if (totalScoreAsPerc === null) {
                 // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
-                cNameToRecScore[cName] =
+
+                recScoreStats['recScore'] =
                   100 * (totalSimilarAccepted / totalSimilarApplied);
               } else {
-                cNameToRecScore[cName] =
+                recScoreStats['recScore'] =
                   70 * (totalSimilarAccepted / totalSimilarApplied) +
                   30 * totalScoreAsPerc;
               }
               // greater than equal to 100
             }
             // console.log(cNameToRecScore);
+            cNameToRecScore[cName] = recScoreStats;
           });
           // if (similarProfRes) console.log(similarProfRes);
         }
         return cNameToRecScore;
       })
       .then((res) => {
+        // console.log(res);
         response.send(res);
       })
       .catch((err) => {
