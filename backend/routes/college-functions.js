@@ -33,7 +33,7 @@ const queryGetSimilarStudentProfiles =
   'SELECT f.studentID FROM profile f WHERE f.studentID<>? AND (? OR (f.highSchoolGPA BETWEEN ?-0.2 AND ?+0.2)) AND (? OR (f.SATMath BETWEEN ?-40 AND ?+40)) AND (? OR (f.SATEBRW BETWEEN ?-40 AND ?+40)) AND (? OR (f.ACTComp BETWEEN ?-3 AND ?+3));';
 
 const queryGetSimilarStudentAcceptanceStatus =
-  'SELECT studentID, acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=?';
+  'SELECT studentID, acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=? and questionable=0';
 const querygetCollegeAvg =
   'SELECT state, GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;';
 // const queryMajor = 'majors LIKE "%?%"';
@@ -180,6 +180,8 @@ module.exports = function (app, connection) {
                     })
                   )
                     .then((res) => {
+                      // console.log(similarStudentIDs);
+                      console.log(res);
                       let totalSimilarApplied = 0;
                       let totalSimilarAccepted = 0;
                       const similarStudentIDsApplied = [];
