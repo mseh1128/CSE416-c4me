@@ -66,14 +66,15 @@ export class CollegeSearchScreen extends Component {
 				userID,
 				collegeNames,
 			});
+			console.log(collegeRecData);
 			console.log(collegeRecData.data);
 
 			let recColleges = this.state.colleges;
 
 			recColleges.forEach((college) => {
 				let name = college.collegeName;
-				if (collegeRecData.data[name] !== null || collegeRecData.data[name] !== undefined) {
-					let score = Math.floor(collegeRecData.data[name]);
+				if (collegeRecData.data[name] !== null && collegeRecData.data[name] !== undefined) {
+					let score = Math.floor(collegeRecData.data[name].recScore);
 					college.recScore = score;
 				}
 			});
