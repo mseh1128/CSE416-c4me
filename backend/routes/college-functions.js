@@ -26,13 +26,15 @@ const queryGetCollegesFromStudentDecs =
   'SELECT c.*, cd.questionable, cd.acceptanceStatus FROM college c, college_declaration cd WHERE c.collegeName=cd.collegeName AND cd.studentID=?;';
 
 const queryGetStudentProfile =
-  'SELECT p.studentID, p.highSchoolGPA, p.SATMath, p.SATEBRW, p.ACTComp FROM student s, profile p WHERE s.userID=? AND s.userID = p.studentID;';
+  'SELECT s.residenceState, p.studentID, p.highSchoolGPA, p.SATMath, p.SATEBRW, p.ACTComp FROM student s, profile p WHERE s.userID=? AND s.userID = p.studentID;';
+const queryGetNumOfNonNullFields =
+  'SELECT SUM(!ISNULL(highSchoolGPA)+!ISNULL(SATMath)+!ISNULL(SATEBRW)+!ISNULL(ACTComp)) AS numOfNonNullFields FROM profile p WHERE p.studentID=?;';
 const queryGetSimilarStudentProfiles =
   'SELECT f.studentID FROM profile f WHERE f.studentID<>? AND (f.highSchoolGPA BETWEEN ?-0.2 AND ?+0.2) AND (f.SATMath BETWEEN ?-40 AND ?+40) AND (f.SATEBRW BETWEEN ?-40 AND ?+40) AND (f.ACTComp BETWEEN ?-3 AND ?+3);';
 const queryGetSimilarStudentAcceptanceStatus =
   'SELECT acceptanceStatus FROM college_declaration WHERE studentID=? AND collegeName=?';
 const querygetCollegeAvg =
-  'SELECT GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;';
+  'SELECT state, GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;';
 // const queryMajor = 'majors LIKE "%?%"';
 // const queryTwoMajors = '(majors LIKE "%?%" OR majors LIKE "%?%")';
 // const queryMajorLax = '(majors LIKE "%?%" OR majors IS NULL)';
@@ -49,12 +51,84 @@ module.exports = function (app, connection) {
     });
   };
 
-  app.post('/computeCollegeRecs', (req, res) => {
-    const { userID, collegeNames } = req.body;
+  calculateAvgDiff = (collegeNames, studentProfile) => {
+    const {
+      residenceState,
+      studentID,
+      highSchoolGPA,
+      SATMath,
+      SATEBRW,
+      ACTComp,
+    } = studentProfile;
+    return Promise.all(
+      // console.log(studentProfile);
+      collegeNames.map((collegeName) => {
+        return new Promise((resolve, reject) => {
+          promisifyQuery(querygetCollegeAvg, [collegeName])
+            .then((collegesAvgs) => {
+              const {
+                state,
+                GPA,
+                SATMathScore,
+                SATEBRWScore,
+                ACTScore,
+              } = collegesAvgs[0];
 
-    promisifyQuery(queryGetStudentProfile, [userID])
+              let totalScore = 100;
+              let numOfComparisons = 0;
+              if (GPA && highSchoolGPA) {
+                numOfComparisons++;
+                totalScore -=
+                  2 * Math.floor(Math.abs((highSchoolGPA * 10 - GPA * 10) / 2));
+              }
+              if (SATMathScore && SATMath) {
+                numOfComparisons++;
+                totalScore -= Math.floor(
+                  Math.abs((SATMath - SATMathScore) / 5)
+                );
+              }
+              if (SATEBRWScore && SATEBRW) {
+                numOfComparisons++;
+                totalScore -= Math.floor(
+                  Math.abs((SATEBRW - SATEBRWScore) / 5)
+                );
+              }
+              if (ACTScore && ACTComp) {
+                numOfComparisons++;
+                totalScore -=
+                  3 * Math.floor(Math.abs((ACTComp - ACTScore) / 1));
+              }
+              if (state && residenceState !== state) {
+                totalScore -= 5;
+              }
+              if (numOfComparisons < 2) resolve([collegeName, null]);
+              if (totalScore < 0) totalScore = 0;
+              resolve([collegeName, totalScore / 100]);
+            })
+            .catch((err) => {
+              console.log('Error occurred trying to get college stats');
+              return reject(err);
+            });
+        });
+      })
+    );
+  };
+
+  app.post('/computeCollegeRecs', (req, response) => {
+    const { userID, collegeNames } = req.body;
+    let studentProfile = null;
+    promisifyQuery(queryGetNumOfNonNullFields, [userID])
+      .then((res) => {
+        if (res[0].numOfNonNullFields < 2) {
+          throw 'You need atleast 2 of the following to compute college rec score: GPA, SATMath, SATEBRW, ACT Composite';
+        }
+      })
+      .then(() => {
+        return promisifyQuery(queryGetStudentProfile, [userID]);
+      })
       .then((results) => {
-        console.log(results[0]);
+        // console.log(results[0]);
+        studentProfile = results[0];
         const {
           studentID,
           highSchoolGPA,
@@ -78,13 +152,17 @@ module.exports = function (app, connection) {
       .then((results) => {
         const similarStudentIDs = results.map(({ studentID }) => studentID);
         if (results == 0) {
-          return results;
+          console.log('results are 0');
           // no similar student profiles
-          // go somewhere else
+          // immediately do the calcualte avg diff
+          return Promise.all([
+            this.calculateAvgDiff(collegeNames, studentProfile),
+            null,
+          ]);
         } else {
           return Promise.all([
             Promise.all(
-              ['Stony Brook University'].map((collegeName) => {
+              collegeNames.map((collegeName) => {
                 return new Promise((resolve, reject) => {
                   Promise.all(
                     similarStudentIDs.map((studentID) => {
@@ -117,11 +195,11 @@ module.exports = function (app, connection) {
                       });
                       // console.log(collegeName);
                       // console.log(res);
-                      resolve({
+                      resolve([
                         collegeName,
                         totalSimilarAccepted,
                         totalSimilarApplied,
-                      });
+                      ]);
                     })
                     .catch((err) => {
                       // console.log(err);
@@ -131,21 +209,125 @@ module.exports = function (app, connection) {
                 });
               })
             ),
-            new Promise((resolve, reject) => {
-              return promisifyQuery(queryGetSimilarStudentAcceptanceStatus, [
-                studentID,
-                collegeName,
-              ]);
-            }),
+            this.calculateAvgDiff(collegeNames, studentProfile),
           ]);
         }
       })
       .then((res) => {
-        console.log(res);
+        const cNameToRecScore = {};
+        if (res[1] === null) {
+          // ie there were no similar profiles
+          const avgResArr = res[0];
+          const avgRes = {};
+          avgResArr.forEach(([collegeName, totalScoreAsPerc]) => {
+            avgRes[collegeName] = {
+              totalScoreAsPerc,
+            };
+          });
+
+          collegeNames.forEach((cName) => {
+            const { totalScoreAsPerc } = avgRes[cName];
+            if (totalScoreAsPerc === null) {
+              // if no similar profiless & totalScoreAsPerc cannot be computed, set score to NULL!
+              cNameToRecScore[cName] = null;
+            }
+            cNameToRecScore[cName] = 100 * avgRes[cName].totalScoreAsPerc;
+          });
+        } else {
+          const similarProfArr = res[0];
+          const similarProfRes = {};
+          similarProfArr.forEach(
+            ([collegeName, totalSimilarAccepted, totalSimilarApplied]) => {
+              similarProfRes[collegeName] = {
+                totalSimilarAccepted,
+                totalSimilarApplied,
+              };
+            }
+          );
+          const avgResArr = res[1];
+          const avgRes = {};
+          avgResArr.forEach(([collegeName, totalScoreAsPerc]) => {
+            avgRes[collegeName] = {
+              totalScoreAsPerc,
+            };
+          });
+
+          // console.log(similarProfRes);
+          // console.log(avgRes);
+
+          // similarProfRes, avgRes
+          collegeNames.forEach((cName) => {
+            const {
+              totalSimilarAccepted,
+              totalSimilarApplied,
+            } = similarProfRes[cName];
+            const { totalScoreAsPerc } = avgRes[cName];
+            if (totalSimilarApplied === 0) {
+              // console.log('no similar');
+              if (totalScoreAsPerc === null) {
+                // console.log('in tscore cant be computed');
+                cNameToRecScore[cName] = null;
+                // if no applied profs & totalScoreAsPerc cannot be computed, set score to NULL!
+              } else {
+                // console.log('in totalscore can be computed onlu');
+                // no applied profs, but totalScoreAsPerc exists
+                cNameToRecScore[cName] = 100 * totalScoreAsPerc;
+              }
+            } else if (totalSimilarApplied < 20) {
+              if (totalScoreAsPerc === null) {
+                // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
+                cNameToRecScore[cName] =
+                  100 * (totalSimilarAccepted / totalSimilarApplied);
+              } else {
+                cNameToRecScore[cName] =
+                  10 * (totalSimilarAccepted / totalSimilarApplied) +
+                  90 * totalScoreAsPerc;
+              }
+            } else if (totalSimilarApplied >= 20 && totalSimilarApplied < 50) {
+              if (totalScoreAsPerc === null) {
+                // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
+                cNameToRecScore[cName] =
+                  100 * (totalSimilarAccepted / totalSimilarApplied);
+              } else {
+                cNameToRecScore[cName] =
+                  30 * (totalSimilarAccepted / totalSimilarApplied) +
+                  70 * totalScoreAsPerc;
+              }
+            } else if (totalSimilarApplied >= 50 && totalSimilarApplied < 100) {
+              if (totalScoreAsPerc === null) {
+                // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
+                cNameToRecScore[cName] =
+                  100 * (totalSimilarAccepted / totalSimilarApplied);
+              } else {
+                cNameToRecScore[cName] =
+                  50 * (totalSimilarAccepted / totalSimilarApplied) +
+                  50 * totalScoreAsPerc;
+              }
+            } else {
+              if (totalScoreAsPerc === null) {
+                // if totalScoreAsPerc cannot be computed, base score completely on similar profiles!
+                cNameToRecScore[cName] =
+                  100 * (totalSimilarAccepted / totalSimilarApplied);
+              } else {
+                cNameToRecScore[cName] =
+                  70 * (totalSimilarAccepted / totalSimilarApplied) +
+                  30 * totalScoreAsPerc;
+              }
+              // greater than equal to 100
+            }
+            // console.log(cNameToRecScore);
+          });
+          // if (similarProfRes) console.log(similarProfRes);
+        }
+        return cNameToRecScore;
+      })
+      .then((res) => {
+        response.send(res);
       })
       .catch((err) => {
+        console.log('error occurred');
         console.log(err);
-        return res.status(500).json('error occurred!');
+        return response.status(500).send({ error: err });
       });
   });
 

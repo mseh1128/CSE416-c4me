@@ -68,16 +68,26 @@ export class CollegeSearchScreen extends Component {
     const collegeNames = colleges.map(({ collegeName }) => collegeName);
 
     try {
+      console.log('HERE');
       const collegeRecData = await axios.post('/computeCollegeRecs', {
         userID,
         collegeNames,
       });
+      console.log(collegeRecData);
       //sort here
       // this.setState({ currentSortType: 'recScore' });
       // this.setState({ colleges: recColleges });
     } catch (err) {
-      console.log(err);
-      console.log('Error occurred, could not get recommend colleges');
+      console.log(err.response);
+      if (err.response) {
+        if (err.response.data.error.sqlMessage) {
+          alert(`Error: ${err.response.data.error.sqlMessage}`);
+        } else {
+          alert(`Error: ${err.response.data.error}`);
+        }
+      } else {
+        alert(`Unknown error occurred`);
+      }
     }
   };
 
