@@ -84,6 +84,7 @@ export class ViewProfileScreen extends Component {
     return copyState;
   };
 
+<<<<<<< HEAD
   saveChanges = async () => {
     if (this.checkForEmptyKeyInputs()) {
       alert('Username/name cannot be empty');
@@ -106,6 +107,30 @@ export class ViewProfileScreen extends Component {
       }
     }
   };
+=======
+	saveChanges = async () => {
+		if (this.checkForEmptyKeyInputs()) {
+			alert('Username/name cannot be empty');
+		} else {
+			try {
+				const test = this.convertEmptyInputsToNull();
+				const studentProfile = await axios.post('/updateStudentInfo', {
+					state: this.convertEmptyInputsToNull(),
+					userID: this.props.user.userID,
+				});
+				console.log(studentProfile);
+				this.setState({ disabled: true });
+			} catch (err) {
+				console.log(err.response);
+				if (err.response) {
+					alert(`Error: ${err.response.data.error.sqlMessage}`);
+				} else {
+					alert(`Unknown error occurred`);
+				}
+			}
+		}
+	};
+>>>>>>> 37760934e6b51647634716752a44069018bbf668
 
   getComp = () => {
     let sum = 0;
@@ -136,17 +161,27 @@ export class ViewProfileScreen extends Component {
     return Math.floor(avg);
   };
 
+<<<<<<< HEAD
   getValue = (value) => {
     if (value === -1 || value == null) {
       return '';
     }
     return value;
   };
+=======
+	getValue = (value) => {
+		if (value === -1 || value === null) {
+			return '';
+		}
+		return value;
+	};
+>>>>>>> 37760934e6b51647634716752a44069018bbf668
 
   componentDidMount = async () => {
     const { user } = this.props;
     const { username, name, userID } = user;
 
+<<<<<<< HEAD
     try {
       const allData = await Promise.all([
         axios.get('/getStudentInfo', {
@@ -171,6 +206,32 @@ export class ViewProfileScreen extends Component {
       console.log('Error occurred, could not get student info');
     }
   };
+=======
+		try {
+			const allData = await Promise.all([
+				axios.get('/getStudentInfo', {
+					params: { userID },
+				}),
+				axios.get('/getCollegesFromStudentDecs', {
+					params: { userID },
+				}),
+			]);
+			const studentProfile = allData[0].data[0];
+			const collegesData = allData[1].data;
+			// console.log(data);
+			console.log(collegesData);
+			console.log(studentProfile);
+			this.setState({
+				...studentProfile,
+				collegesWithDecs: collegesData,
+				finishedLoading: true,
+			});
+		} catch (err) {
+			console.log(err);
+			console.log('Error occurred, could not get student info');
+		}
+	};
+>>>>>>> 37760934e6b51647634716752a44069018bbf668
 
   handleChange = (e) => {
     const { target } = e;
@@ -259,6 +320,7 @@ export class ViewProfileScreen extends Component {
       var instances = M.FormSelect.init(elems, options);
     });
 
+<<<<<<< HEAD
     if (!this.state.finishedLoading) return <div>Loading...</div>;
     return (
       <div className="profile_screen_container">
@@ -426,6 +488,170 @@ export class ViewProfileScreen extends Component {
                 ></input>
               </div>
             </div>
+=======
+		if (!this.state.finishedLoading) return <div>Loading...</div>;
+		return (
+			<div className='profile_screen_container'>
+				<div className='profileContainer'>
+					<div id='profileBanner'>
+						<div />
+						<span className='collegeTitleText'> Your Profile </span>
+						<button className='profileButton' onClick={this.goHome}>
+							{' '}
+							<Home id='profileButtonSymbols' />{' '}
+						</button>
+						<div />
+						<button className='profileButton' onClick={this.startEdit.bind(this)}>
+							{' '}
+							<Edit id='profileButtonSymbols' />{' '}
+						</button>
+						<div />
+						<button className='profileButton' onClick={this.saveChanges.bind(this)}>
+							{' '}
+							<Save id='profileButtonSymbols' />{' '}
+						</button>
+					</div>
+					<div id='profileList'>
+						<div id='generalInfoList'>
+							<div id='generalHSHeader'>
+								<span className='profileHeader'>General Information</span>
+								<span className='profileHeader'>General Education</span>
+							</div>
+							<div>
+								<span className='profileText'>Username:</span>
+								<input
+									type='textfield'
+									id='username'
+									className='profilePrompt'
+									style={{ left: '43px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.username)}
+								></input>
+								<span className='profileText' style={{ left: '92px' }}>
+									HS Name:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='highSchoolName'
+									style={{ left: '116px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolName)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Name:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='nameInput'
+									style={{ left: '76px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.name)}
+								></input>
+								<span className='profileText' style={{ left: '125px' }}>
+									HS City:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='highSchoolCity'
+									style={{ left: '161px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolCity)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Residence State:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='residenceState'
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.residenceState)}
+								></input>
+								<span className='profileText' style={{ left: '49px' }}>
+									HS State:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='highSchoolState'
+									style={{ left: '80px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolState)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Desired major:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='major1'
+									style={{ left: '11px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.major1)}
+								></input>
+								<span className='profileText' style={{ left: '58px' }}>
+									GPA:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='highSchoolGPA'
+									style={{ left: '121px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.highSchoolGPA)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText'>Second major:</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='major2'
+									style={{ left: '14px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChange}
+									value={this.getValue(this.state.major2)}
+								></input>
+								<span className='profileText' style={{ left: '61px' }}>
+									Grad Year:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='collegeClass'
+									style={{ left: '80px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeNumber}
+									value={this.getValue(this.state.collegeClass)}
+								></input>
+							</div>
+							<div>
+								<span className='profileText' style={{ left: '395px' }}>
+									AP's Passed:
+								</span>
+								<input
+									type='textfield'
+									className='profilePrompt'
+									id='passedAPAmount'
+									style={{ left: '405px' }}
+									disabled={this.state.disabled}
+									onChange={this.handleChangeNumber}
+									value={this.getValue(this.state.passedAPAmount)}
+								></input>
+							</div>
+						</div>
+>>>>>>> 37760934e6b51647634716752a44069018bbf668
 
             <div id="collegeInfoList">
               <div id="generalCollegeHeader">
