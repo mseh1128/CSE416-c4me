@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import 'materialize-css/dist/css/materialize.min.css';
 
+import QuestionableList from './QuestionableList.js';
+
 export class AdminScreen extends Component {
 	state = {
 		scrapeCollegeRankingText: 'Click the button to start',
@@ -12,6 +14,9 @@ export class AdminScreen extends Component {
 		deleteAllStudentProfilesText: 'Click the button to start',
 		importStudentProfileText: 'Click the button to start',
 		reviewQuestionableText: 'Click the button to start',
+
+		questionableDecisions: [],
+		showDecisions: false,
 	};
 
 	scrapeCollegeRankings = async () => {
@@ -94,7 +99,30 @@ export class AdminScreen extends Component {
 		}
 	};
 
-	review = () => {};
+	review = async () => {
+		try {
+			this.setState({ reviewQuestionableText: 'Loading...' });
+			const res = await axios.get('/getQuestionableAcceptanceInfo');
+			const { data } = res;
+			console.log(data);
+			this.setState({
+				questionableDecisions: data,
+			});
+			this.setState({ showDecisions: true });
+		} catch (err) {
+			console.log(err);
+			console.log('Error occurred');
+			this.setState({ reviewQuestionableText: 'An error occurred' });
+		}
+	};
+
+	checkQuestionable = (college, student) => {
+		console.log('check');
+	};
+
+	removeQuestionable = (college, student) => {
+		console.log('remove');
+	};
 
 	render() {
 		const {
@@ -155,6 +183,13 @@ export class AdminScreen extends Component {
 							</button>
 							<span className='adminTxt'>{reviewQuestionableText}</span>
 						</div>
+					</div>
+					<div hidden={!this.state.showDecisions}>
+						<QuestionableList
+							questionableDecisions={this.state.questionableDecisions}
+							removeQuestionable={this.removeQuestionable}
+							checkQuestionable={this.checkQuestionable}
+						/>
 					</div>
 				</div>
 			</div>
