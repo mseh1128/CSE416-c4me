@@ -133,7 +133,11 @@ export class ViewProfileScreen extends Component {
 		}
 
 		let avg = sum / num;
-		return Math.floor(avg);
+		if (this.state.ACTComp !== Math.round(avg)) {
+			this.setState({ ACTComp: Math.round(avg) });
+		}
+
+		return Math.round(avg);
 	};
 
 	getValue = (value) => {
@@ -176,6 +180,7 @@ export class ViewProfileScreen extends Component {
 		const { target } = e;
 		console.log(target);
 		this.setState({ ACTComp: document.getElementById('ACTComp').value });
+		console.log(document.getElementById('ACTComp').value);
 		if (target.id === 'nameInput') {
 			this.setState((state) => ({
 				...state,
@@ -193,6 +198,7 @@ export class ViewProfileScreen extends Component {
 	handleChangeNumber = (e) => {
 		const { target } = e;
 		this.setState({ ACTComp: document.getElementById('ACTComp').value });
+		console.log(document.getElementById('ACTComp').value);
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			this.setState((state) => ({
 				...state,
@@ -205,6 +211,7 @@ export class ViewProfileScreen extends Component {
 	handleChangeSAT = (e) => {
 		const { target } = e;
 		this.setState({ ACTComp: document.getElementById('ACTComp').value });
+		console.log(document.getElementById('ACTComp').value);
 		if (/^\d+$/.test(target.value) || target.value === '') {
 			if (target.value > 800) {
 				this.setState((state) => ({
@@ -235,18 +242,14 @@ export class ViewProfileScreen extends Component {
 					...state,
 					[target.id]: 36,
 				}));
-				this.setState({
-					ACTComp: document.getElementById('ACTComp').value,
-				});
-				console.log(this.state.ACTComp);
 				return;
 			}
 			this.setState((state) => ({
 				...state,
 				[target.id]: target.value,
 			}));
+			return;
 		}
-		this.setState({ ACTComp: document.getElementById('ACTComp').value });
 	};
 
 	render() {
@@ -588,7 +591,6 @@ export class ViewProfileScreen extends Component {
 									id='ACTComp'
 									style={{ left: '-4px' }}
 									disabled={true}
-									onChange={this.handleChangeACT}
 									value={this.getComp()}
 								></input>
 								<span className='profileText' style={{ left: '48px' }}>
