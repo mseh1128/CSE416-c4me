@@ -11,7 +11,7 @@ const deleteAllStudentProfilesQuery =
   'DELETE u FROM User u, Student S WHERE S.userID = u.userID;';
 
 const insertDatasetToUserQuery =
-  'insert ignore into user(username, userPassword, userID) values (?, ?, ?); ';
+  'insert ignore into user(username, userPassword, userID, name) values (?, ?, ?, ?); ';
 
 const insertDatasetToStudentQuery =
   'insert ignore into student(userID, residenceState, major1, major2, highSchoolName, highSchoolCity, highSchoolState, collegeClass) values (?, ?, ?, ?, ?, ?, ?, ?); ';
@@ -113,11 +113,13 @@ module.exports = function (app, connection) {
           SAT_physics,
           num_AP_passed,
           username,
+          name,
         } = data;
         await promisifyQuery(insertDatasetToUserQuery, [
           username,
           password,
           userid,
+          name,
         ]);
         await promisifyQuery(insertDatasetToStudentQuery, [
           userid,
