@@ -22,8 +22,20 @@ const insertDatasetToProfileQuery =
 const insertDatasetToDeclarationQuery =
   'insert ignore into college_declaration(studentID, collegeName, acceptanceStatus, questionable) values (?, ?, ?, ?); ';
 
+const getQuestionableAcceptanceInfoQuery =
+  'select u.name, s.highSchoolName, s.major1, s.major2, p.SATMath, p.SATEBRW, p.ACTComp, cd.acceptanceStatus, c.collegeName, c.state, c.city, c.ACTScore, c.SATEBRWScore, c.SATMathScore, c.admissionRatePercent, c.institutionType, c.medianCompletedStudentDebt, c.size, c.completionRate, c.inStateAttendanceCost, c.outOfStateAttendanceCost, c.ranking  from user u, student s, college_declaration cd, profile p, college c where questionable=1 and s.userID=cd.studentID and c.collegeName=cd.collegeName and s.userID=p.studentID and u.userID=s.userID;';
+
 // console.log(collegeRankingToSQL);
 module.exports = function (app, connection) {
+  promisifyQuery = (sql, args) => {
+    return new Promise((resolve, reject) => {
+      connection.query(sql, args, (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  };
+
   app.post('/scrapeCollegeRankings', async (req, res) => {
     try {
       await collegeRankingToSQL();
@@ -32,7 +44,7 @@ module.exports = function (app, connection) {
       );
     } catch (err) {
       console.log(err);
-      return res.status(500).json('error occurred!');
+      return res.status(500).json(err);
     }
   });
 
@@ -42,7 +54,7 @@ module.exports = function (app, connection) {
       return res.send('College data was succesfully scraped & saved to DB!');
     } catch (err) {
       console.log(err);
-      return res.status(500).json('error occurred!');
+      return res.status(500).json(err);
     }
   });
 
@@ -54,7 +66,7 @@ module.exports = function (app, connection) {
       );
     } catch (err) {
       console.log(err);
-      return res.status(500).json('error occurred!');
+      return res.status(500).json(err);
     }
   });
 
@@ -102,12 +114,12 @@ module.exports = function (app, connection) {
           num_AP_passed,
           username,
         } = data;
-        await connection.query(insertDatasetToUserQuery, [
+        await promisifyQuery(insertDatasetToUserQuery, [
           username,
           password,
           userid,
         ]);
-        await connection.query(insertDatasetToStudentQuery, [
+        await promisifyQuery(insertDatasetToStudentQuery, [
           userid,
           residence_state,
           major_1,
@@ -117,7 +129,7 @@ module.exports = function (app, connection) {
           high_school_state,
           college_class,
         ]);
-        await connection.query(insertDatasetToProfileQuery, [
+        await promisifyQuery(insertDatasetToProfileQuery, [
           userid,
           GPA,
           SAT_math,
@@ -149,7 +161,7 @@ module.exports = function (app, connection) {
         applicationReadStream
           .on('data', async (appData) => {
             const { userid, college, status } = appData;
-            await connection.query(insertDatasetToDeclarationQuery, [
+            await promisifyQuery(insertDatasetToDeclarationQuery, [
               userid,
               college,
               status,
@@ -162,7 +174,7 @@ module.exports = function (app, connection) {
           })
           .on('error', (e) => {
             console.log(err);
-            return res.status(500).json('error occurred!');
+            return res.status(500).json(err);
           });
         // return res.send('All student profiles were imported successfully!');
       })
@@ -170,7 +182,7 @@ module.exports = function (app, connection) {
         // error occurs b/c closing stream prematurely
         // so may attemp to push after EOF
         console.log(err);
-        return res.status(500).json('error occurred!');
+        return res.status(500).json(err);
       });
     // try {
     //   await connection.query(
@@ -180,18 +192,92 @@ module.exports = function (app, connection) {
     // } catch (err) {
     //   console.log(err);
     //   console.log(err);
-    //   return res.status(500).json('error occurred!');
+    //   return res.status(500).json(err);
     // }
   });
 
   app.delete('/deleteStudentProfiles', async (req, res) => {
     try {
-      await connection.query(deleteAllStudentProfilesQuery);
+      await promisifyQuery(deleteAllStudentProfilesQuery);
       return res.send('All student profiles were deleted successfully!');
     } catch (err) {
       console.log(err);
-      console.log(err);
-      return res.status(500).json('error occurred!');
+      return res.status(500).json(err);
     }
+  });
+
+  app.get('/getQuestionableAcceptanceInfo', (req, res) => {
+    promisifyQuery(getQuestionableAcceptanceInfoQuery)
+      .then((result) => {
+        const acceptanceInfo = result.map((allInfo) => {
+          const {
+            name,
+            highSchoolName,
+            major1,
+            major2,
+            SATMath,
+            SATEBRW,
+            ACTComp,
+            acceptanceStatus,
+          } = allInfo;
+          const {
+            collegeName,
+            state,
+            city,
+            ACTScore,
+            SATEBRWScore,
+            SATMathScore,
+            admissionRatePercent,
+            institutionType,
+            medianCompletedStudentDebt,
+            size,
+            completionRate,
+            inStateAttendanceCost,
+            outOfStateAttendanceCost,
+            ranking,
+          } = allInfo;
+          return {
+            studentInfo: {
+              name,
+              highSchoolName,
+              major1,
+              major2,
+              SATMath,
+              SATEBRW,
+              ACTComp,
+              acceptanceStatus,
+            },
+            collegeInfo: {
+              collegeName,
+              state,
+              city,
+              ACTScore,
+              SATEBRWScore,
+              SATMathScore,
+              admissionRatePercent,
+              institutionType,
+              medianCompletedStudentDebt,
+              size,
+              completionRate,
+              inStateAttendanceCost,
+              outOfStateAttendanceCost,
+              ranking,
+            },
+          };
+        });
+        res.send(acceptanceInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+    // try {
+    //   await connection.query(getQuestionableAcceptanceInfoQuery);
+    //   return res.send('All student profiles were deleted successfully!');
+    // } catch (err) {
+    //   console.log(err);
+    //   console.log(err);
+    //   return res.status(500).json(err);
+    // }
   });
 };

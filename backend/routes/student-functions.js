@@ -81,7 +81,7 @@ module.exports = function (app, connection) {
         console.log('in here error page');
         console.log('error occurred');
         console.log(err);
-        return res.status(500).send({ error: err });
+        return res.status(500).json({ error: err });
       });
   });
 };
