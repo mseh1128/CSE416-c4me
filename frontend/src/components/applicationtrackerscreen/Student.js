@@ -12,6 +12,9 @@ class Student extends React.Component {
 	state = {};
 
 	getName = () => {
+		if (this.props.student.name === null || this.props.student.name === undefined) {
+			return 'Unknown name';
+		}
 		if (this.props.student.name.length > 20) {
 			let tempName = this.props.student.name.substring(0, 20) + '...';
 			return tempName;
@@ -99,7 +102,7 @@ class Student extends React.Component {
 				<div className='studentCard'>
 					<div className='studentBoxTitleAndStatus'>
 						<div className='studentTitle'> {this.getName()} </div>
-						<div className='studentStatus'> {student.acceptanceStatus} </div>
+						<div className='studentStatus'> {this.getValue(student.acceptanceStatus)} </div>
 					</div>
 					<div className='studentLocation'> {this.getValue(student.highSchoolName)} </div>
 					<div className='studentMajors'>{this.getMajors()}</div>
