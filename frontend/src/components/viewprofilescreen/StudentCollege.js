@@ -10,11 +10,6 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 class StudentCollege extends React.Component {
-  state = {
-    status: this.props.college.acceptanceStatus,
-    isQuestionable: this.props.college.questionable,
-  };
-
   getName = () => {
     if (this.props.college.collegeName.length > 33) {
       let tempName = this.props.college.collegeName.substring(0, 32) + '...';
@@ -143,13 +138,13 @@ class StudentCollege extends React.Component {
     } else return this.props.college.ACTScore;
   };
 
-  getStatus = () => {
-    return this.state.status;
-  };
+  // getStatus = () => {
+  //   return this.state.status;
+  // };
 
-  changeStatus = (newStatus) => {
-    this.setState({ status: newStatus });
-  };
+  // changeStatus = (newStatus) => {
+  //   this.setState({ status: newStatus });
+  // };
 
   checkRec = () => {
     if (
@@ -185,9 +180,10 @@ class StudentCollege extends React.Component {
     else return 'rgb(3, 144, 252)';
   };
 
-  dropDownChanges = () => {
-    this.setState({ isQuestionable: 1 });
-    return this._onChange;
+  dropDownChanges = (target) => {
+    const { setAcceptanceStatus, index, college } = this.props;
+    const { collegeName } = college;
+    setAcceptanceStatus(target.value, index);
   };
 
   render() {
@@ -244,15 +240,15 @@ class StudentCollege extends React.Component {
             <Dropdown
               disabled={this.props.disabled}
               options={dropdownOptions}
-              onChange={this.dropDownChanges.bind(this)}
-              value={this.getStatus()}
+              onChange={this.dropDownChanges}
+              value={this.props.college.acceptanceStatus}
               placeholder="Select an option"
             />
           </div>
           <div className="collegeLocation">
             {' '}
             {this.getCity() + ', ' + this.getState()}
-            {this.props.college.questionable && this.state.isQuestionable ? (
+            {this.props.college.questionable ? (
               <span style={{ color: 'red', textAlign: 'center' }}>
                 Questionable
               </span>

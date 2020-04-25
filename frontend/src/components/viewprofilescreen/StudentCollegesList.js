@@ -10,14 +10,16 @@ class StudentCollegesList extends React.Component {
   render() {
     return (
       <div className="college-list-view section">
-        {this.props.colleges.map((college) => {
+        {this.props.colleges.map((college, idx) => {
           const { collegeName } = college;
           const key = collegeName;
           return (
             <StudentCollege
               key={key}
+              index={idx}
               college={college}
               disabled={this.props.disabled}
+              setAcceptanceStatus={this.props.setAcceptanceStatus}
             />
           );
         })}

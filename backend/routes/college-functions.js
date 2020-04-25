@@ -472,8 +472,7 @@ module.exports = function (app, connection) {
       (err, results, fields) => {
         if (err) {
           console.log(err);
-          res.status(500);
-          return;
+          return res.status(500).json({ error: err });
         }
         res.send(results);
       }

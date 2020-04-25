@@ -6,6 +6,11 @@ const {
 const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
+const {
+  getPrimaryCollegeStatsQuery,
+  getPrimaryStudentStatsQuery,
+  checkIfQuestionable,
+} = require('../utils');
 
 const deleteAllStudentProfilesQuery =
   'DELETE u FROM User u, Student S WHERE S.userID = u.userID;';
@@ -83,8 +88,9 @@ module.exports = function (app, connection) {
       )
       .pipe(csv());
 
+    const promises = [];
     readStream
-      .on('data', async (data) => {
+      .on('data', (data) => {
         console.log(data);
         for (const key in data) {
           // empty string to null
@@ -121,45 +127,60 @@ module.exports = function (app, connection) {
           username,
           name,
         } = data;
-        await promisifyQuery(insertDatasetToUserQuery, [
-          username,
-          password,
-          userid,
-          name,
-        ]);
-        await promisifyQuery(insertDatasetToStudentQuery, [
-          userid,
-          residence_state,
-          major_1,
-          major_2,
-          high_school_name,
-          high_school_city,
-          high_school_state,
-          college_class,
-        ]);
-        await promisifyQuery(insertDatasetToProfileQuery, [
-          userid,
-          GPA,
-          SAT_math,
-          SAT_EBRW,
-          ACT_English,
-          ACT_math,
-          ACT_reading,
-          ACT_science,
-          ACT_composite,
-          SAT_literature,
-          SAT_US_hist,
-          SAT_world_hist,
-          SAT_math_1,
-          SAT_math_2,
-          SAT_eco_bio,
-          SAT_mol_bio,
-          SAT_chemistry,
-          SAT_physics,
-          num_AP_passed,
-        ]);
+        promises.push(
+          promisifyQuery(insertDatasetToUserQuery, [
+            username,
+            password,
+            userid,
+            name,
+          ])
+            .then(() => {
+              promisifyQuery(insertDatasetToStudentQuery, [
+                userid,
+                residence_state,
+                major_1,
+                major_2,
+                high_school_name,
+                high_school_city,
+                high_school_state,
+                college_class,
+              ]);
+            })
+            .then(() => {
+              promisifyQuery(insertDatasetToProfileQuery, [
+                userid,
+                GPA,
+                SAT_math,
+                SAT_EBRW,
+                ACT_English,
+                ACT_math,
+                ACT_reading,
+                ACT_science,
+                ACT_composite,
+                SAT_literature,
+                SAT_US_hist,
+                SAT_world_hist,
+                SAT_math_1,
+                SAT_math_2,
+                SAT_eco_bio,
+                SAT_mol_bio,
+                SAT_chemistry,
+                SAT_physics,
+                num_AP_passed,
+              ]);
+            })
+            .then(() => {
+              // console.log('Dat');
+            })
+            .catch((err) => {
+              console.log('ERROR OCCURRED');
+              console.log(err);
+              throw err;
+            })
+        );
       })
-      .on('end', () => {
+      .on('end', async () => {
+        await Promise.all(promises);
         const applicationReadStream = fs
           .createReadStream(
             path.resolve(__dirname, './StudentDataset/application_file.csv')
@@ -169,11 +190,28 @@ module.exports = function (app, connection) {
         applicationReadStream
           .on('data', async (appData) => {
             const { userid, college, status } = appData;
+            // console.log(GPA);
+            const studentPrimaryStats = await promisifyQuery(
+              getPrimaryStudentStatsQuery,
+              [userid]
+            );
+            const collegePrimaryStats = await promisifyQuery(
+              getPrimaryCollegeStatsQuery,
+              [college]
+            );
+            // console.log(studentPrimaryStats);
+            // console.log(collegePrimaryStats);
+            const isQuestionable = checkIfQuestionable(
+              studentPrimaryStats[0],
+              collegePrimaryStats[0],
+              status
+            );
+
             await promisifyQuery(insertDatasetToDeclarationQuery, [
               userid,
               college,
               status,
-              false,
+              isQuestionable,
             ]);
           })
           .on('end', () => {

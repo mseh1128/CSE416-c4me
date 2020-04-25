@@ -1,11 +1,9 @@
 const mysql = require('mysql');
 const express = require('path');
 
-// (userID INT NOT NULL, collegeName VARCHAR(90) NOT NULL, questionable BOOL NOT NULL DEFAULT false, PRIMARY KEY (`userID`, `collegeName`));
-const queryAddDecision =
-  "INSERT INTO college_declaration (userID, collegeName, acceptanceStatus, questionable) VALUES (?, ?, 'pending', false)";
-const queryChangeQuestionability =
-  'UPDATE college_declaration SET questionable=? where userID=?';
+const setAcceptanceStatusQuery =
+  'UPDATE college_declaration SET acceptanceStatus=? WHERE studentID=? AND collegeName=?';
+
 const queryGetDecision =
   'select * from college_declaration inner join student on college_declaration.studentID=student.userID inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where collegeName=? and questionable=0;';
 
@@ -13,44 +11,36 @@ const queryGetStudentIDFromOtherSources =
   'select userID from `user` where name=?';
 
 module.exports = function (app, connection) {
-  // app.post('/addCollegeDeclaration', (req, res) => {
-  //   const
-  //   const body = JSON.parse(req.body);
-  //   const name = body.name;
-  //   const college = body.college;
-  //   const questionable = body.questionablze;
-  //   const id = body.id;
-  //   connection.query(
-  //     queryAddDecision,
-  //     [name, college, questionable, id],
-  //     (err, rows, params) => {
-  //       if (err) {
-  //         console.log(err);
-  //         res.status(500);
-  //         return;
-  //       }
-  //       res.status(200);
-  //     }
-  //   );
-  // });
+  promisifyQuery = (sql, args) => {
+    return new Promise((resolve, reject) => {
+      connection.query(sql, args, (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  };
 
-  app.post('/changeQuestionableStatus', (req, res) => {
-    const body = JSON.parse(req.body);
-    const questiStatus = body.questiStatus;
-    const id = body.id;
-
-    connection.query(
-      queryChangeQuestionability,
-      [questiStatus, id],
-      (err, rows, params) => {
-        if (err) {
-          console.log(err);
-          res.status(500);
-          return;
-        }
-        res.status(200);
-      }
-    );
+  app.post('/setAcceptanceStatus', (req, res) => {
+    const { collegesWithDecs, userID } = req.body;
+    console.log(req.body);
+    Promise.all(
+      collegesWithDecs.map((college) => {
+        const { acceptanceStatus, collegeName } = college;
+        return promisifyQuery(setAcceptanceStatusQuery, [
+          acceptanceStatus,
+          userID,
+          collegeName,
+        ]);
+      })
+    )
+      .then((result) => {
+        console.log(result);
+        res.send('Successfully updated acceptance statuses!');
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ error: err });
+      });
   });
 
   app.get('/retrieveStudentsDecisions', (req, res) => {
