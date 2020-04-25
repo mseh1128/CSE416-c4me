@@ -23,7 +23,13 @@ const insertDatasetToDeclarationQuery =
   'insert ignore into college_declaration(studentID, collegeName, acceptanceStatus, questionable) values (?, ?, ?, ?); ';
 
 const getQuestionableAcceptanceInfoQuery =
-  'select u.name, s.highSchoolName, s.major1, s.major2, p.SATMath, p.SATEBRW, p.ACTComp, cd.acceptanceStatus, c.collegeName, c.state, c.city, c.ACTScore, c.SATEBRWScore, c.SATMathScore, c.admissionRatePercent, c.institutionType, c.medianCompletedStudentDebt, c.size, c.completionRate, c.inStateAttendanceCost, c.outOfStateAttendanceCost, c.ranking  from user u, student s, college_declaration cd, profile p, college c where questionable=1 and s.userID=cd.studentID and c.collegeName=cd.collegeName and s.userID=p.studentID and u.userID=s.userID;';
+  'select u.name, s.userID, s.highSchoolName, s.major1, s.major2, p.SATMath, p.SATEBRW, p.ACTComp, cd.acceptanceStatus, c.collegeName, c.state, c.city, c.ACTScore, c.SATEBRWScore, c.SATMathScore, c.admissionRatePercent, c.institutionType, c.medianCompletedStudentDebt, c.size, c.completionRate, c.inStateAttendanceCost, c.outOfStateAttendanceCost, c.ranking  from user u, student s, college_declaration cd, profile p, college c where questionable=1 and s.userID=cd.studentID and c.collegeName=cd.collegeName and s.userID=p.studentID and u.userID=s.userID;';
+
+const markQuestionableDecisionFalseQuery =
+  'UPDATE college_declaration SET questionable=false WHERE studentID=? AND collegeName=?;';
+
+const removeQuestionableDecisionQuery =
+  'DELETE FROM college_declaration WHERE studentID=? AND collegeName=?;';
 
 // console.log(collegeRankingToSQL);
 module.exports = function (app, connection) {
@@ -208,6 +214,34 @@ module.exports = function (app, connection) {
     }
   });
 
+  app.put('/markQuestionableDecisionFalse', async (req, res) => {
+    const { userID, collegeName } = req.body;
+    try {
+      await promisifyQuery(markQuestionableDecisionFalseQuery, [
+        userID,
+        collegeName,
+      ]);
+      return res.send('The decision was marked false!');
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+  app.put('/removeQuestionableDecision', async (req, res) => {
+    const { userID, collegeName } = req.body;
+    try {
+      await promisifyQuery(removeQuestionableDecisionQuery, [
+        userID,
+        collegeName,
+      ]);
+      return res.send('The decision was marked false!');
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
   app.get('/getQuestionableAcceptanceInfo', (req, res) => {
     promisifyQuery(getQuestionableAcceptanceInfoQuery)
       .then((result) => {
@@ -221,6 +255,7 @@ module.exports = function (app, connection) {
             SATEBRW,
             ACTComp,
             acceptanceStatus,
+            userID,
           } = allInfo;
           const {
             collegeName,
@@ -248,6 +283,7 @@ module.exports = function (app, connection) {
               SATEBRW,
               ACTComp,
               acceptanceStatus,
+              userID,
             },
             collegeInfo: {
               collegeName,

@@ -100,15 +100,22 @@ export class AdminScreen extends Component {
 
   review = async () => {
     try {
-      this.setState({ reviewQuestionableText: 'Loading...' });
       const res = await axios.get('/getQuestionableAcceptanceInfo');
       const { data } = res;
       console.log(data);
-      this.setState({
-        questionableDecisions: data,
-        reviewQuestionableText: 'Questionable decisions shown below!',
-      });
-      this.setState({ showDecisions: true });
+      if (data.length == 0) {
+        this.setState({
+          questionableDecisions: data,
+          reviewQuestionableText: 'There are no questionable decisions!',
+          showDecisions: false,
+        });
+      } else {
+        this.setState({
+          questionableDecisions: data,
+          reviewQuestionableText: 'Questionable decisions shown below!',
+          showDecisions: true,
+        });
+      }
     } catch (err) {
       console.log(err);
       console.log('Error occurred');
@@ -118,10 +125,51 @@ export class AdminScreen extends Component {
 
   checkQuestionable = (college, student) => {
     console.log('check');
+    const { userID } = student;
+    const { collegeName } = college;
+    console.log(userID);
+    console.log(collegeName);
+    axios
+      .put('/markQuestionableDecisionFalse', {
+        userID,
+        collegeName,
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.review();
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log('Error occurred');
+        this.setState({
+          reviewQuestionableText:
+            'Something went wrong setting the decision to false!',
+        });
+      });
   };
 
   removeQuestionable = (college, student) => {
     console.log('remove');
+    const { userID } = student;
+    const { collegeName } = college;
+    console.log(userID);
+    console.log(collegeName);
+    axios
+      .put('/removeQuestionableDecision', {
+        userID,
+        collegeName,
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.review();
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log('Error occurred');
+        this.setState({
+          reviewQuestionableText: 'Something went wrong removing the decision!',
+        });
+      });
   };
 
   render() {
@@ -180,7 +228,7 @@ export class AdminScreen extends Component {
               <span className="adminTxt">{importStudentProfileText}</span>
             </div>
             <div>
-              <button className="adminBtn" onClick={this.review}>
+              <button className="adminBtn" onClick={this.review.bind(this)}>
                 {' '}
                 Review Questionable acceptance decisions{' '}
               </button>
