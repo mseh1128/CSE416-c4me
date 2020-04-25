@@ -223,33 +223,47 @@ class FilteredCollege extends React.Component {
       },
     };
 
+    let applyBtn = null;
+    if (!this.props.alreadyApplied) {
+      applyBtn = (
+        <button id='applyBtn' onClick={this.apply}>
+          Apply
+        </button>
+      );
+    }
+
+    let similarBtn = null;
+    if (this.checkRec()) {
+      similarBtn = (
+        <button
+          id='goSimilarBtn'
+          hidden={this.checkRec()}
+          onClick={(e) => {
+            e.stopPropagation();
+            this.props.goSimilarStudents(this.props.college.collegeName);
+          }}
+        >
+          {' '}
+          Similar Students{' '}
+        </button>
+      );
+    }
+
     return (
       <div
-        className="collegeCardSearched"
+        className='collegeCardSearched'
         onClick={this.props.goAppTracker.bind(this, college.collegeName)}
       >
-        <div className="collegeBoxTitle">
-          <div className="collegeTitle"> {this.getName()} </div>
-          <button id="applyBtn" onClick={this.apply}>
-            Apply
-          </button>
+        <div className='collegeBoxTitle'>
+          <div className='collegeTitle'> {this.getName()} </div>
+          {applyBtn}
         </div>
-        <div className="collegeLocation">
+        <div className='collegeLocation'>
           {' '}
           {this.getCity() + ', ' + this.getState()}
-          <button
-            id="goSimilarBtn"
-            hidden={this.checkRec()}
-            onClick={(e) => {
-              e.stopPropagation();
-              this.props.goSimilarStudents(this.props.college.collegeName);
-            }}
-          >
-            {' '}
-            Similar Students{' '}
-          </button>
+          {similarBtn}
         </div>
-        <div className="collegeType">
+        <div className='collegeType'>
           {' '}
           {this.getType() +
             ' | ' +
@@ -259,67 +273,69 @@ class FilteredCollege extends React.Component {
             ' Completion | Rank: ' +
             this.getRank()}{' '}
         </div>
-        <div className="collegeBoxSizeAndMath">
-          <div className="collegeSize1">{'Size:'}</div>
-          <div className="collegeMath1">
+        <div className='collegeBoxSizeAndMath'>
+          <div className='collegeSize1'>{'Size:'}</div>
+          <div className='collegeMath1'>
             {'Average SAT Math: '}
-            <span className="collegeMath2">{this.getMathScore()}</span>
+            <span className='collegeMath2'>{this.getMathScore()}</span>
           </div>
         </div>
-        <div className="collegeBoxSizeAndBar">
-          <div className="collegeSize2"> {this.getSize()} </div>
-          <span className="collegeText">0</span>
+        <div className='collegeBoxSizeAndBar'>
+          <div className='collegeSize2'> {this.getSize()} </div>
+          <span className='collegeText'>0</span>
           <Progress
-            className="mathBar"
+            className='mathBar'
             percent={this.getPercent('math', college.SATMathScore)}
-            status="math"
+            status='math'
             theme={theme}
           />
         </div>
-        <div className="collegeBoxCostAndEnglish">
-          <div className="collegeCost1"> {'Avg Price:'} </div>
-          <div className="collegeEnglish1">
+        <div className='collegeBoxCostAndEnglish'>
+          <div className='collegeCost1'> {'Avg Price:'} </div>
+          <div className='collegeEnglish1'>
             {'Average SAT EBRW: '}
-            <span className="collegeEnglish2">{this.getEnglishScore()}</span>
+            <span className='collegeEnglish2'>{this.getEnglishScore()}</span>
           </div>
         </div>
-        <div className="collegeBoxCostAndBar">
-          <div className="collegeCost2"> {this.getPrice()} </div>
-          <span className="collegeText">0</span>
+        <div className='collegeBoxCostAndBar'>
+          <div className='collegeCost2'> {this.getPrice()} </div>
+          <span className='collegeText'>0</span>
           <Progress
-            className="ebrwBar"
+            className='ebrwBar'
             percent={this.getPercent('ebrw', college.SATEBRWScore)}
-            status="EBRW"
+            status='EBRW'
             theme={theme}
           />
         </div>
-        <div className="collegeBoxDebtAndACT">
-          <div className="collegeDebt1"> {'Avg Debt:'} </div>
-          <div className="collegeACT1">
+        <div className='collegeBoxDebtAndACT'>
+          <div className='collegeDebt1'> {'Avg Debt:'} </div>
+          <div className='collegeACT1'>
             {'Average ACT: '}
-            <span className="collegeACT2">{this.getACTScore()}</span>
+            <span className='collegeACT2'>{this.getACTScore()}</span>
           </div>
         </div>
-        <div className="collegeBoxDebtAndBar">
-          <div className="collegeDebt2"> {this.getDebt()} </div>
-          <span className="collegeText">0</span>
+        <div className='collegeBoxDebtAndBar'>
+          <div className='collegeDebt2'> {this.getDebt()} </div>
+          <span className='collegeText'>0</span>
           <Progress
-            className="ACTBar"
+            className='ACTBar'
             percent={this.getPercent('act', college.ACTScore)}
-            status="ACT"
+            status='ACT'
             theme={theme}
           />
         </div>
-        <div hidden={this.checkRec()}>
-          <Progress
-            style={{ left: '410px' }}
-            type="circle"
-            width={120}
-            symbolClassName="reccomendBar"
-            percent={this.getPercent('rec', college.recScore)}
-            status="rec"
-            theme={theme}
-          />
+        <div>
+          {!this.checkRec() ? (
+            <Progress
+              style={{ left: '410px' }}
+              type='circle'
+              width={120}
+              symbolClassName='reccomendBar'
+              percent={this.getPercent('rec', college.recScore)}
+              status='rec'
+              theme={theme}
+            />
+          ) : null}
         </div>
       </div>
     );

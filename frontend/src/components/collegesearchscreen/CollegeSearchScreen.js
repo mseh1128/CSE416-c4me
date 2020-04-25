@@ -31,6 +31,7 @@ export class CollegeSearchScreen extends Component {
     majorList: [],
     currentSortType: 'nameDn',
     currentSortIncreasing: false,
+    declaredColleges: [],
     colleges: [],
     recColleges: [],
     componentFinishedLoad: false,
@@ -50,8 +51,6 @@ export class CollegeSearchScreen extends Component {
     },
   };
 
-  collegesAlreadyDeclared = [];
-
   componentDidMount = async () => {
     try {
       const { userID } = this.props.user;
@@ -61,12 +60,14 @@ export class CollegeSearchScreen extends Component {
           params: { userID },
         }),
       ]);
-      this.collegesAlreadyDeclared = studentDecNamesData.data.map(
-        ({ collegeName }) => collegeName
-      );
-      const { data } = allColleges;
       // by default shows all colleges
-      this.setState({ colleges: data, componentFinishedLoad: true });
+      this.setState({
+        // colleges: miData,
+        // componentFinishedLoad: true,
+        colleges: allColleges.data,
+        declaredColleges: studentDecNamesData.data,
+        major: 'computers',
+      });
     } catch (err) {
       console.log(err);
       console.log('Error occurred, could not retrieve all colleges');
@@ -91,7 +92,7 @@ export class CollegeSearchScreen extends Component {
       this.setState({ recColleges: collegeRecData.data });
 
       let recColleges = this.state.colleges;
-      console.log(this.state.colleges);
+      // console.log(this.state.colleges);
 
       recColleges.forEach((college) => {
         let name = college.collegeName;
@@ -357,6 +358,8 @@ export class CollegeSearchScreen extends Component {
   };
 
   render() {
+    console.log('Rerendering rn');
+    // console.log(this.state.collegesAlreadyDeclared);
     var elem = document.querySelector('.tabs');
     var options = {};
     var instance = M.Tabs.init(elem, options);
@@ -372,101 +375,103 @@ export class CollegeSearchScreen extends Component {
     ) {
       return <div>Loading...</div>;
     }
-    console.log(this.state.colleges);
+    // console.log(this.state.colleges);
 
     const sortedColleges = this.sortColleges();
 
     return (
-      <div className="college_screen_container">
-        <div className="schoolsContainer">
-          <div id="collegeListBanner">
+      <div className='college_screen_container'>
+        <div className='schoolsContainer'>
+          <div id='collegeListBanner'>
             <div></div>
-            <span className="collegeTitleText">Filtered Colleges </span>
+            <span className='collegeTitleText'>Filtered Colleges </span>
             <span
-              className="sortNameBtn"
+              className='sortNameBtn'
               onClick={this.changeSort.bind(this, 'name')}
             >
               {' '}
               Name
               <div hidden={this.getHidden('nameUp')}>
-                <Up id="nameUp"></Up>
+                <Up id='nameUp'></Up>
               </div>
               <div hidden={this.getHidden('nameDn')}>
-                <Down id="nameDown"></Down>
+                <Down id='nameDown'></Down>
               </div>
             </span>
             <span
-              className="sortARBtn"
+              className='sortARBtn'
               onClick={this.changeSort.bind(this, 'AR')}
             >
               {' '}
               Admission Rate
               <div hidden={this.getHidden('ARUp')}>
-                <Up id="ARUp"></Up>
+                <Up id='ARUp'></Up>
               </div>
               <div hidden={this.getHidden('ARDn')}>
-                <Down id="ARDown"></Down>
+                <Down id='ARDown'></Down>
               </div>
             </span>
             <span
-              className="sortCostBtn"
+              className='sortCostBtn'
               onClick={this.changeSort.bind(this, 'cost')}
             >
               {' '}
               Cost
               <div hidden={this.getHidden('costUp')}>
-                <Up id="costUp"></Up>
+                <Up id='costUp'></Up>
               </div>
               <div hidden={this.getHidden('costDn')}>
-                <Down id="costDown"></Down>
+                <Down id='costDown'></Down>
               </div>
             </span>
             <span
-              className="sortRankBtn"
+              className='sortRankBtn'
               onClick={this.changeSort.bind(this, 'rank')}
             >
               {' '}
               Rank
               <div hidden={this.getHidden('rankUp')}>
-                <Up id="rankUp"></Up>
+                <Up id='rankUp'></Up>
               </div>
               <div hidden={this.getHidden('rankDn')}>
-                <Down id="rankDown"></Down>
+                <Down id='rankDown'></Down>
               </div>
             </span>
           </div>
-          <div id="collegeList">
+          <div id='collegeList'>
             <FilteredCollegesList
               goAppTracker={this.goAppTracker}
               goSimilarStudents={this.goSimilarStudents}
               colleges={sortedColleges}
-              declaredColleges={this.collegesAlreadyDeclared}
+              declaredColleges={this.state.declaredColleges.map(
+                ({ collegeName }) => collegeName
+              )}
             />
           </div>
         </div>
-        <div className="filtersContainer">
-          <div className="filtersBanner">
-            <span id="filterHeaderText">Filters:</span>
-            <form action="#" id="strictBoxLocation">
+        <div className='filtersContainer'>
+          <div className='filtersBannfer'>
+            <span id='filterHeaderText'>Filters:</span>
+            <form action='#' id='strictBoxLocation'>
               <p>
-                <label id="strictBox">
+                <label id='strictBox'>
                   <input
-                    type="checkbox"
-                    id="strict"
+                    type='checkbox'
+                    id='strict'
                     onChange={this.handleChange}
                   />
-                  <span id="strictText">Strict</span>
+                  <span id='strictText'>Strict</span>
                 </label>
               </p>
             </form>
           </div>
-          <div className="input-field" id="nameFilter">
-            <input id="name" type="text" onChange={this.handleChange}></input>
-            <label htmlFor="name">College Name</label>
+          <div className='input-field' id='nameFilter'>
+            <input id='name' type='text' onChange={this.handleChange}></input>
+            <label htmlFor='name'>College Name</label>
           </div>
 
-          <div className="admissionRateFilter">
-            <span id="filtersText">Admission Rate</span>
+          <div className='admissionRateFilter'>
+            <span id='filtersText'>Admission Rate</span>
             <div
               style={{
                 display: 'flex',
@@ -611,8 +616,8 @@ export class CollegeSearchScreen extends Component {
             </div>
           </div>
 
-          <div className="costFilter">
-            <span id="filtersText">Cost of Attendance</span>
+          <div className='costFilter'>
+            <span id='filtersText'>Cost of Attendance</span>
 
             <div
               style={{
@@ -757,8 +762,8 @@ export class CollegeSearchScreen extends Component {
               />
             </div>
           </div>
-          <div className="rankFilter">
-            <span id="filtersText">Rank</span>
+          <div className='rankFilter'>
+            <span id='filtersText'>Rank</span>
             <div>
               <div
                 style={{
@@ -900,8 +905,8 @@ export class CollegeSearchScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="sizeFilter">
-            <span id="filtersText">Size</span>
+          <div className='sizeFilter'>
+            <span id='filtersText'>Size</span>
             <div>
               <div
                 style={{
@@ -1043,8 +1048,8 @@ export class CollegeSearchScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average Math Score</span>
+          <div className='scoreFilter'>
+            <span id='filtersText'>Average Math Score</span>
             <div>
               <div
                 style={{
@@ -1188,8 +1193,8 @@ export class CollegeSearchScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average EBRW Score</span>
+          <div className='scoreFilter'>
+            <span id='filtersText'>Average EBRW Score</span>
             <div>
               <div
                 style={{
@@ -1333,8 +1338,8 @@ export class CollegeSearchScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="scoreFilter">
-            <span id="filtersText">Average ACT Score</span>
+          <div className='scoreFilter'>
+            <span id='filtersText'>Average ACT Score</span>
             <div>
               <div>
                 <div
@@ -1480,39 +1485,39 @@ export class CollegeSearchScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="input-field col s12" id="locationFilter">
+          <div className='input-field col s12' id='locationFilter'>
             <select
-              className="browser-default"
-              id="location"
+              className='browser-default'
+              id='location'
               onChange={this.handleChange}
             >
-              <option value="" defaultValue>
+              <option value='' defaultValue>
                 Choose a Location
               </option>
-              <option value="Northeast">Northeast</option>
-              <option value="Midwest">Midwest</option>
-              <option value="South">South</option>
-              <option value="West">West</option>
+              <option value='Northeast'>Northeast</option>
+              <option value='Midwest'>Midwest</option>
+              <option value='South'>South</option>
+              <option value='West'>West</option>
             </select>
           </div>
-          <div id="majorFilterContainer">
-            <div className="input-field" id="majorFilter">
+          <div id='majorFilterContainer'>
+            <div className='input-field' id='majorFilter'>
               <input
-                id="major"
-                type="text"
+                id='major'
+                type='text'
                 onChange={this.updateMajor.bind(this)}
               ></input>
-              <label htmlFor="major">Two Desired Majors</label>
+              <label htmlFor='major'>Two Desired Majors</label>
             </div>
             <a
-              className="btn-floating btn-large waves-effect waves-light blue"
-              id="enterMajorBtn"
+              className='btn-floating btn-large waves-effect waves-light blue'
+              id='enterMajorBtn'
               onClick={this.addMajor.bind(this.self)}
             >
               <Add></Add>
             </a>
           </div>
-          <div id="chosenMajorContainer">
+          <div id='chosenMajorContainer'>
             <MajorFiltersList
               majors={this.state.majorList}
               deleteMajor={this.deleteMajor}
@@ -1520,7 +1525,7 @@ export class CollegeSearchScreen extends Component {
           </div>
           <div>
             <button
-              className="searchCollegeBtn"
+              className='searchCollegeBtn'
               onClick={this.searchForColleges}
               colleges={this.state.colleges}
             >
@@ -1528,7 +1533,7 @@ export class CollegeSearchScreen extends Component {
               Search For College{' '}
             </button>
             <button
-              className="searchCollegeBtn"
+              className='searchCollegeBtn'
               onClick={this.recommendColleges}
             >
               {' '}
