@@ -164,17 +164,16 @@ export class AdminScreen extends Component {
       })
       .then((res) => {
         console.log(res.data);
-        this.state.questionableDecisions.splice(idx, 1);
+        const questionableDecisionsCopy = [...this.state.questionableDecisions];
+        questionableDecisionsCopy.splice(idx, 1);
         this.setState({
-          questionableDecisions: this.state.questionableDecisions,
+          questionableDecisions: questionableDecisionsCopy,
         });
       })
       .catch((err) => {
         console.log(err);
         console.log('Error occurred');
-        this.setState({
-          reviewQuestionableText: 'Something went wrong removing the decision!',
-        });
+        alert(err);
       });
   };
 

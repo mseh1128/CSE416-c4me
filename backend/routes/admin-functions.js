@@ -276,7 +276,7 @@ module.exports = function (app, connection) {
       return res.send('The decision was marked false!');
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ error: err });
     }
   });
 
