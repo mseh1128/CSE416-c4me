@@ -2,7 +2,7 @@ const checkIfQuestionable = (studentData, collegeData, status) => {
   // console.log(studentData);
   // console.log(collegeData);
   // console.log(status);
-  if (status === 'withdrawn') return false;
+  if (status === 'withdrawn' || status === 'pending') return false;
   const { highSchoolGPA, SATMath, SATEBRW, ACTComp } = studentData;
   const { GPA, SATMathScore, SATEBRWScore, ACTScore } = collegeData;
   let score = 0;
@@ -23,7 +23,7 @@ const checkIfQuestionable = (studentData, collegeData, status) => {
   } else if (status === 'denied') {
     return score > 9 ? true : false;
   } else {
-    // waitlisted
+    // waitlisted or deferred
     return score > 7 ? true : false;
   }
 };

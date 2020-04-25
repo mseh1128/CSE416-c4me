@@ -143,6 +143,27 @@ export class CollegeSearchScreen extends Component {
     }
   };
 
+  applyToCollege = (collegeName) => {
+    // e.stopPropagation();
+    const { userID } = this.props.user;
+    console.log(collegeName);
+    axios
+      .post('/addCollegeDeclaration', { userID, collegeName })
+      .then((res) => {
+        console.log(res);
+        const declaredCollegesCopy = [...this.state.declaredColleges];
+        declaredCollegesCopy.push({ collegeName });
+        this.setState({
+          declaredColleges: declaredCollegesCopy,
+        });
+        // will do something here
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
+  };
+
   goSimilarStudents = (name) => {
     let similarStudents = this.state.recColleges[name].similarStudentIDsApplied;
     this.props.history.push({
@@ -442,6 +463,7 @@ export class CollegeSearchScreen extends Component {
             <FilteredCollegesList
               goAppTracker={this.goAppTracker}
               goSimilarStudents={this.goSimilarStudents}
+              apply={this.applyToCollege}
               colleges={sortedColleges}
               declaredColleges={this.state.declaredColleges.map(
                 ({ collegeName }) => collegeName

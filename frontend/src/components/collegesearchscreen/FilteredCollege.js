@@ -148,11 +148,6 @@ class FilteredCollege extends React.Component {
     this.setState({ status: newStatus });
   };
 
-  apply = (e) => {
-    e.stopPropagation();
-    console.log('apply');
-  };
-
   checkRec = () => {
     if (
       this.props.college.recScore === null ||
@@ -226,18 +221,23 @@ class FilteredCollege extends React.Component {
     let applyBtn = null;
     if (!this.props.alreadyApplied) {
       applyBtn = (
-        <button id='applyBtn' onClick={this.apply}>
+        <button
+          id='applyBtn'
+          onClick={(e) => {
+            e.stopPropagation();
+            this.props.apply(this.props.college.collegeName);
+          }}
+        >
           Apply
         </button>
       );
     }
 
     let similarBtn = null;
-    if (this.checkRec()) {
+    if (!this.checkRec()) {
       similarBtn = (
         <button
           id='goSimilarBtn'
-          hidden={this.checkRec()}
           onClick={(e) => {
             e.stopPropagation();
             this.props.goSimilarStudents(this.props.college.collegeName);

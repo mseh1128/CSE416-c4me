@@ -4,6 +4,9 @@ const express = require('path');
 const setAcceptanceStatusQuery =
   'UPDATE college_declaration SET acceptanceStatus=? WHERE studentID=? AND collegeName=?';
 
+const addCollegeDeclarationQuery =
+  "INSERT INTO college_declaration(studentID, collegeName, acceptanceStatus, questionable) VALUES (?, ?, 'pending', 0);";
+
 const queryGetDeclaredCollegeNames =
   'SELECT collegeName FROM college_declaration WHERE studentID=?;';
 
@@ -22,6 +25,18 @@ module.exports = function (app, connection) {
       });
     });
   };
+
+  app.post('/addCollegeDeclaration', (req, res) => {
+    const { userID, collegeName } = req.body;
+    promisifyQuery(addCollegeDeclarationQuery, [userID, collegeName])
+      .then((result) => {
+        res.send('Successfully added college declaration!');
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ error: err });
+      });
+  });
 
   app.get('/getDeclaredCollegeNames', (req, res) => {
     const { userID } = req.query;

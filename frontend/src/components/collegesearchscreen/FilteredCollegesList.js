@@ -26,6 +26,7 @@ class FilteredCollegesList extends React.Component {
           return (
             <FilteredCollege
               key={key}
+              apply={this.props.apply}
               college={college}
               goAppTracker={this.props.goAppTracker}
               goSimilarStudents={this.props.goSimilarStudents}
