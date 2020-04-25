@@ -8,11 +8,11 @@ class QuestionableList extends React.Component {
     const checkQuestionable = this.props.checkQuestionable;
     return (
       <div className="questionable-list section">
-        {this.props.questionableDecisions.map((decision) => {
-          const key = decision.collegeInfo.collegeName;
+        {this.props.questionableDecisions.map((decision, idx) => {
           return (
             <Questionable
-              key={key}
+              key={idx}
+              index={idx}
               college={decision.collegeInfo}
               student={decision.studentInfo}
               removeQuestionable={removeQuestionable}

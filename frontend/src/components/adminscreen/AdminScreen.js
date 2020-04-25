@@ -123,7 +123,7 @@ export class AdminScreen extends Component {
     }
   };
 
-  checkQuestionable = (college, student) => {
+  checkQuestionable = (college, student, idx) => {
     console.log('check');
     const { userID } = student;
     const { collegeName } = college;
@@ -136,7 +136,10 @@ export class AdminScreen extends Component {
       })
       .then((res) => {
         console.log(res.data);
-        this.review();
+        this.state.questionableDecisions.splice(idx, 1);
+        this.setState({
+          questionableDecisions: this.state.questionableDecisions,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -148,7 +151,7 @@ export class AdminScreen extends Component {
       });
   };
 
-  removeQuestionable = (college, student) => {
+  removeQuestionable = (college, student, idx) => {
     console.log('remove');
     const { userID } = student;
     const { collegeName } = college;
@@ -161,7 +164,10 @@ export class AdminScreen extends Component {
       })
       .then((res) => {
         console.log(res.data);
-        this.review();
+        this.state.questionableDecisions.splice(idx, 1);
+        this.setState({
+          questionableDecisions: this.state.questionableDecisions,
+        });
       })
       .catch((err) => {
         console.log(err);

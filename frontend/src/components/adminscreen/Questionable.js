@@ -238,8 +238,9 @@ class Questionable extends React.Component {
       var instances = M.Dropdown.init(elems, options);
     });
 
-    const college = this.props.college;
-    const student = this.props.student;
+    const { college } = this.props;
+    const { student } = this.props;
+    const { index } = this.props;
 
     let theme = {
       math: {
@@ -416,14 +417,24 @@ class Questionable extends React.Component {
         <div className="questionableBtns">
           <button
             id="questionableYes"
-            onClick={this.props.checkQuestionable.bind(this, college, student)}
+            onClick={this.props.checkQuestionable.bind(
+              this,
+              college,
+              student,
+              index
+            )}
           >
             <Check />
           </button>
           <div></div>
           <button
             id="questionableNo"
-            onClick={this.props.removeQuestionable.bind(this, college, student)}
+            onClick={this.props.removeQuestionable.bind(
+              this,
+              college,
+              student,
+              index
+            )}
           >
             <Clear />
           </button>
