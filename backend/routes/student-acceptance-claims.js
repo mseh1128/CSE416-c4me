@@ -4,6 +4,9 @@ const express = require('path');
 const setAcceptanceStatusQuery =
   'UPDATE college_declaration SET acceptanceStatus=? WHERE studentID=? AND collegeName=?';
 
+const queryGetDeclaredCollegeNames =
+  'SELECT collegeName FROM college_declaration WHERE studentID=?;';
+
 const queryGetDecision =
   'select * from college_declaration inner join student on college_declaration.studentID=student.userID inner join `profile` on student.userID=`profile`.studentID inner join `user` on `user`.userID=`profile`.studentID where collegeName=? and questionable=0;';
 
@@ -19,6 +22,21 @@ module.exports = function (app, connection) {
       });
     });
   };
+
+  app.get('/getDeclaredCollegeNames', (req, res) => {
+    const { userID } = req.query;
+    connection.query(
+      queryGetDeclaredCollegeNames,
+      [userID],
+      (err, results, params) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: err });
+        }
+        res.send(results);
+      }
+    );
+  });
 
   app.post('/setAcceptanceStatus', (req, res) => {
     const { collegesWithDecs, userID } = req.body;
