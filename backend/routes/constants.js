@@ -7,7 +7,7 @@ const sliderConfig = {
   costOfAttendance: {
     step: 0.1,
     min: 0,
-    max: 500000,
+    max: 100000,
   },
   rank: {
     step: 1,
