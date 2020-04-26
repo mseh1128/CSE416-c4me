@@ -57,7 +57,7 @@ export class ViewOtherScreen extends Component {
     try {
       //remember, you made a meme here.
       //before you push, change to a legitimate name
-      const theVoiceOfLoveTakeYouHigher = await axios.get(
+      const roundaboutUserID = await axios.get(
         '/getUserIDThroughOtherInfo',
         {
           params: {
@@ -66,7 +66,7 @@ export class ViewOtherScreen extends Component {
         }
       );
 
-      const userID = theVoiceOfLoveTakeYouHigher.data.userID;
+      const userID = roundaboutUserID.data.userID;
       const allData = await Promise.all([
         axios.get('/getStudentInfo', {
           params: { userID },
@@ -94,10 +94,12 @@ export class ViewOtherScreen extends Component {
 
   goBack = async () => {
     //const { id } = this.props.match.params;
-    console.log(id);
+    
+    console.log(this.state);
 
     let queryStudentsDecisions = '';
     const id = this.state.college.collegeName;
+    //console.log(id);
     try {
       queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
         params: {
