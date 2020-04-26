@@ -51,6 +51,13 @@ export class ApplicationTrackerScreen extends Component {
 		// do any fetch api requests here & setState
 	}
 
+	getName = (name) => {
+		if (name.length > 43) {
+			let tempName = name.substring(0, 42) + '...';
+			return tempName;
+		} else return name;
+	};
+
 	switchGraph = () => {
 		let bool = !this.state.onGraph;
 		this.setState({ onGraph: bool });
@@ -60,6 +67,12 @@ export class ApplicationTrackerScreen extends Component {
 		} else {
 			document.getElementById('graphBtn').innerHTML = 'See Graph';
 		}
+	};
+
+	goSimilarHighSchools = (name) => {
+		this.props.history.push(
+			'/applicationTracker/' + this.state.college.collegeName + '/highSchools/' + name
+		);
 	};
 
 	goCollegeSearch = () => {
@@ -278,7 +291,7 @@ export class ApplicationTrackerScreen extends Component {
 					<div id='studentListBanner'>
 						<div></div>
 						<span className='collegeTitleText'> Application Tracker:</span>
-						<span className='collegeTitleText'>{college.collegeName}</span>
+						<span className='collegeTitleText'>{this.getName(college.collegeName)}</span>
 					</div>
 					<div id='studentList'>
 						<StudentList college={college} students={studentsWhoApplied}></StudentList>
@@ -548,6 +561,7 @@ export class ApplicationTrackerScreen extends Component {
 						<HighSchoolFiltersList
 							highschools={this.state.highschoolList}
 							deleteHighschool={this.deleteHighschool}
+							goSimilarHighSchools={this.goSimilarHighSchools}
 						/>
 					</div>
 					<div className='btnContainer'>

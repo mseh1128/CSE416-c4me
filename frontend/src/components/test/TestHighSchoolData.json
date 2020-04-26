@@ -1,0 +1,28 @@
+{
+	"highschools": [
+		{
+			"key": 0,
+			"name": "East Islip HighSchool",
+			"state": "NY",
+			"city": "East Islip"
+		},
+		{
+			"key": 1,
+			"name": "Miller Place HighSchool",
+			"state": "NY",
+			"city": "Miller Place"
+		},
+		{
+			"key": 2,
+			"name": "East Islip HighSchool",
+			"state": "NY",
+			"city": "East Islip"
+		},
+		{
+			"key": 3,
+			"name": "Miller Place HighSchool",
+			"state": "NY",
+			"city": "Miller Place"
+		}
+	]
+}
