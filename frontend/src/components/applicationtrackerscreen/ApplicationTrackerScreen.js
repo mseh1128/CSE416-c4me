@@ -52,6 +52,9 @@ export class ApplicationTrackerScreen extends Component {
 	}
 
 	getName = (name) => {
+		if (name === null || name === undefined) {
+			return 'Unknown name';
+		}
 		if (name.length > 43) {
 			let tempName = name.substring(0, 42) + '...';
 			return tempName;

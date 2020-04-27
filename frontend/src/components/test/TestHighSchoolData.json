@@ -13,7 +13,8 @@
 			"avgSAT": 1200,
 			"avgACT": 27,
 			"APEnrollment": 40,
-			"type": "public"
+			"type": "public",
+			"similarity": 80
 		},
 		{
 			"key": 1,
@@ -28,7 +29,8 @@
 			"avgSAT": 1200,
 			"avgACT": 27,
 			"APEnrollment": 40,
-			"type": "public"
+			"type": "public",
+			"similarity": 80
 		},
 		{
 			"key": 2,
@@ -43,7 +45,8 @@
 			"avgSAT": 1200,
 			"avgACT": 27,
 			"APEnrollment": 40,
-			"type": "public"
+			"type": "public",
+			"similarity": 80
 		},
 		{
 			"key": 3,
@@ -58,7 +61,24 @@
 			"avgSAT": 1200,
 			"avgACT": 27,
 			"APEnrollment": 40,
-			"type": "public"
+			"type": "public",
+			"similarity": 80
+		},
+		{
+			"key": 4,
+			"name": null,
+			"state": null,
+			"city": null,
+			"numOfStudents": null,
+			"studentTeacherRatio": null,
+			"nicheGrade": null,
+			"americaRanking": null,
+			"avgGradRate": null,
+			"avgSAT": null,
+			"avgACT": null,
+			"APEnrollment": null,
+			"type": null,
+			"similarity": null
 		}
 	]
 }

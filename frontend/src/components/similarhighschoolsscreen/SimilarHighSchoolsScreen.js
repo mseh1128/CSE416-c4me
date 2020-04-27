@@ -11,8 +11,31 @@ export class SimilarHighSchoolsScreen extends Component {
 		componentFinishedLoad: false,
 	};
 
-	goBack = () => {
-		console.log('back');
+	goBack = async () => {
+		//const { id } = this.props.match.params;
+
+		console.log(this.state);
+
+		let queryStudentsDecisions = '';
+		const id = this.props.match.params.id;
+		//console.log(id);
+		try {
+			queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
+				params: {
+					collegeName: id,
+				},
+			});
+
+			this.props.history.push({
+				pathname: '/applicationTracker/' + id,
+				state: {
+					college: this.state.college,
+					studentsWhoApplied: queryStudentsDecisions.data,
+				},
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	getName = (name) => {

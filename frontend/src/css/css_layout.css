@@ -1231,13 +1231,13 @@ form h5 {
 .highschool-list {
 	display: grid;
 	grid-template-columns: 500px 500px 500px;
-	grid-template-rows: repeat(100, 320px);
+	grid-template-rows: repeat(100, 285px);
 }
 
 .highschoolCard {
 	background-color: aquamarine;
 	margin-left: 20px;
-	height: 305px;
+	height: 265px;
 	width: 483px;
 }
 
@@ -1294,11 +1294,23 @@ form h5 {
 .highschoolACTBar {
 	display: grid;
 	margin-left: 20px;
-	grid-template-columns: 15px 260px;
+	grid-template-columns: 15px 260px 55px 90px;
+}
+
+.gradeText {
+	color: black;
+	color: darkslategrey;
+	font-weight: bold;
 }
 
 .highschoolScores {
 	display: grid;
 	margin-top: 65px;
 	grid-template-rows: 20px 25px 20px 10px 10px 10px;
+}
+
+.similarityBox {
+	margin-top: 13px;
+	display: grid;
+	grid-template-columns: 100px 20px;
 }

@@ -40,7 +40,7 @@ class HighSchool extends React.Component {
 
 	getType = () => {
 		if (this.props.highschool.type === undefined || this.props.highschool.type === null) {
-			return 'Unknown';
+			return 'N/A';
 		} else return this.props.highschool.type;
 	};
 
@@ -50,7 +50,7 @@ class HighSchool extends React.Component {
 			this.props.highschool.numOfStudents === null
 		) {
 			return 'Unknown';
-		} else return this.props.highschool.numOfStudents;
+		} else return this.props.highschool.numOfStudents + ' Students';
 	};
 
 	getStudentTeacherRatio = () => {
@@ -67,19 +67,19 @@ class HighSchool extends React.Component {
 			this.props.highschool.APEnrollment === undefined ||
 			this.props.highschool.APEnrollment === null
 		) {
-			return 'Unknown';
+			return 'N/A';
 		} else return this.props.highschool.APEnrollment + '%';
 	};
 
 	getSATScore = () => {
 		if (this.props.highschool.avgSAT === undefined || this.props.highschool.avgSAT === null) {
-			return 'Unknown';
+			return 'N/A';
 		} else return this.props.highschool.avgSAT;
 	};
 
 	getACTScore = () => {
 		if (this.props.highschool.avgACT === undefined || this.props.highschool.avgACT === null) {
-			return 'Unknown';
+			return 'N/A';
 		} else return this.props.highschool.avgACT;
 	};
 
@@ -88,8 +88,17 @@ class HighSchool extends React.Component {
 			this.props.highschool.nicheGrade === undefined ||
 			this.props.highschool.nicheGrade === null
 		) {
-			return 'N/A';
+			return '?';
 		} else return this.props.highschool.nicheGrade;
+	};
+
+	getSimilarity = () => {
+		if (
+			this.props.highschool.similarity === undefined ||
+			this.props.highschool.similarity === null
+		) {
+			return 'N/A';
+		} else return this.props.highschool.similarity + '%';
 	};
 
 	getPercent = (type, amount) => {
@@ -105,6 +114,12 @@ class HighSchool extends React.Component {
 	};
 
 	getNicheColor = () => {
+		if (
+			this.props.highschool.nicheGrade === null ||
+			this.props.highschool.nicheGrade === undefined
+		) {
+			return 'rgb(252, 3, 3)';
+		}
 		let grade = this.props.highschool.nicheGrade.charAt(0);
 		console.log(grade);
 		if (grade === null || grade === undefined) return 'rgb(3, 144, 252)';
@@ -153,14 +168,14 @@ class HighSchool extends React.Component {
 					{this.getType() +
 						' | ' +
 						this.getNumOfStudents() +
-						' Students | ' +
+						' | ' +
 						this.getStudentTeacherRatio() +
 						' Students per Teacher | AP Enrollment: ' +
 						this.getAPEnrollment()}{' '}
 				</div>
 				<div className='highschoolScores'>
 					<div className='highschoolSAT1'>
-						{'Average SAT Math: '}
+						{'Average SAT: '}
 						<span className='highschoolSAT2'>{this.getSATScore()}</span>
 					</div>
 					<div className='highschoolSATBar'>
@@ -188,6 +203,12 @@ class HighSchool extends React.Component {
 							status='ACT'
 							theme={theme}
 						/>
+						<div></div>
+						<span className='gradeText'> Niche Grade </span>
+					</div>
+					<div className='similarityBox'>
+						<span className='highschoolSAT1'> Similarity: </span>
+						<div className='gradeText'> {this.getSimilarity()} </div>
 					</div>
 				</div>
 			</div>

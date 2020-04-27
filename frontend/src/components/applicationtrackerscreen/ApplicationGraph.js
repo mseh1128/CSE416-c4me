@@ -34,8 +34,10 @@ export class ApplicationGraph extends Component {
 		let num = 0;
 
 		this.state.students.forEach((student) => {
-			sum = sum + student.highSchoolGPA;
-			num = num + 1;
+			if (student.highSchoolGPA !== null && student.highSchoolGPA !== undefined) {
+				sum = sum + student.highSchoolGPA;
+				num = num + 1;
+			}
 		});
 
 		let avg = sum / num;
@@ -52,8 +54,15 @@ export class ApplicationGraph extends Component {
 		let num = 0;
 
 		this.state.students.forEach((student) => {
-			sum = sum + student.SATMath + student.SATEBRW;
-			num = num + 1;
+			if (
+				student.SATMath !== null &&
+				student.SATMath !== undefined &&
+				student.SATEBRW !== null &&
+				student.SATEBRW !== undefined
+			) {
+				sum = sum + student.SATMath + student.SATEBRW;
+				num = num + 1;
+			}
 		});
 
 		let avg = sum / num;
@@ -72,8 +81,10 @@ export class ApplicationGraph extends Component {
 		let num = 0;
 
 		this.state.students.forEach((student) => {
-			sum = sum + student.ACTComp;
-			num = num + 1;
+			if (student.ACTComp !== null && student.ACTComp !== undefined) {
+				sum = sum + student.ACTComp;
+				num = num + 1;
+			}
 		});
 
 		let avg = sum / num;
