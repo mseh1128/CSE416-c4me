@@ -17,7 +17,7 @@ class FilteredCollegesList extends React.Component {
             for (let idx = 0; idx < declaredColleges.length; idx++) {
               if (college.collegeName === declaredColleges[idx]) {
                 alreadyApplied = true;
-                this.props.declaredColleges.splice(idx, 1);
+                declaredColleges.splice(idx, 1);
               }
             }
           }

@@ -10,6 +10,8 @@ const collegeNames = fs
 module.exports = {
   collegeNames: collegeNames,
   collegeDataBaseURL: 'https://www.CollegeData.com',
+  nicheHighSchoolBaseURL:
+    'http://allv22.all.cs.stonybrook.edu/~stoller/cse416/niche',
   maxConcurrentConns: 10, // to ensure sockets do not overload!
   collegeNameRegex: /([a-zA-Z])([&,\s]+)([a-zA-Z])/g,
   collegeRankingBaseURL: 'https://www.timeshighereducation.com',
