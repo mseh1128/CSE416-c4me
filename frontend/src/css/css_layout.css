@@ -398,7 +398,8 @@ form h5 {
 }
 
 .collegeType,
-.studentMajors {
+.studentMajors,
+.highschoolType {
 	font-size: medium;
 	color: grey;
 	margin-left: 20px;
@@ -407,7 +408,8 @@ form h5 {
 }
 
 .collegeText,
-.studentText {
+.studentText,
+.highschoolText {
 	font-weight: 100;
 	color: darkslategrey;
 }
@@ -491,7 +493,8 @@ form h5 {
 .acceptedMath2,
 .acceptedGPA2,
 .acceptedEBRW2,
-.acceptedACT2 {
+.acceptedACT2,
+.highschoolSAT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -551,7 +554,8 @@ form h5 {
 }
 
 .collegeACT2,
-.studentACT2 {
+.studentACT2,
+.highschoolACT2 {
 	font-size: medium;
 	color: black;
 	position: relative;
@@ -1226,7 +1230,7 @@ form h5 {
 
 .highschool-list {
 	display: grid;
-	grid-template-columns: 420px 420px 420px;
+	grid-template-columns: 500px 500px 500px;
 	grid-template-rows: repeat(100, 320px);
 }
 
@@ -1234,7 +1238,7 @@ form h5 {
 	background-color: aquamarine;
 	margin-left: 20px;
 	height: 305px;
-	width: 400px;
+	width: 483px;
 }
 
 .highschoolBoxTitle {
@@ -1242,4 +1246,59 @@ form h5 {
 	grid-template-columns: 390px;
 	top: 10px;
 	position: relative;
+}
+
+.highschoolSAT {
+	display: grid;
+	grid-template-columns: 250px 128px;
+	position: relative;
+	margin-left: 20px;
+}
+
+.highschoolSAT1 {
+	width: fit-content;
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+}
+
+.highschoolSATBar {
+	display: grid;
+	margin-left: 20px;
+	grid-template-columns: 15px 260px;
+}
+
+.highschoolACT {
+	display: grid;
+	grid-template-columns: 250px 128px;
+	position: relative;
+	margin-left: 20px;
+}
+
+.highschoolACT1 {
+	font-size: medium;
+	color: grey;
+	margin-left: 20px;
+	position: relative;
+	width: fit-content;
+	bottom: 72px;
+}
+
+.highschoolNicheRating {
+	position: relative;
+	left: 210px;
+	font-size: 80px;
+	color: black;
+}
+
+.highschoolACTBar {
+	display: grid;
+	margin-left: 20px;
+	grid-template-columns: 15px 260px;
+}
+
+.highschoolScores {
+	display: grid;
+	margin-top: 65px;
+	grid-template-rows: 20px 25px 20px 10px 10px 10px;
 }

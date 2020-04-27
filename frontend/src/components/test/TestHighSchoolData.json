@@ -4,25 +4,61 @@
 			"key": 0,
 			"name": "East Islip HighSchool",
 			"state": "NY",
-			"city": "East Islip"
+			"city": "East Islip",
+			"numOfStudents": 1000,
+			"studentTeacherRatio": 19,
+			"nicheGrade": "D",
+			"americaRanking": 500,
+			"avgGradRate": 95,
+			"avgSAT": 1200,
+			"avgACT": 27,
+			"APEnrollment": 40,
+			"type": "public"
 		},
 		{
 			"key": 1,
 			"name": "Miller Place HighSchool",
 			"state": "NY",
-			"city": "Miller Place"
+			"city": "Miller Place",
+			"numOfStudents": 1000,
+			"studentTeacherRatio": 19,
+			"nicheGrade": "C",
+			"americaRanking": 500,
+			"avgGradRate": 95,
+			"avgSAT": 1200,
+			"avgACT": 27,
+			"APEnrollment": 40,
+			"type": "public"
 		},
 		{
 			"key": 2,
 			"name": "East Islip HighSchool",
 			"state": "NY",
-			"city": "East Islip"
+			"city": "East Islip",
+			"numOfStudents": 1000,
+			"studentTeacherRatio": 19,
+			"nicheGrade": "A+",
+			"americaRanking": 500,
+			"avgGradRate": 95,
+			"avgSAT": 1200,
+			"avgACT": 27,
+			"APEnrollment": 40,
+			"type": "public"
 		},
 		{
 			"key": 3,
 			"name": "Miller Place HighSchool",
 			"state": "NY",
-			"city": "Miller Place"
+			"city": "Miller Place",
+			"numOfStudents": 1000,
+			"studentTeacherRatio": 19,
+			"nicheGrade": "B",
+			"americaRanking": 500,
+			"avgGradRate": 95,
+			"avgSAT": 1200,
+			"avgACT": 27,
+			"APEnrollment": 40,
+			"type": "public"
 		}
 	]
 }
