@@ -8,8 +8,15 @@ class HighSchoolItem extends React.Component {
 		const highschool = this.props.highschool;
 
 		return (
-			<div className='highschoolItem'>
+			<div className='trackerHighschoolItem'>
 				<span> {highschool.name} </span>
+				<button
+					className='similarHSBtn'
+					onClick={this.props.goSimilarHighSchools.bind(this.self, highschool.name)}
+				>
+					{' '}
+					Similar{' '}
+				</button>
 				<button
 					className='deleteHSBtn'
 					onClick={this.props.deleteHighschool.bind(this.self, highschool.key)}

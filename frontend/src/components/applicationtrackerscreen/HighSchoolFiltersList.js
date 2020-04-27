@@ -6,6 +6,7 @@ class HighSchoolFiltersList extends React.Component {
 	render() {
 		const highschools = this.props.highschools;
 		const deleteHighschool = this.props.deleteHighschool;
+		const goSimilarHighSchools = this.props.goSimilarHighSchools;
 
 		return (
 			<div className='highschoolListBox'>
@@ -13,7 +14,12 @@ class HighSchoolFiltersList extends React.Component {
 					highschool.id = highschool.key;
 					const { key } = highschool.key;
 					return (
-						<HighSchoolItem key={key} highschool={highschool} deleteHighschool={deleteHighschool} />
+						<HighSchoolItem
+							key={key}
+							highschool={highschool}
+							goSimilarHighSchools={goSimilarHighSchools}
+							deleteHighschool={deleteHighschool}
+						/>
 					);
 				})}
 			</div>

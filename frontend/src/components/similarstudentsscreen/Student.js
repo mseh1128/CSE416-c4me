@@ -78,8 +78,7 @@ class Student extends React.Component {
 			//<Link to={'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.key}>
 			<Link
 				to={{
-					pathname:
-						'/applicationTracker/' + this.props.college.collegeName + '/view/' + student.name,
+					pathname: '/applicationTracker/' + this.props.collegeName + '/view/' + student.name,
 					state: {
 						studentName: student.name,
 						college: this.props.collegeName,
