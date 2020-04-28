@@ -25,13 +25,13 @@ export class ApplicationTrackerScreen extends Component {
 		highschoolIndex: 0,
 		highschoolList: [],
 		college: '',
-		studentsWhoApplied: [],
+		filteredStudents: [],
 		filters: {
 			strict: false,
-			collegeClassValues: [2016, 2030],
+			collegeClassValues: [collegeClass.min, collegeClass.max],
 			isAccepted: false,
 			isPending: false,
-			isWaitListed: false,
+			isWaitlisted: false,
 			isDeferred: false,
 			isDenied: false,
 			isWithdrawn: false,
@@ -42,11 +42,12 @@ export class ApplicationTrackerScreen extends Component {
 
 	componentDidMount() {
 		const college = this.props.location.state.college;
-		const studentsWhoApplied = this.props.location.state.studentsWhoApplied;
-		this.setState({ college: college });
-		this.setState({ studentsWhoApplied: studentsWhoApplied });
-		console.log(this.state.college);
-		console.log(this.state.studentsWhoApplied);
+		const { studentsWhoApplied } = this.props.location.state;
+
+		this.setState({
+			college: college,
+			filteredStudents: studentsWhoApplied,
+		});
 
 		// do any fetch api requests here & setState
 	}
@@ -72,11 +73,124 @@ export class ApplicationTrackerScreen extends Component {
 		}
 	};
 
-	/*goSimilarHighSchools = (name) => {
+	filterByStatus = (studentStatus) => {
+		const {
+			filters: { isAccepted, isDeferred, isDenied, isPending, isWaitlisted, isWithdrawn, strict },
+		} = this.state;
+		if (strict && !studentStatus) return true;
+		const isAcceptedCheck = isAccepted && studentStatus === 'accepted';
+		const isDeferredCheck = isDeferred && studentStatus === 'deferred';
+		const isDeniedCheck = isDenied && studentStatus === 'denied';
+		const isPendingCheck = isPending && studentStatus === 'pending';
+		const isWaitlistedCheck = isWaitlisted && studentStatus === 'wait-listed';
+		const isWithdrawnCheck = isWithdrawn && studentStatus === 'withdrawn';
+		if (
+			isAcceptedCheck ||
+			isDeferredCheck ||
+			isDeniedCheck ||
+			isPendingCheck ||
+			isWaitlistedCheck ||
+			isWithdrawnCheck
+		)
+			return true;
+		return false;
+	};
+
+	checkIfClassFilterActive = (lBound, uBound) => {
+		const {
+			filters: {
+				collegeClassValues: [lbCollegeClass, ubCollegeClass],
+				strict,
+			},
+		} = this.state;
+		return lbCollegeClass > lBound || ubCollegeClass < uBound;
+	};
+
+	checkIfStatusFilterActive = () => {
+		const {
+			filters: { isAccepted, isDeferred, isDenied, isPending, isWaitlisted, isWithdrawn },
+		} = this.state;
+		return isAccepted || isDeferred || isDenied || isPending || isWaitlisted || isWithdrawn;
+	};
+
+	checkIfHSFilterActive = () => {
+		const {
+			filters: { highschools },
+		} = this.state;
+		console.log(highschools === undefined || highschools.length == 0);
+		return !(highschools === undefined || highschools.length == 0);
+	};
+
+	filterByCollegeClass = (studentClass) => {
+		const {
+			filters: {
+				collegeClassValues: [lbCollegeClass, ubCollegeClass],
+				strict,
+			},
+		} = this.state;
+		if (strict && !studentClass) return true;
+		return studentClass >= lbCollegeClass && studentClass <= ubCollegeClass;
+	};
+
+	filterByHighSchool = (studentHighSchool) => {
+		// requires full match rn & only needs high school name (not city/state)
+		const {
+			filters: { highschools },
+			strict,
+		} = this.state;
+		if (strict && !studentHighSchool) return true;
+		return highschools.includes(studentHighSchool);
+	};
+
+	applyFilters = () => {
+		console.log('in here');
+		const { filters } = this.state;
+		console.log(filters);
+		const { studentsWhoApplied } = this.props.location.state;
+		const classFilterActive = this.checkIfClassFilterActive(collegeClass.min, collegeClass.max);
+		const statusFilterActive = this.checkIfStatusFilterActive();
+		const HSFilterActive = this.checkIfHSFilterActive();
+		console.log('filter active status');
+		console.log(classFilterActive);
+		console.log(statusFilterActive);
+		console.log(HSFilterActive);
+		const filteredStudents = studentsWhoApplied.filter((student) => {
+			const { collegeClass, acceptanceStatus, highSchoolName } = student;
+			let classInRange = true;
+			let filteredStatus = true;
+			let filteredHS = true;
+			if (classFilterActive) classInRange = this.filterByCollegeClass(collegeClass);
+			if (statusFilterActive) filteredStatus = this.filterByStatus(acceptanceStatus);
+			if (HSFilterActive) filteredHS = this.filterByHighSchool(highSchoolName);
+			return classInRange && filteredStatus & filteredHS;
+		});
+		this.setState({ filteredStudents });
+	};
+
+	handleChange = (e) => {
+		console.log('in handle change');
+		const filterCopy = Object.assign({}, this.state.filters);
+		const { target } = e;
+		const checkboxIDs = [
+			'strict',
+			'isAccepted',
+			'isPending',
+			'isWaitlisted',
+			'isDeferred',
+			'isDenied',
+			'isWithdrawn',
+		];
+		const value = checkboxIDs.indexOf(target.id) >= 0 ? target.checked : target.value;
+		filterCopy[target.id] = value;
+		this.setState({ filters: filterCopy });
+		// console.log(this.state.filters);
+	};
+
+	goSimilarHighSchools = (name) => {
 		this.props.history.push(
 			'/applicationTracker/' + this.state.college.collegeName + '/highSchools/' + name
 		);
-	};*/
+	};
 
 	goCollegeSearch = () => {
 		this.props.history.push('/search');
@@ -123,7 +237,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgGPA = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		console.log(students);
 		let sum = 0;
 		let num = 0;
@@ -138,7 +252,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgAcceptedGPA = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		console.log(students);
 		let sum = 0;
 		let num = 0;
@@ -153,7 +267,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgSATMath = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -167,7 +281,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgAcceptedSATMath = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -181,7 +295,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgSATEBRW = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -195,7 +309,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgAcceptedSATEBRW = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -209,7 +323,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgACT = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -223,7 +337,7 @@ export class ApplicationTrackerScreen extends Component {
 	};
 
 	getAvgAcceptedACT = () => {
-		let students = this.state.studentsWhoApplied;
+		let students = this.props.location.state.studentsWhoApplied;
 		let sum = 0;
 		let num = 0;
 		students.forEach((student) => {
@@ -267,7 +381,7 @@ export class ApplicationTrackerScreen extends Component {
 
 		//const college = this.state.college;
 		const college = this.props.location.state.college;
-		const studentsWhoApplied = this.props.location.state.studentsWhoApplied;
+		const { filteredStudents } = this.state;
 
 		let theme = {
 			math: {
@@ -297,11 +411,11 @@ export class ApplicationTrackerScreen extends Component {
 						<span className='collegeTitleText'>{this.getName(college.collegeName)}</span>
 					</div>
 					<div id='studentList'>
-						<StudentList college={college} students={studentsWhoApplied}></StudentList>
+						<StudentList college={college} students={filteredStudents}></StudentList>
 					</div>
 				</div>
 				<div className='graphContainer' hidden={!this.state.onGraph}>
-					<ApplicationGraph college={college} students={studentsWhoApplied} />
+					<ApplicationGraph college={college} students={filteredStudents} />
 				</div>
 				<div className='trackerFiltersContainer'>
 					<div className='filtersBanner'>
@@ -313,6 +427,7 @@ export class ApplicationTrackerScreen extends Component {
 										type='checkbox'
 										id='strict'
 										onChange={this.handleChange}
+										checked={this.state.filters.strict}
 										disabled={this.state.onGraph}
 									/>
 									<span id='strictText'>Strict</span>
@@ -468,6 +583,7 @@ export class ApplicationTrackerScreen extends Component {
 									<input
 										type='checkbox'
 										id='isAccepted'
+										checked={this.state.filters.isAccepted}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -481,6 +597,7 @@ export class ApplicationTrackerScreen extends Component {
 									<input
 										type='checkbox'
 										id='isPending'
+										checked={this.state.filters.isPending}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -493,7 +610,8 @@ export class ApplicationTrackerScreen extends Component {
 								<label id='wait-listedBox'>
 									<input
 										type='checkbox'
-										id='isWaitListed'
+										id='isWaitlisted'
+										checked={this.state.filters.isWaitlisted}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -507,6 +625,7 @@ export class ApplicationTrackerScreen extends Component {
 									<input
 										type='checkbox'
 										id='isDeferred'
+										checked={this.state.filters.isDeferred}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -520,6 +639,7 @@ export class ApplicationTrackerScreen extends Component {
 									<input
 										type='checkbox'
 										id='isDenied'
+										checked={this.state.filters.isDenied}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -533,6 +653,7 @@ export class ApplicationTrackerScreen extends Component {
 									<input
 										type='checkbox'
 										id='isWithdrawn'
+										checked={this.state.filters.isWithdrawn}
 										onChange={this.handleChange}
 										disabled={this.state.onGraph}
 									/>
@@ -574,7 +695,10 @@ export class ApplicationTrackerScreen extends Component {
 							{' '}
 							Back to college search{' '}
 						</button>
-						<button className='applicantFilterBtn'> Apply filters </button>
+						<button className='applicantFilterBtn' onClick={this.applyFilters}>
+							{' '}
+							Apply filters{' '}
+						</button>
 					</div>
 					<div id='trackerStatContainer'>
 						<div className='filtersBanner'>

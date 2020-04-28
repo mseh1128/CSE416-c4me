@@ -903,13 +903,13 @@ form h5 {
 .student-list {
 	display: grid;
 	grid-template-columns: 371px 371px 670px;
-	grid-template-rows: repeat(100, 320px);
+	grid-row-gap: 15px;
 }
 
 .student-list-similar {
 	display: grid;
 	grid-template-columns: 371px 371px 371px 670px;
-	grid-template-rows: repeat(100, 320px);
+	grid-row-gap: 15px;
 }
 
 .studentCard,
