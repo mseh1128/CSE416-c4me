@@ -4,6 +4,7 @@ import HighSchoolItem from './HighSchoolItem';
 
 class HighSchoolFiltersList extends React.Component {
 	render() {
+		const college = this.props.college;
 		const highschools = this.props.highschools;
 		const deleteHighschool = this.props.deleteHighschool;
 		const goSimilarHighSchools = this.props.goSimilarHighSchools;
@@ -16,6 +17,7 @@ class HighSchoolFiltersList extends React.Component {
 					return (
 						<HighSchoolItem
 							key={key}
+							college={college}
 							highschool={highschool}
 							goSimilarHighSchools={goSimilarHighSchools}
 							deleteHighschool={deleteHighschool}

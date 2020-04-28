@@ -1029,7 +1029,7 @@ form h5 {
 
 .trackerHighschoolItem {
 	display: grid;
-	grid-template-columns: 135px 63px 33px;
+	grid-template-columns: 137px 60px 33px;
 }
 
 .studentMathScore,

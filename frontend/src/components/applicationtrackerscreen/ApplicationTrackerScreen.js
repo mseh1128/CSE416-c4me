@@ -72,11 +72,11 @@ export class ApplicationTrackerScreen extends Component {
 		}
 	};
 
-	goSimilarHighSchools = (name) => {
+	/*goSimilarHighSchools = (name) => {
 		this.props.history.push(
 			'/applicationTracker/' + this.state.college.collegeName + '/highSchools/' + name
 		);
-	};
+	};*/
 
 	goCollegeSearch = () => {
 		this.props.history.push('/search');
@@ -562,6 +562,7 @@ export class ApplicationTrackerScreen extends Component {
 					</div>
 					<div id='chosenHSContainer'>
 						<HighSchoolFiltersList
+							college={college}
 							highschools={this.state.highschoolList}
 							deleteHighschool={this.deleteHighschool}
 							goSimilarHighSchools={this.goSimilarHighSchools}
