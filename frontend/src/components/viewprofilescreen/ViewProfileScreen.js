@@ -90,7 +90,12 @@ export class ViewProfileScreen extends Component {
     } else {
       try {
         const { userID } = this.props.user;
-        const { collegesWithDecs } = this.state;
+        const {
+          highSchoolName,
+          highSchoolCity,
+          highSchoolState,
+          collegesWithDecs,
+        } = this.state;
         const studentProfile = await axios.post('/updateStudentInfo', {
           state: this.convertEmptyInputsToNull(),
           userID,
@@ -105,9 +110,13 @@ export class ViewProfileScreen extends Component {
             userID,
           }
         );
-
         const collegesData = await axios.get('/getCollegesFromStudentDecs', {
           params: { userID },
+        });
+        const HSData = await axios.post('/updateHighSchool', {
+          highSchoolName,
+          highSchoolCity,
+          highSchoolState,
         });
 
         this.setState({
@@ -117,7 +126,7 @@ export class ViewProfileScreen extends Component {
         // console.log(studentProfile);
         this.setState({ disabled: true });
       } catch (err) {
-        console.log(err.response);
+        console.log(err);
         if (err.response.data.error.sqlMessage) {
           alert(`Error: ${err.response.data.error.sqlMessage}`);
         } else {

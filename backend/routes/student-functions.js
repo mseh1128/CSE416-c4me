@@ -12,6 +12,13 @@ const updateStudentInfo =
   'UPDATE student SET residenceState = ?, highSchoolCity = ?, major1 = ?, major2 = ?, highSchoolName = ?, highSchoolState = ?, collegeClass = ? WHERE userID = ?';
 const updateProfileInfo =
   'UPDATE profile SET highSchoolGPA = ?, SATMath = ?, SATEBRW = ?, ACTEng = ?, ACTMath = ?, ACTReading = ?, ACTSci = ?, ACTComp = ?, SATLit = ?, SATUSHist = ?, SATWorldHist = ?, SATMath1 = ?, SATMath2 = ?, SATEcoBio = ?, SATMolBio = ?, SATChem = ?, SATPhysics = ?, passedAPAmount = ? WHERE studentID = ?';
+const insertHighSchoolQuery =
+  'INSERT IGNORE INTO high_school(highSchoolName, highSchoolCity, highSchoolState, numOfStudents, institutionType, studentRatio, avgGradRatePerc, avgSAT, avgACT, APEnrollmentPerc, numSATResponses, numACTResponses) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+const checkHighSchoolExistenceQuery =
+  'SELECT EXISTS(SELECT * FROM high_school WHERE highSchoolName=? and highSchoolCity=? and highSchoolState=?) AS highSchoolExists;';
+
+const scrapeNicheHighSchool = require('../scraping/niche-high-school.js');
+
 const {
   getPrimaryCollegeStatsQuery,
   getPrimaryStudentStatsQuery,
@@ -88,6 +95,67 @@ module.exports = function (app, connection) {
       .then((results) => {
         console.log(results);
         res.send(results);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ error: err });
+      });
+  });
+
+  app.post('/updateHighSchool', (req, res) => {
+    const { highSchoolName, highSchoolCity, highSchoolState } = req.body;
+    // inclues student & profile info for student
+    console.log(req.body);
+    promisifyQuery(checkHighSchoolExistenceQuery, [
+      highSchoolName,
+      highSchoolCity,
+      highSchoolCity,
+    ])
+      .then((highSchoolExistsData) => {
+        const highSchoolExists = highSchoolExistsData[0].highSchoolExists;
+        if (!highSchoolExists) {
+          return scrapeNicheHighSchool({
+            highSchoolName,
+            highSchoolCity,
+            highSchoolState,
+          })
+            .then((scrapedHSData) => {
+              const {
+                highSchoolName,
+                highSchoolCity,
+                highSchoolState,
+                numOfStudents,
+                institutionType,
+                studentRatio,
+                gradRate,
+                avgSAT,
+                avgACT,
+                APEnrollment,
+                numAvgSATResponses,
+                numAvgACTResponses,
+              } = scrapedHSData;
+              return promisifyQuery(insertHighSchoolQuery, [
+                highSchoolName,
+                highSchoolCity,
+                highSchoolState,
+                numOfStudents,
+                institutionType,
+                studentRatio,
+                gradRate,
+                avgSAT,
+                avgACT,
+                APEnrollment,
+                numAvgSATResponses,
+                numAvgACTResponses,
+              ]);
+            })
+            .catch((err) => {
+              throw err;
+            });
+        }
+      })
+      .then(() => {
+        res.send('Successfully scraped and saved high school!');
       })
       .catch((err) => {
         console.log(err);

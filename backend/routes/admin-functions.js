@@ -3,6 +3,8 @@ const {
   collegeDataToSQL,
   collegeScorecardCSVToSQL,
 } = require('../scraping/sql-imports.js');
+const scrapeNicheHighSchool = require('../scraping/niche-high-school.js');
+
 const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
@@ -23,6 +25,12 @@ const insertDatasetToStudentQuery =
 
 const insertDatasetToProfileQuery =
   'insert ignore into profile(studentID, highSchoolGPA, SATMath, SATEBRW, ACTEng, ACTMath, ACTReading, ACTSci, ACTComp, SATLit, SATUSHist, SATWorldHist, SATMath1, SATMath2, SATEcoBio, SATMolBio, SATChem, SATPhysics, passedAPAmount) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ';
+
+const insertDatasetToHighSchoolQuery =
+  'INSERT IGNORE INTO high_school(highSchoolName, highSchoolCity, highSchoolState, numOfStudents, institutionType, studentRatio, avgGradRatePerc, avgSAT, avgACT, APEnrollmentPerc, numSATResponses, numACTResponses) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+
+const checkHighSchoolExistenceQuery =
+  'SELECT EXISTS(SELECT * FROM high_school WHERE highSchoolName=? and highSchoolCity=? and highSchoolState=?) AS highSchoolExists;';
 
 const insertDatasetToDeclarationQuery =
   'insert ignore into college_declaration(studentID, collegeName, acceptanceStatus, questionable) values (?, ?, ?, ?); ';
@@ -135,7 +143,7 @@ module.exports = function (app, connection) {
             name,
           ])
             .then(() => {
-              promisifyQuery(insertDatasetToStudentQuery, [
+              return promisifyQuery(insertDatasetToStudentQuery, [
                 userid,
                 residence_state,
                 major_1,
@@ -147,7 +155,7 @@ module.exports = function (app, connection) {
               ]);
             })
             .then(() => {
-              promisifyQuery(insertDatasetToProfileQuery, [
+              return promisifyQuery(insertDatasetToProfileQuery, [
                 userid,
                 GPA,
                 SAT_math,
@@ -170,12 +178,62 @@ module.exports = function (app, connection) {
               ]);
             })
             .then(() => {
-              // console.log('Dat');
+              return promisifyQuery(checkHighSchoolExistenceQuery, [
+                high_school_name,
+                high_school_city,
+                high_school_state,
+              ]);
+            })
+            .then((highSchoolExistsData) => {
+              const highSchoolExists = highSchoolExistsData[0].highSchoolExists;
+              if (!highSchoolExists) {
+                scrapeNicheHighSchool({
+                  highSchoolName: high_school_name,
+                  highSchoolCity: high_school_city,
+                  highSchoolState: high_school_state,
+                })
+                  .then((scrapedHSData) => {
+                    const {
+                      highSchoolName,
+                      highSchoolCity,
+                      highSchoolState,
+                      numOfStudents,
+                      institutionType,
+                      studentRatio,
+                      gradRate,
+                      avgSAT,
+                      avgACT,
+                      APEnrollment,
+                      numAvgSATResponses,
+                      numAvgACTResponses,
+                    } = scrapedHSData;
+                    return promisifyQuery(insertDatasetToHighSchoolQuery, [
+                      highSchoolName,
+                      highSchoolCity,
+                      highSchoolState,
+                      numOfStudents,
+                      institutionType,
+                      studentRatio,
+                      gradRate,
+                      avgSAT,
+                      avgACT,
+                      APEnrollment,
+                      numAvgSATResponses,
+                      numAvgACTResponses,
+                    ]);
+                  })
+                  .catch((err) => {
+                    throw err;
+                  });
+              }
+            })
+            .then(() => {
+              console.log(`User ${username} successfully saved`);
             })
             .catch((err) => {
-              console.log('ERROR OCCURRED');
+              console.log('Error occurred');
               console.log(err);
-              throw err;
+              // throw err;
             })
         );
       })
