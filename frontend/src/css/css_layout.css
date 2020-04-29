@@ -1234,11 +1234,17 @@ form h5 {
 	grid-template-rows: repeat(100, 285px);
 }
 
-.highschoolCard {
+.highschoolCard,
+.highschoolCardPossible {
 	background-color: aquamarine;
 	margin-left: 20px;
 	height: 265px;
 	width: 483px;
+}
+
+.highschoolCardPossible:hover {
+	cursor: pointer;
+	background-color: lightblue;
 }
 
 .highschoolBoxTitle {

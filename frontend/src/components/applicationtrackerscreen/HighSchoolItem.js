@@ -26,10 +26,7 @@ class HighSchoolItem extends React.Component {
 				<Link
 					to={{
 						pathname:
-							'/applicationTracker/' +
-							this.props.college.collegeName +
-							'/highSchools/' +
-							highschool.name,
+							'/applicationTracker/' + this.props.college.collegeName + '/possibleHighSchools',
 						state: {
 							college: this.props.college,
 						},

@@ -7,6 +7,7 @@ import Navbar from './components/navbar/Navbar.js';
 import LoginScreen from './components/loginscreen/LoginScreen.js';
 import RegisterScreen from './components/registerscreen/RegisterScreen.js';
 import SimilarStudentsScreen from './components/similarstudentsscreen/SimilarStudentsScreen.js';
+import PossibleHighSchoolsScreen from './components/possiblehighschoolsscreen/PossibleHighSchoolsScreen.js';
 import SimilarHighSchoolsScreen from './components/similarhighschoolsscreen/SimilarHighSchoolsScreen.js';
 import CollegeSearchScreen from './components/collegesearchscreen/CollegeSearchScreen.js';
 import ApplicationTrackerScreen from './components/applicationtrackerscreen/ApplicationTrackerScreen';
@@ -32,6 +33,10 @@ function App() {
 				/>
 				<Route path='/register' component={RegisterScreen} />
 
+				<Route
+					path='/applicationTracker/:id/possibleHighSchools'
+					component={PossibleHighSchoolsScreen}
+				/>
 				<Route
 					path='/applicationTracker/:id/highSchools/:hsName'
 					component={SimilarHighSchoolsScreen}
