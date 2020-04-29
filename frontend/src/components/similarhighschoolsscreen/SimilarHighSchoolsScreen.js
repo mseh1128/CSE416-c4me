@@ -17,7 +17,7 @@ export class SimilarHighSchoolsScreen extends Component {
 		console.log(this.state);
 
 		let queryStudentsDecisions = '';
-		const id = this.props.match.params.id;
+		const id = this.state.college.collegeName;
 		//console.log(id);
 		try {
 			queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
@@ -45,7 +45,10 @@ export class SimilarHighSchoolsScreen extends Component {
 		} else return name;
 	};
 
-	componentDidMount = () => {};
+	componentDidMount = () => {
+		const college = this.props.location.state.college;
+		this.setState({ college: college });
+	};
 
 	render() {
 		var elem = document.querySelector('.tabs');
