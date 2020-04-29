@@ -4,65 +4,105 @@ import M from 'materialize-css';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import HighSchoolList from './HighSchoolList';
+import Undo from '@material-ui/icons/Undo';
 
 export class PossibleHighSchoolsScreen extends Component {
-  state = {
-    componentFinishedLoad: false,
-    college: '',
-  };
+	state = {
+		componentFinishedLoad: false,
+		college: '',
+		highschools: [],
+	};
 
-  getName = (name) => {
-    if (name.length > 60) {
-      let tempName = name.substring(0, 59) + '...';
-      return tempName;
-    } else return name;
-  };
+	goBack = async () => {
+		//const { id } = this.props.match.params;
 
-  componentDidMount = async () => {
-    const college = this.props.location.state.college;
-    console.log(college);
-    console.log('in here');
-    try {
-      const potentialHighSchools = await axios.get('/getHighSchoolFromName', {
-        params: {
-          highSchoolName: 'arcadia',
-        },
-      });
-      console.log(potentialHighSchools);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+		console.log(this.state);
 
-  render() {
-    var elem = document.querySelector('.tabs');
-    var options = {};
-    var instance = M.Tabs.init(elem, options);
+		let queryStudentsDecisions = '';
+		const id = this.state.college.collegeName;
+		console.log(id);
+		try {
+			queryStudentsDecisions = await axios.get('/retrieveStudentsDecisions', {
+				params: {
+					collegeName: id,
+				},
+			});
 
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('select');
-      var instances = M.FormSelect.init(elems, options);
-    });
+			this.props.history.push({
+				pathname: '/applicationTracker/' + id,
+				state: {
+					college: this.state.college,
+					studentsWhoApplied: queryStudentsDecisions.data,
+				},
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-    if (false) {
-      return <div>Loading...</div>;
-    }
+	getName = (name) => {
+		if (name.length > 60) {
+			let tempName = name.substring(0, 59) + '...';
+			return tempName;
+		} else return name;
+	};
 
-    return (
-      <div className='similar_HSscreen_container'>
-        <div className='schoolsContainer'>
-          <div id='hsBanner'>
-            <div></div>
-            <span className='collegeTitleText'>Specify the Highschool: </span>
-            <div />
-          </div>
-          <div id='similarHighSchoolsList'>
-            <HighSchoolList college={this.state.college}></HighSchoolList>
-          </div>
-        </div>
-      </div>
-    );
-  }
+	componentDidMount = async () => {
+		const college = this.props.location.state.college;
+		const highschoolName = this.props.location.state.highschoolName;
+		this.setState({ college: college });
+		console.log(college);
+		console.log('in here');
+		try {
+			const potentialHighSchools = await axios.get('/getHighSchoolFromName', {
+				params: {
+					highSchoolName: highschoolName,
+				},
+			});
+			console.log(potentialHighSchools);
+			this.setState({ highschools: potentialHighSchools.data });
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	render() {
+		var elem = document.querySelector('.tabs');
+		var options = {};
+		var instance = M.Tabs.init(elem, options);
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('select');
+			var instances = M.FormSelect.init(elems, options);
+		});
+
+		if (false) {
+			return <div>Loading...</div>;
+		}
+
+		return (
+			<div className='similar_HSscreen_container'>
+				<div className='schoolsContainer'>
+					<div id='hsBanner'>
+						<div></div>
+						<span className='collegeTitleText'>Specify the Highschool: </span>
+						<div></div>
+						<button className='profileButton' onClick={this.goBack}>
+							{' '}
+							<Undo id='profileButtonSymbols' />{' '}
+						</button>
+						<div />
+					</div>
+					<div id='similarHighSchoolsList'>
+						<HighSchoolList
+							college={this.state.college}
+							highschools={this.state.highschools}
+						></HighSchoolList>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default PossibleHighSchoolsScreen;

@@ -29,6 +29,7 @@ class HighSchoolItem extends React.Component {
 							'/applicationTracker/' + this.props.college.collegeName + '/possibleHighSchools',
 						state: {
 							college: this.props.college,
+							highschoolName: highschool.name,
 						},
 					}}
 				>

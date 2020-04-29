@@ -121,7 +121,6 @@ class HighSchool extends React.Component {
 			return 'rgb(252, 3, 3)';
 		}
 		let grade = this.props.highschool.nicheGrade.charAt(0);
-		console.log(grade);
 		if (grade === null || grade === undefined) return 'rgb(3, 144, 252)';
 		else if (grade === 'A') return 'rgb(89, 175, 48)';
 		else if (grade === 'B') return 'rgb(3, 144, 252)';
