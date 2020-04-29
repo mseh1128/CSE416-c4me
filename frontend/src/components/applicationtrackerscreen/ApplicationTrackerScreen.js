@@ -161,7 +161,9 @@ export class ApplicationTrackerScreen extends Component {
       strict,
     } = this.state;
     if (strict && !studentHighSchool) return true;
-    return highschools.includes(studentHighSchool);
+    return highschools.some((highSchool) => {
+      return studentHighSchool.includes(highSchool);
+    });
   };
 
   applyFilters = () => {
