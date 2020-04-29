@@ -6,52 +6,63 @@ import axios from 'axios';
 import HighSchoolList from './HighSchoolList';
 
 export class PossibleHighSchoolsScreen extends Component {
-	state = {
-		componentFinishedLoad: false,
-		college: '',
-	};
+  state = {
+    componentFinishedLoad: false,
+    college: '',
+  };
 
-	getName = (name) => {
-		if (name.length > 60) {
-			let tempName = name.substring(0, 59) + '...';
-			return tempName;
-		} else return name;
-	};
+  getName = (name) => {
+    if (name.length > 60) {
+      let tempName = name.substring(0, 59) + '...';
+      return tempName;
+    } else return name;
+  };
 
-	componentDidMount = () => {
-		const college = this.props.location.state.college;
-		this.setState({ college: college });
-	};
+  componentDidMount = async () => {
+    const college = this.props.location.state.college;
+    console.log(college);
+    console.log('in here');
+    try {
+      const potentialHighSchools = await axios.get('/getHighSchoolFromName', {
+        params: {
+          highSchoolName: 'arcadia',
+        },
+      });
+      console.log(potentialHighSchools);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-	render() {
-		var elem = document.querySelector('.tabs');
-		var options = {};
-		var instance = M.Tabs.init(elem, options);
+  render() {
+    var elem = document.querySelector('.tabs');
+    var options = {};
+    var instance = M.Tabs.init(elem, options);
 
-		document.addEventListener('DOMContentLoaded', function () {
-			var elems = document.querySelectorAll('select');
-			var instances = M.FormSelect.init(elems, options);
-		});
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, options);
+    });
 
-		if (false) {
-			return <div>Loading...</div>;
-		}
+    if (false) {
+      return <div>Loading...</div>;
+    }
 
-		return (
-			<div className='similar_HSscreen_container'>
-				<div className='schoolsContainer'>
-					<div id='hsBanner'>
-						<div></div>
-						<span className='collegeTitleText'>Specify the Highschool: </span>
-						<div />
-					</div>
-					<div id='similarHighSchoolsList'>
-						<HighSchoolList college={this.state.college}></HighSchoolList>
-					</div>
-				</div>
-			</div>
-		);
-	}
+    return (
+      <div className='similar_HSscreen_container'>
+        <div className='schoolsContainer'>
+          <div id='hsBanner'>
+            <div></div>
+            <span className='collegeTitleText'>Specify the Highschool: </span>
+            <div />
+          </div>
+          <div id='similarHighSchoolsList'>
+            <HighSchoolList college={this.state.college}></HighSchoolList>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default PossibleHighSchoolsScreen;
