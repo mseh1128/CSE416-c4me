@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const {
   collegeRankingToSQL,
   collegeDataToSQL,
@@ -13,6 +14,7 @@ const {
   getPrimaryStudentStatsQuery,
   checkIfQuestionable,
 } = require('../utils');
+const salt = 10;
 
 const deleteAllStudentProfilesQuery =
   'DELETE u FROM User u, Student S WHERE S.userID = u.userID;';
@@ -135,10 +137,11 @@ module.exports = function (app, connection) {
           username,
           name,
         } = data;
+        const encryptedPassword = bcrypt.hashSync(password, salt);
         promises.push(
           promisifyQuery(insertDatasetToUserQuery, [
             username,
-            password,
+            encryptedPassword,
             userid,
             name,
           ])
