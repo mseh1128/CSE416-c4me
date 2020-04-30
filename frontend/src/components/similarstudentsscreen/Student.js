@@ -21,23 +21,23 @@ class Student extends React.Component {
 	getMajors = () => {
 		const m1 = this.props.student.major1;
 		const m2 = this.props.student.major2;
-		if ((m1 != '' || m1 != null) && (m2 != '' || m2 != null)) return m1 + ' | ' + m2;
-		else if ((m1 != '' || m1 != null) && (m2 === '' || m2 === null)) return m1;
-		else if ((m2 != '' || m2 === null) && (m1 === '' || m1 != null)) return m2;
+		if ((m1 !== '' || m1 !== null) && (m2 !== '' || m2 !== null)) return m1 + ' | ' + m2;
+		else if ((m1 !== '' || m1 !== null) && (m2 === '' || m2 === null)) return m1;
+		else if ((m2 !== '' || m2 === null) && (m1 === '' || m1 !== null)) return m2;
 		else return 'Undecided';
 	};
 
 	getPercent = (type, amount) => {
-		if (type == 'math') {
+		if (type === 'math') {
 			return (amount / 800) * 100;
 		}
-		if (type == 'ebrw') {
+		if (type === 'ebrw') {
 			return (amount / 800) * 100;
 		}
-		if (type == 'act') {
+		if (type === 'act') {
 			return (amount / 36) * 100;
 		}
-		if (type == 'rec') {
+		if (type === 'rec') {
 			return amount;
 		}
 	};

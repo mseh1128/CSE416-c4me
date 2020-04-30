@@ -12,13 +12,16 @@ class HighSchool extends React.Component {
 	state = {};
 
 	getName = () => {
-		if (this.props.highschool.name === null || this.props.highschool.name === undefined) {
+		if (
+			this.props.highschool.highSchoolName === null ||
+			this.props.highschool.highSchoolName === undefined
+		) {
 			return 'Unknown name';
 		}
-		if (this.props.highschool.name.length > 34) {
-			let tempName = this.props.highschool.name.substring(0, 33) + '...';
+		if (this.props.highschool.highSchoolName.length > 34) {
+			let tempName = this.props.highschool.highSchoolName.substring(0, 33) + '...';
 			return tempName;
-		} else return this.props.highschool.name;
+		} else return this.props.highschool.highSchoolName;
 	};
 
 	getValue = (value) => {
@@ -27,21 +30,30 @@ class HighSchool extends React.Component {
 	};
 
 	getCity = () => {
-		if (this.props.highschool.city === undefined || this.props.highschool.city === null) {
+		if (
+			this.props.highschool.highSchoolCity === undefined ||
+			this.props.highschool.highSchoolCity === null
+		) {
 			return 'Unknown';
-		} else return this.props.highschool.city;
+		} else return this.props.highschool.highSchoolCity;
 	};
 
 	getState = () => {
-		if (this.props.highschool.state === undefined || this.props.highschool.state === null) {
+		if (
+			this.props.highschool.highSchoolState === undefined ||
+			this.props.highschool.highSchoolState === null
+		) {
 			return 'Unknown';
-		} else return this.props.highschool.state;
+		} else return this.props.highschool.highSchoolState;
 	};
 
 	getType = () => {
-		if (this.props.highschool.type === undefined || this.props.highschool.type === null) {
+		if (
+			this.props.highschool.institutionType === undefined ||
+			this.props.highschool.institutionType === null
+		) {
 			return 'N/A';
-		} else return this.props.highschool.type;
+		} else return this.props.highschool.institutionType;
 	};
 
 	getNumOfStudents = () => {
@@ -55,20 +67,20 @@ class HighSchool extends React.Component {
 
 	getStudentTeacherRatio = () => {
 		if (
-			this.props.highschool.studentTeacherRatio === undefined ||
-			this.props.highschool.studentTeacherRatio === null
+			this.props.highschool.studentRatio === undefined ||
+			this.props.highschool.studentRatio === null
 		) {
 			return 'Unknown';
-		} else return this.props.highschool.studentTeacherRatio;
+		} else return this.props.highschool.studentRatio;
 	};
 
 	getAPEnrollment = () => {
 		if (
-			this.props.highschool.APEnrollment === undefined ||
-			this.props.highschool.APEnrollment === null
+			this.props.highschool.APEnrollmentPerc === undefined ||
+			this.props.highschool.APEnrollmentPerc === null
 		) {
 			return 'N/A';
-		} else return this.props.highschool.APEnrollment + '%';
+		} else return this.props.highschool.APEnrollmentPerc + '%';
 	};
 
 	getSATScore = () => {
@@ -94,11 +106,11 @@ class HighSchool extends React.Component {
 
 	getSimilarity = () => {
 		if (
-			this.props.highschool.similarity === undefined ||
-			this.props.highschool.similarity === null
+			this.props.highschool.similarityScore === undefined ||
+			this.props.highschool.similarityScore === null
 		) {
 			return 'N/A';
-		} else return this.props.highschool.similarity + '%';
+		} else return this.props.highschool.similarityScore + '%';
 	};
 
 	getPercent = (type, amount) => {
