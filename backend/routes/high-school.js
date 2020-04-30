@@ -226,30 +226,33 @@ module.exports = function (app, connection) {
   };
 
   app.get('/getHighSchoolSimilarities', (req, res) => {
-    // const { highSchoolName, highSchoolState, highSchoolCity } = req.query;
-    const [highSchoolName, highSchoolState, highSchoolCity] = [
-      'academic magnet high school',
-      'north charleston',
-      'sc',
-    ];
+    const { highSchoolName, highSchoolCity, highSchoolState } = req.query;
+    console.log(req.query);
+    // const [highSchoolName, highSchoolState, highSchoolCity] = [
+    //   'arcadia high school',
+    //   'oh',
+    //   'arcadia',
+    // ];
     // // inclues student & profile info for student
     Promise.all([
       promisifyQuery(getUniqueHS, [
         highSchoolName,
-        highSchoolState,
         highSchoolCity,
+        highSchoolState,
       ]),
       promisifyQuery(getOtherHS, [
         highSchoolName,
-        highSchoolState,
         highSchoolCity,
+        highSchoolState,
       ]),
     ])
       .then(([givenHSData, otherHS]) => {
+        console.log(givenHSData);
+        console.log(otherHS);
         if (givenHSData === undefined || givenHSData.length == 0) {
-          return res
-            .status(500)
-            .json({ error: 'Could not find this high school!' });
+          return res.status(500).json({
+            error: 'Could not find this high school!',
+          });
         } else {
           const givenHS = givenHSData[0];
           promisifyQuery(getAvgStatsHS, [
@@ -258,7 +261,7 @@ module.exports = function (app, connection) {
             givenHS.highSchoolCity,
           ])
             .then((givenHSStudentStats) => {
-              return Promise.all(
+              Promise.all(
                 otherHS.map((otherHighSchool) => {
                   return getSimilarityScore(
                     givenHS,
@@ -266,7 +269,11 @@ module.exports = function (app, connection) {
                     givenHSStudentStats[0]
                   );
                 })
-              ).then((tdata) => console.log(tdata));
+              )
+                .then((result) => res.send(result))
+                .catch((err) => {
+                  throw err;
+                });
             })
             .catch((err) => {
               throw err;
@@ -275,7 +282,9 @@ module.exports = function (app, connection) {
       })
       .catch((err) => {
         console.log(err);
-        return res.status(500).json({ error: err });
+        return res.status(500).json({
+          error: err,
+        });
       });
   });
 };
