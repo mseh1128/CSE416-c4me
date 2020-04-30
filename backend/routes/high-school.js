@@ -270,7 +270,12 @@ module.exports = function (app, connection) {
                   );
                 })
               )
-                .then((result) => res.send(result))
+                .then((result) => {
+                  result.sort((a, b) =>
+                    a.similarityScore > b.similarityScore ? -1 : 1
+                  );
+                  res.send(result);
+                })
                 .catch((err) => {
                   throw err;
                 });
