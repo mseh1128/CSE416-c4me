@@ -219,21 +219,19 @@ module.exports = function (app, connection) {
       const { highSchoolName, highSchoolCity, highSchoolState } = otherHS;
       console.log(highSchoolName);
       resolve({
-        highSchoolName,
-        highSchoolCity,
-        highSchoolState,
+        ...otherHS,
         similarityScore: nicheSimilarScore,
       });
     });
   };
 
   app.get('/getHighSchoolSimilarities', (req, res) => {
-    const { highSchoolName, highSchoolState, highSchoolCity } = req.query;
-    // const [highSchoolName, highSchoolState, highSchoolCity] = [
-    //   'academic magnet high school',
-    //   'north charleston',
-    //   'sc',
-    // ];
+    // const { highSchoolName, highSchoolState, highSchoolCity } = req.query;
+    const [highSchoolName, highSchoolState, highSchoolCity] = [
+      'academic magnet high school',
+      'north charleston',
+      'sc',
+    ];
     // // inclues student & profile info for student
     Promise.all([
       promisifyQuery(getUniqueHS, [
@@ -268,7 +266,7 @@ module.exports = function (app, connection) {
                     givenHSStudentStats[0]
                   );
                 })
-              );
+              ).then((tdata) => console.log(tdata));
             })
             .catch((err) => {
               throw err;
