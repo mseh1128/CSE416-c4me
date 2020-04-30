@@ -64,6 +64,8 @@ export class PossibleHighSchoolsScreen extends Component {
 		} catch (err) {
 			console.log(err);
 		}
+
+		this.setState({ componentFinishedLoad: true });
 	};
 
 	render() {
@@ -76,7 +78,7 @@ export class PossibleHighSchoolsScreen extends Component {
 			var instances = M.FormSelect.init(elems, options);
 		});
 
-		if (false) {
+		if (!this.state.componentFinishedLoad) {
 			return <div>Loading...</div>;
 		}
 

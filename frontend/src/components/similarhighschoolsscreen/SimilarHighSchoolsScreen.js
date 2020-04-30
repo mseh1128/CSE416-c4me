@@ -9,6 +9,9 @@ import HighSchoolList from './HighSchoolList';
 export class SimilarHighSchoolsScreen extends Component {
 	state = {
 		componentFinishedLoad: false,
+		college: [],
+		highschool: [],
+		similarHighSchools: [],
 	};
 
 	goBack = async () => {
@@ -45,9 +48,30 @@ export class SimilarHighSchoolsScreen extends Component {
 		} else return name;
 	};
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		const college = this.props.location.state.college;
 		this.setState({ college: college });
+		const highschool = this.props.location.state.highschool;
+		this.setState({ highschool: highschool });
+
+		console.log('here');
+		console.log(highschool);
+		try {
+			const similarHighSchools = await axios.get('/getHighSchoolSimilarities', {
+				params: {
+					highSchoolName: highschool.highSchoolName,
+					highSchoolState: highschool.highSchoolState,
+					highSchoolCity: highschool.highSchoolCity,
+				},
+			});
+			console.log(similarHighSchools.data);
+			console.log('here');
+			this.setState({ highschools: similarHighSchools.data });
+		} catch (err) {
+			console.log(err);
+		}
+
+		this.setState({ componentFinishedLoad: true });
 	};
 
 	render() {
@@ -65,6 +89,7 @@ export class SimilarHighSchoolsScreen extends Component {
 		}
 
 		const highschoolName = this.props.match.params.hsName;
+		console.log(this.state);
 
 		return (
 			<div className='similar_HSscreen_container'>

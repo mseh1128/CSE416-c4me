@@ -132,20 +132,6 @@ class HighSchool extends React.Component {
 	};*/
 
 	render() {
-		var elem = document.querySelector('.tabs');
-		var options = {};
-		var instance = M.Tabs.init(elem, options);
-
-		document.addEventListener('DOMContentLoaded', function () {
-			var elems = document.querySelectorAll('.collapsible');
-			var instances = M.Collapsible.init(elems, options);
-		});
-
-		document.addEventListener('DOMContentLoaded', function () {
-			var elems = document.querySelectorAll('.dropdown-trigger');
-			var instances = M.Dropdown.init(elems, options);
-		});
-
 		let theme = {
 			SAT: {
 				symbol: '‍1600',
@@ -169,6 +155,7 @@ class HighSchool extends React.Component {
 						highschool.highSchoolName,
 					state: {
 						college: this.props.college,
+						highschool: highschool,
 					},
 				}}
 			>
