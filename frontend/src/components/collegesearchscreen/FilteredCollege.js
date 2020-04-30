@@ -136,16 +136,16 @@ class FilteredCollege extends React.Component {
 		if (amount === undefined || amount === null) {
 			return 0;
 		}
-		if (type == 'math') {
+		if (type === 'math') {
 			return (amount / 800) * 100;
 		}
-		if (type == 'ebrw') {
+		if (type === 'ebrw') {
 			return (amount / 800) * 100;
 		}
-		if (type == 'act') {
+		if (type === 'act') {
 			return (amount / 36) * 100;
 		}
-		if (type == 'rec') {
+		if (type === 'rec') {
 			return amount;
 		}
 	};

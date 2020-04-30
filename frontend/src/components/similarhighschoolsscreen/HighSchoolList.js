@@ -7,7 +7,7 @@ class HighSchoolList extends React.Component {
 	render() {
 		return (
 			<div className='highschool-list section'>
-				{data.highschools.map((highschool) => {
+				{this.props.highschools.map((highschool) => {
 					let key = highschool.key;
 					return <HighSchool key={key} highschool={highschool} />;
 				})}

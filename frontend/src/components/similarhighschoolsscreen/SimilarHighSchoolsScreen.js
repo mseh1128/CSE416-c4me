@@ -54,8 +54,6 @@ export class SimilarHighSchoolsScreen extends Component {
 		const highschool = this.props.location.state.highschool;
 		this.setState({ highschool: highschool });
 
-		console.log('here');
-		console.log(highschool);
 		try {
 			const similarHighSchools = await axios.get('/getHighSchoolSimilarities', {
 				params: {
@@ -65,7 +63,6 @@ export class SimilarHighSchoolsScreen extends Component {
 				},
 			});
 			console.log(similarHighSchools.data);
-			console.log('here');
 			this.setState({ highschools: similarHighSchools.data });
 		} catch (err) {
 			console.log(err);
@@ -84,7 +81,7 @@ export class SimilarHighSchoolsScreen extends Component {
 			var instances = M.FormSelect.init(elems, options);
 		});
 
-		if (false) {
+		if (!this.state.componentFinishedLoad) {
 			return <div>Loading...</div>;
 		}
 
@@ -105,7 +102,7 @@ export class SimilarHighSchoolsScreen extends Component {
 						<div />
 					</div>
 					<div id='similarHighSchoolsList'>
-						<HighSchoolList></HighSchoolList>
+						<HighSchoolList highschools={this.state.highschools}></HighSchoolList>
 					</div>
 				</div>
 			</div>
