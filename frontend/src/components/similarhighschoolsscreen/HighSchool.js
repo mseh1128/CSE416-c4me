@@ -83,14 +83,14 @@ class HighSchool extends React.Component {
 		} else return this.props.highschool.avgACT;
 	};
 
-	getNicheRating = () => {
+	/*getNicheRating = () => {
 		if (
 			this.props.highschool.nicheGrade === undefined ||
 			this.props.highschool.nicheGrade === null
 		) {
 			return '?';
 		} else return this.props.highschool.nicheGrade;
-	};
+	};*/
 
 	getSimilarity = () => {
 		if (
@@ -113,7 +113,7 @@ class HighSchool extends React.Component {
 		}
 	};
 
-	getNicheColor = () => {
+	/*getNicheColor = () => {
 		if (
 			this.props.highschool.nicheGrade === null ||
 			this.props.highschool.nicheGrade === undefined
@@ -126,7 +126,7 @@ class HighSchool extends React.Component {
 		else if (grade === 'B') return 'rgb(3, 144, 252)';
 		else if (grade === 'C') return 'rgb(252, 207, 3)';
 		else return 'rgb(252, 3, 3)';
-	};
+	};*/
 
 	render() {
 		var elem = document.querySelector('.tabs');
@@ -189,10 +189,6 @@ class HighSchool extends React.Component {
 					<div className='highschoolACT1'>
 						{'Average ACT: '}
 						<span className='highschoolACT2'>{this.getACTScore()}</span>
-						<span className='highschoolNicheRating' style={{ color: this.getNicheColor() }}>
-							{' '}
-							{this.getNicheRating()}{' '}
-						</span>
 					</div>
 					<div className='highschoolACTBar'>
 						<span className='highschoolText'>0</span>
@@ -202,8 +198,6 @@ class HighSchool extends React.Component {
 							status='ACT'
 							theme={theme}
 						/>
-						<div></div>
-						<span className='gradeText'> Niche Grade </span>
 					</div>
 					<div className='similarityBox'>
 						<span className='highschoolSAT1'> Similarity: </span>
@@ -216,3 +210,12 @@ class HighSchool extends React.Component {
 }
 
 export default HighSchool;
+
+/*
+						<span className='highschoolNicheRating' style={{ color: this.getNicheColor() }}>
+							{' '}
+							{this.getNicheRating()}{' '}
+						</span>
+												<div></div>
+						<span className='gradeText'> Niche Grade </span>
+						*/
