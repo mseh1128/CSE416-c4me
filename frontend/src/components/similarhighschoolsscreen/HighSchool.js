@@ -110,7 +110,7 @@ class HighSchool extends React.Component {
 			this.props.highschool.similarityScore === null
 		) {
 			return 'N/A';
-		} else return this.props.highschool.similarityScore + '%';
+		} else return Math.floor(this.props.highschool.similarityScore * 100) / 100 + '%';
 	};
 
 	getPercent = (type, amount) => {
@@ -181,7 +181,7 @@ class HighSchool extends React.Component {
 						this.getNumOfStudents() +
 						' | ' +
 						this.getStudentTeacherRatio() +
-						' Students per Teacher | AP Enrollment: ' +
+						' Students/Teacher | AP Enrollment: ' +
 						this.getAPEnrollment()}{' '}
 				</div>
 				<div className='highschoolScores'>
