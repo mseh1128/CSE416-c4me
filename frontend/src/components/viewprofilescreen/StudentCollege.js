@@ -290,6 +290,7 @@ class StudentCollege extends React.Component {
 				</div>
 				<button
 					className='profileRemoveCollegeBtn'
+					hidden={this.props.disabled}
 					onClick={this.props.removeApplication.bind(this, college.collegeName, this.props.index)}
 				>
 					<Clear />
