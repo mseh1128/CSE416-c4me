@@ -1,6 +1,4 @@
 const checkIfQuestionable = (studentData, collegeData, status) => {
-  // console.log(studentData);
-  // console.log(collegeData);
   // console.log(status);
   if (status === 'withdrawn' || status === 'pending') return false;
   const { highSchoolGPA, SATMath, SATEBRW, ACTComp } = studentData;
@@ -34,4 +32,6 @@ module.exports = {
     'SELECT GPA, SATMathScore, SATEBRWScore, ACTScore FROM college WHERE collegeName=?;',
   getPrimaryStudentStatsQuery:
     'SELECT highSchoolGPA, SATMath, SATEBRW, ACTComp FROM profile WHERE studentID=?;',
+  getPrimaryStudentStatsFromUnameQuery:
+    'SELECT highSchoolGPA, SATMath, SATEBRW, ACTComp FROM profile, user WHERE studentID=userID AND username=?;',
 };

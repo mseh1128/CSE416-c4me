@@ -12,6 +12,7 @@ const path = require('path');
 const {
   getPrimaryCollegeStatsQuery,
   getPrimaryStudentStatsQuery,
+  getPrimaryStudentStatsFromUnameQuery,
   checkIfQuestionable,
 } = require('../utils');
 const salt = 10;
@@ -20,7 +21,7 @@ const deleteAllStudentProfilesQuery =
   'DELETE u FROM User u, Student S WHERE S.userID = u.userID;';
 
 const insertDatasetToUserQuery =
-  'insert ignore into user(username, userPassword, userID, name) values (?, ?, ?, ?); ';
+  'insert ignore into user(username, userPassword, userID, name) values (?, ?, NULL, ?); ';
 
 const insertDatasetToStudentQuery =
   'insert ignore into student(userID, residenceState, major1, major2, highSchoolName, highSchoolCity, highSchoolState, collegeClass) values (?, ?, ?, ?, ?, ?, ?, ?); ';
@@ -94,10 +95,9 @@ module.exports = function (app, connection) {
   app.post('/importStudentProfiles', async (req, res) => {
     const readStream = fs
       .createReadStream(
-        path.resolve(__dirname, './StudentDataset/student_profile_dataset.csv')
+        path.resolve(__dirname, './StudentDataset/students-1.csv')
       )
       .pipe(csv());
-
     const promises = [];
     readStream
       .on('data', (data) => {
@@ -138,28 +138,36 @@ module.exports = function (app, connection) {
           name,
         } = data;
         const encryptedPassword = bcrypt.hashSync(password, salt);
+
         promises.push(
           promisifyQuery(insertDatasetToUserQuery, [
-            username,
-            encryptedPassword,
             userid,
+            encryptedPassword,
             name,
           ])
-            .then(() => {
-              return promisifyQuery(insertDatasetToStudentQuery, [
-                userid,
-                residence_state,
-                major_1,
-                major_2,
-                high_school_name,
-                high_school_city,
-                high_school_state,
-                college_class,
-              ]);
+            .then((result) => {
+              return new Promise((resolve, reject) => {
+                promisifyQuery(insertDatasetToStudentQuery, [
+                  result.insertId,
+                  residence_state,
+                  major_1,
+                  major_2,
+                  high_school_name,
+                  high_school_city,
+                  high_school_state,
+                  college_class,
+                ])
+                  .then(() => resolve(result.insertId))
+                  .catch((err) => {
+                    reject(err);
+                  });
+              });
             })
-            .then(() => {
+            .then((studentID) => {
+              console.log('userID is');
+              console.log(studentID);
               return promisifyQuery(insertDatasetToProfileQuery, [
-                userid,
+                studentID,
                 GPA,
                 SAT_math,
                 SAT_EBRW,
@@ -189,6 +197,9 @@ module.exports = function (app, connection) {
             })
             .then((highSchoolExistsData) => {
               const highSchoolExists = highSchoolExistsData[0].highSchoolExists;
+              console.log(high_school_name);
+              console.log(high_school_city);
+              console.log(high_school_state);
               if (!highSchoolExists) {
                 scrapeNicheHighSchool({
                   highSchoolName: high_school_name,
@@ -226,7 +237,11 @@ module.exports = function (app, connection) {
                     ]);
                   })
                   .catch((err) => {
-                    throw err;
+                    console.log(
+                      `scraping failed for ${high_school_name},  ${high_school_city},${high_school_state}. Only adding to profile, not to high school DB`
+                    );
+                    console.log(err);
+                    // throw err;
                   });
               }
             })
@@ -244,36 +259,56 @@ module.exports = function (app, connection) {
         await Promise.all(promises);
         const applicationReadStream = fs
           .createReadStream(
-            path.resolve(__dirname, './StudentDataset/application_file.csv')
+            path.resolve(__dirname, './StudentDataset/applications-1.csv')
           )
           .pipe(csv());
 
         applicationReadStream
           .on('data', async (appData) => {
             const { userid, college, status } = appData;
-            // console.log(GPA);
+            // userid is actually username
             const studentPrimaryStats = await promisifyQuery(
-              getPrimaryStudentStatsQuery,
+              getPrimaryStudentStatsFromUnameQuery,
               [userid]
             );
             const collegePrimaryStats = await promisifyQuery(
               getPrimaryCollegeStatsQuery,
               [college]
             );
-            // console.log(studentPrimaryStats);
-            // console.log(collegePrimaryStats);
-            const isQuestionable = checkIfQuestionable(
-              studentPrimaryStats[0],
-              collegePrimaryStats[0],
-              status
-            );
+            if (
+              !(
+                collegePrimaryStats == undefined ||
+                collegePrimaryStats.length === 0
+              )
+            ) {
+              // ie this college was not found
 
-            await promisifyQuery(insertDatasetToDeclarationQuery, [
-              userid,
-              college,
-              status,
-              isQuestionable,
-            ]);
+              if (
+                !(
+                  studentPrimaryStats == undefined ||
+                  studentPrimaryStats.length === 0
+                )
+              ) {
+                const isQuestionable = checkIfQuestionable(
+                  studentPrimaryStats[0],
+                  collegePrimaryStats[0],
+                  status
+                );
+
+                await promisifyQuery(insertDatasetToDeclarationQuery, [
+                  userid,
+                  college,
+                  status,
+                  isQuestionable,
+                ]);
+              } else {
+                console.log(
+                  'student was not found, dropping this declaration!'
+                );
+              }
+            } else {
+              console.log('college was not found, dropping this declaration!');
+            }
           })
           .on('end', () => {
             console.log('Data has all finished processing');
