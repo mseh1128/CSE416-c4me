@@ -78,6 +78,8 @@ export class PossibleHighSchoolsScreen extends Component {
 			var instances = M.FormSelect.init(elems, options);
 		});
 
+		const notFound = this.props.location.state.notFound;
+
 		if (!this.state.componentFinishedLoad) {
 			return <div>Loading...</div>;
 		}
@@ -100,6 +102,10 @@ export class PossibleHighSchoolsScreen extends Component {
 							college={this.state.college}
 							highschools={this.state.highschools}
 						></HighSchoolList>
+						<span className='notFoundTxt' hidden={!notFound}>
+							{' '}
+							No high schools matched your search{' '}
+						</span>
 					</div>
 				</div>
 			</div>

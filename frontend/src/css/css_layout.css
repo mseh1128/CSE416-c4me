@@ -1348,3 +1348,8 @@ form h5 {
 	display: grid;
 	grid-template-columns: 100px 20px;
 }
+
+.notFoundTxt {
+	font-size: 50px;
+	margin-left: 40px;
+}

@@ -44,6 +44,14 @@ class HighSchoolItem extends React.Component {
 		let link = {};
 
 		if (this.state.highschools.length === 0) {
+			link = {
+				pathname: '/applicationTracker/' + this.props.college.collegeName + '/possibleHighSchools',
+				state: {
+					college: this.props.college,
+					highschoolName: this.props.highschool.name,
+					notFound: true,
+				},
+			};
 		} else if (this.state.highschools.length === 1) {
 			link = {
 				pathname:
@@ -62,6 +70,7 @@ class HighSchoolItem extends React.Component {
 				state: {
 					college: this.props.college,
 					highschoolName: this.props.highschool.name,
+					notFound: false,
 				},
 			};
 			console.log(link);
