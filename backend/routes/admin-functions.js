@@ -38,6 +38,8 @@ const checkHighSchoolExistenceQuery =
 const insertDatasetToDeclarationQuery =
   'insert ignore into college_declaration(studentID, collegeName, acceptanceStatus, questionable) values (?, ?, ?, ?); ';
 
+const getIDFromUname = 'SELECT userID FROM user WHERE username=?;';
+
 const getQuestionableAcceptanceInfoQuery =
   'select u.name, s.userID, s.highSchoolName, s.major1, s.major2, p.SATMath, p.SATEBRW, p.ACTComp, cd.acceptanceStatus, c.collegeName, c.state, c.city, c.ACTScore, c.SATEBRWScore, c.SATMathScore, c.admissionRatePercent, c.institutionType, c.medianCompletedStudentDebt, c.size, c.completionRate, c.inStateAttendanceCost, c.outOfStateAttendanceCost, c.ranking  from user u, student s, college_declaration cd, profile p, college c where questionable=1 and s.userID=cd.studentID and c.collegeName=cd.collegeName and s.userID=p.studentID and u.userID=s.userID;';
 
@@ -99,6 +101,7 @@ module.exports = function (app, connection) {
       )
       .pipe(csv());
     const promises = [];
+    const collegeDecPromises = [];
     readStream
       .on('data', (data) => {
         console.log(data);
@@ -264,53 +267,69 @@ module.exports = function (app, connection) {
           .pipe(csv());
 
         applicationReadStream
-          .on('data', async (appData) => {
+          .on('data', (appData) => {
             const { userid, college, status } = appData;
             // userid is actually username
-            const studentPrimaryStats = await promisifyQuery(
-              getPrimaryStudentStatsFromUnameQuery,
-              [userid]
-            );
-            const collegePrimaryStats = await promisifyQuery(
-              getPrimaryCollegeStatsQuery,
-              [college]
-            );
-            if (
-              !(
-                collegePrimaryStats == undefined ||
-                collegePrimaryStats.length === 0
-              )
-            ) {
-              // ie this college was not found
-
-              if (
-                !(
-                  studentPrimaryStats == undefined ||
-                  studentPrimaryStats.length === 0
-                )
-              ) {
-                const isQuestionable = checkIfQuestionable(
-                  studentPrimaryStats[0],
-                  collegePrimaryStats[0],
-                  status
+            collegeDecPromises.push(
+              new Promise(async (resolve, reject) => {
+                const studentPrimaryStats = await promisifyQuery(
+                  getPrimaryStudentStatsFromUnameQuery,
+                  [userid]
                 );
-
-                await promisifyQuery(insertDatasetToDeclarationQuery, [
-                  userid,
-                  college,
-                  status,
-                  isQuestionable,
-                ]);
-              } else {
-                console.log(
-                  'student was not found, dropping this declaration!'
+                const collegePrimaryStats = await promisifyQuery(
+                  getPrimaryCollegeStatsQuery,
+                  [college]
                 );
-              }
-            } else {
-              console.log('college was not found, dropping this declaration!');
-            }
+                if (
+                  !(
+                    collegePrimaryStats == undefined ||
+                    collegePrimaryStats.length === 0
+                  )
+                ) {
+                  // ie this college was not found
+                  if (
+                    !(
+                      studentPrimaryStats == undefined ||
+                      studentPrimaryStats.length === 0
+                    )
+                  ) {
+                    const isQuestionable = checkIfQuestionable(
+                      studentPrimaryStats[0],
+                      collegePrimaryStats[0],
+                      status
+                    );
+                    console.log(isQuestionable);
+                    console.log('will insert after checking questionable');
+
+                    const actualUserIDData = await promisifyQuery(
+                      getIDFromUname,
+                      [userid]
+                    );
+                    const actualUserID = actualUserIDData[0].userID;
+                    await promisifyQuery(insertDatasetToDeclarationQuery, [
+                      actualUserID,
+                      college,
+                      status,
+                      isQuestionable,
+                    ]);
+                    resolve();
+                  } else {
+                    console.log(
+                      'student was not found, dropping this declaration!'
+                    );
+                    resolve();
+                  }
+                } else {
+                  console.log(
+                    'college was not found, dropping this declaration!'
+                  );
+                  resolve();
+                }
+              })
+            );
           })
-          .on('end', () => {
+          .on('end', async () => {
+            await Promise.all(collegeDecPromises);
             console.log('Data has all finished processing');
             return res.send('All student profiles were imported successfully!');
           })
