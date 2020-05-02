@@ -49,30 +49,27 @@ export class ViewOtherScreen extends Component {
   };
 
   componentDidMount = async () => {
-    const studentName = this.props.location.state.studentName;
+    const { studentID } = this.props.location.state;
     const college = this.props.location.state.college;
+    // console.log(this.props.location.state);
 
     this.setState({ college: college });
 
     try {
       //remember, you made a meme here.
       //before you push, change to a legitimate name
-      const roundaboutUserID = await axios.get(
-        '/getUserIDThroughOtherInfo',
-        {
-          params: {
-            studentName: studentName,
-          },
-        }
-      );
-
-      const userID = roundaboutUserID.data.userID;
+      // const roundaboutUserID = await axios.get('/getUserIDThroughOtherInfo', {
+      //   params: {
+      //     studentID: studentID,
+      //   },
+      // });
+      // const userID = roundaboutUserID.data.userID;
       const allData = await Promise.all([
         axios.get('/getStudentInfo', {
-          params: { userID },
+          params: { userID: studentID },
         }),
         axios.get('/getCollegesFromStudentDecs', {
-          params: { userID },
+          params: { userID: studentID },
         }),
       ]);
 
@@ -94,7 +91,7 @@ export class ViewOtherScreen extends Component {
 
   goBack = async () => {
     //const { id } = this.props.match.params;
-    
+
     console.log(this.state);
 
     let queryStudentsDecisions = '';

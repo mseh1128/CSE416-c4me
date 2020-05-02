@@ -97,7 +97,7 @@ module.exports = function (app, connection) {
   app.post('/importStudentProfiles', async (req, res) => {
     const readStream = fs
       .createReadStream(
-        path.resolve(__dirname, './StudentDataset/students-1.csv')
+        path.resolve(__dirname, './StudentDataset/students-2.csv')
       )
       .pipe(csv());
     const promises = [];
@@ -262,7 +262,7 @@ module.exports = function (app, connection) {
         await Promise.all(promises);
         const applicationReadStream = fs
           .createReadStream(
-            path.resolve(__dirname, './StudentDataset/applications-1.csv')
+            path.resolve(__dirname, './StudentDataset/applications-2.csv')
           )
           .pipe(csv());
 

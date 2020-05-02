@@ -27,10 +27,29 @@ class Student extends React.Component {
   getMajors = () => {
     const m1 = this.props.student.major1;
     const m2 = this.props.student.major2;
-    if (m1 !== '' && m1 !== null && m1 !== "NULL" && m2 !== '' && m2 !== null && m2 !== "NULL")
+    if (
+      m1 !== '' &&
+      m1 !== null &&
+      m1 !== 'NULL' &&
+      m2 !== '' &&
+      m2 !== null &&
+      m2 !== 'NULL'
+    )
       return m1 + ' | ' + m2;
-    else if (m1 !== '' && m1 !== null && m1 !== "NULL" && (m2 === '' || m2 === null || m2 === "NULL")) return m1;
-    else if (m2 !== '' && m2 !== null && m2 !== "NULL" && (m1 === '' || m1 === null || m1 === "NULL")) return m2;
+    else if (
+      m1 !== '' &&
+      m1 !== null &&
+      m1 !== 'NULL' &&
+      (m2 === '' || m2 === null || m2 === 'NULL')
+    )
+      return m1;
+    else if (
+      m2 !== '' &&
+      m2 !== null &&
+      m2 !== 'NULL' &&
+      (m1 === '' || m1 === null || m1 === 'NULL')
+    )
+      return m2;
     else return 'Undecided';
   };
 
@@ -75,7 +94,6 @@ class Student extends React.Component {
     });
 
     const student = this.props.student;
-
     let theme = {
       math: {
         symbol: '‍800',
@@ -99,68 +117,68 @@ class Student extends React.Component {
             '/applicationTracker/' +
             this.props.college.collegeName +
             '/view/' +
-            student.name,
+            student.studentID,
           state: {
-            studentName: student.name,
-            college: this.props.college
+            studentID: student.studentID,
+            college: this.props.college,
           },
         }}
       >
-        <div className="studentCard">
-          <div className="studentBoxTitleAndStatus">
-            <div className="studentTitle"> {this.getName()} </div>
-            <div className="studentStatus">
+        <div className='studentCard'>
+          <div className='studentBoxTitleAndStatus'>
+            <div className='studentTitle'> {this.getName()} </div>
+            <div className='studentStatus'>
               {' '}
               {this.getValue(student.acceptanceStatus)}{' '}
             </div>
           </div>
-          <div className="studentLocation">
+          <div className='studentLocation'>
             {' '}
             {this.getValue(student.highSchoolName)}{' '}
           </div>
-          <div className="studentMajors">{this.getMajors()}</div>
-          <div className="studentMath1">
+          <div className='studentMajors'>{this.getMajors()}</div>
+          <div className='studentMath1'>
             {'SAT Math Score: '}
-            <span className="studentMath2">
+            <span className='studentMath2'>
               {this.getScore(student.SATMath)}
             </span>
           </div>
-          <div className="studentMathScore">
-            <span className="studentText">0</span>
+          <div className='studentMathScore'>
+            <span className='studentText'>0</span>
             <Progress
-              className="mathBar"
+              className='mathBar'
               percent={this.getPercent('math', student.SATMath)}
-              status="math"
+              status='math'
               theme={theme}
             />
           </div>
-          <div className="studentEBRW1">
+          <div className='studentEBRW1'>
             {'SAT EBRW Score: '}
-            <span className="studentEBRW2">
+            <span className='studentEBRW2'>
               {this.getScore(student.SATEBRW)}
             </span>
           </div>
-          <div className="studentEBRWScore">
-            <span className="studentText">0</span>
+          <div className='studentEBRWScore'>
+            <span className='studentText'>0</span>
             <Progress
-              className="ebrwBar"
+              className='ebrwBar'
               percent={this.getPercent('ebrw', student.SATEBRW)}
-              status="EBRW"
+              status='EBRW'
               theme={theme}
             />
           </div>
-          <div className="studentACT1">
+          <div className='studentACT1'>
             {'ACT Composite Score: '}
-            <span className="studentACT2">
+            <span className='studentACT2'>
               {this.getScore(student.ACTComp)}
             </span>
           </div>
-          <div className="studentEBRWScore">
-            <span className="studentText">0</span>
+          <div className='studentEBRWScore'>
+            <span className='studentText'>0</span>
             <Progress
-              className="ACTBar"
+              className='ACTBar'
               percent={this.getPercent('act', student.ACTComp)}
-              status="ACT"
+              status='ACT'
               theme={theme}
             />
           </div>
