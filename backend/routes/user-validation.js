@@ -68,23 +68,40 @@ module.exports = function (app, connection) {
           connection.query(
             queryAddUser,
             [username, encryptedPassword, name],
-            async (err, results, fields) => {
+            (err, results, fields) => {
               if (err) {
                 console.log(err);
-                return res.status(500).json('err!');
+                return res.status(500).json({ error: err });
               }
               console.log(`Added ${name} as a user to the database.`);
               const { insertId } = results;
-              try {
-                const result = await Promise.all([
-                  connection.query(queryInstantiateStudent, [insertId]),
-                  connection.query(queryInstantiateProfile, [insertId]),
-                ]);
-                return res.status(200);
-              } catch (err) {
-                console.log(err);
-                return res.status(500).json('err!');
-              }
+              connection.query(
+                queryInstantiateStudent,
+                [insertId],
+                (err, results, fields) => {
+                  if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: err });
+                  }
+                  connection.query(
+                    queryInstantiateProfile,
+                    [insertId],
+                    (err, results, fields) => {
+                      if (err) {
+                        console.log(err);
+                        return res.status(500).json({ error: err });
+                      }
+                      return res.send('dwad200');
+                    }
+                  );
+                }
+              );
+              // try {
+              //   return res.status(200);
+              // } catch (err) {
+              //   console.log(err);
+              //   return res.status(500).json('err!');
+              // }
             }
           );
         } else {

@@ -26,7 +26,7 @@ export class RegisterScreen extends Component {
     password: '',
     passwordCheck: '',
     hideErrorMessage: true,
-    errorTextContent: null
+    errorTextContent: null,
   };
 
   checkCredentials = async () => {
@@ -46,7 +46,7 @@ export class RegisterScreen extends Component {
     ) {
       this.setState({
         hideErrorMessage: false,
-        errorTextContent: nothingWasEntered
+        errorTextContent: nothingWasEntered,
       });
       return;
     }
@@ -54,7 +54,7 @@ export class RegisterScreen extends Component {
     if (password !== passwordCheck) {
       this.setState({
         hideErrorMessage: false,
-        errorTextContent: nonRepeatingPassword
+        errorTextContent: nonRepeatingPassword,
       });
       return;
     }
@@ -63,7 +63,7 @@ export class RegisterScreen extends Component {
       const response = await axios.post('/addNewStudent', {
         username,
         password,
-        name
+        name,
       });
       if (response.status !== 200) {
         console.log(`Status code of ${response.state} given`);
@@ -72,20 +72,20 @@ export class RegisterScreen extends Component {
     } catch (err) {
       console.log('In error handling!');
       const {
-        response: { data, status }
+        response: { data, status },
       } = err;
       const duplicateText = 'Duplicate account found!';
       if (status === 400 && data === duplicateText) {
         this.setState({
           hideErrorMessage: false,
-          errorTextContent: duplicateText
+          errorTextContent: duplicateText,
         });
       } else {
         console.log(err);
         const unknownErrorText = `An unknown error with error code ${status} occurred`;
         this.setState({
           hideErrorMessage: false,
-          errorTextContent: unknownErrorText
+          errorTextContent: unknownErrorText,
         });
       }
     }
@@ -99,12 +99,12 @@ export class RegisterScreen extends Component {
     this.props.history.push('/home');
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { target } = e;
 
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      [target.id]: target.value
+      [target.id]: target.value,
     }));
   };
 
@@ -112,75 +112,75 @@ export class RegisterScreen extends Component {
     const { hideErrorMessage, errorTextContent } = this.state;
     let errorMessage = null;
     if (!hideErrorMessage) {
-      errorMessage = <span className="errorText">{errorTextContent}</span>;
+      errorMessage = <span className='errorText'>{errorTextContent}</span>;
     }
 
     return (
-      <div className="register_screen_container">
-        <div className="registerContainer">
+      <div className='register_screen_container'>
+        <div className='registerContainer'>
           <div></div>
-          <span className="loginText"> Register </span>
-          <div id="name" className="input-field">
-            <label htmlFor="name" style={{ left: '20px' }}>
+          <span className='loginText'> Register </span>
+          <div id='name' className='input-field'>
+            <label htmlFor='name' style={{ left: '20px' }}>
               Name
             </label>
             <input
-              className="active"
-              type="email"
-              name="name"
-              id="name"
+              className='active'
+              type='email'
+              name='name'
+              id='name'
               onChange={this.handleChange}
             />
           </div>
-          <div id="userID" className="input-field">
-            <label htmlFor="userID" style={{ left: '20px' }}>
+          <div id='userID' className='input-field'>
+            <label htmlFor='userID' style={{ left: '20px' }}>
               UserID
             </label>
             <input
-              className="active"
-              type="email"
-              name="userID"
-              id="userID"
+              className='active'
+              type='email'
+              name='userID'
+              id='userID'
               onChange={this.handleChange}
             />
           </div>
-          <div id="password" className="input-field">
-            <label htmlFor="password" style={{ left: '20px' }}>
+          <div id='password' className='input-field'>
+            <label htmlFor='password' style={{ left: '20px' }}>
               Password
             </label>
             <input
-              className="active"
-              type="password"
-              name="password"
-              id="password"
+              className='active'
+              type='password'
+              name='password'
+              id='password'
               onChange={this.handleChange}
             />
           </div>
-          <div id="passwordCheck" className="input-field">
-            <label htmlFor="password" style={{ left: '20px' }}>
+          <div id='passwordCheck' className='input-field'>
+            <label htmlFor='password' style={{ left: '20px' }}>
               Enter Password again
             </label>
             <input
-              className="active"
-              type="password"
-              name="passwordCheck"
-              id="passwordCheck"
+              className='active'
+              type='password'
+              name='passwordCheck'
+              id='passwordCheck'
               onChange={this.handleChange}
             />
           </div>
-          <div className="loginButtons">
-            <button id="login" onClick={this.checkCredentials}>
+          <div className='loginButtons'>
+            <button id='login' onClick={this.checkCredentials}>
               {' '}
               submit{' '}
             </button>
-            <button id="register" onClick={this.goLogin}>
+            <button id='register' onClick={this.goLogin}>
               {' '}
               cancel{' '}
             </button>
           </div>
           {errorMessage}
         </div>
-        <div className="banner">
+        <div className='banner'>
           C4Me
           <br />
           Application Assistant
