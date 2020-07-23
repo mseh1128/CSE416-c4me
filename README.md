@@ -31,10 +31,10 @@ Due to time constraints, many quality of life issues changes could not be implem
 
 ## Authors
 
-Manav Sehgal @mseh1128 (Backend, Database)
+Manav Sehgal [@mseh1128](https://github.com/mseh1128) (Backend, Database)
 
-Ian Talla @irtalla (Backend)
+Ian Talla [@irtalla](https://github.com/irtalla) (Backend)
 
-Joseph Mignone @JosephMignone (Frontend)
+Joseph Mignone [@JosephMignone](https://github.com/JosephMignone) (Frontend)
 
 
